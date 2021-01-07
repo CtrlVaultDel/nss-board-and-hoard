@@ -21,7 +21,9 @@
         {
             "id": 1,
             "userId": 1,
-            "gameId": "19C9ka2hEx"
+            "gameId": "19C9ka2hEx",
+            "owned": true,
+            "wishlisted": false
         }
     ],
     "gameCategories":[
