@@ -2,8 +2,7 @@
     "users": [
         {
             "id": 1,
-            "username": "Ryan DeVault",
-            "password": "admin"
+            "username": "Ryan DeVault"
         }
     ],
     "userGames": [
