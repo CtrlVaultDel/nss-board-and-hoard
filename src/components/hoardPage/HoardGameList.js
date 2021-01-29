@@ -1,6 +1,6 @@
 import React from "react";
 
-export const UserGameList = () => {
+export const HoardGameList = () => {
     return (
         <>
             <h1>Hoard Page</h1>

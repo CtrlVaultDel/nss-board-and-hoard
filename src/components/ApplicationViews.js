@@ -2,23 +2,23 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 // Hoard Page imports
-import { UserGameFilters } from "./hoardPage/UserGameFilters";
-import { UserGameList } from "./hoardPage/UserGameList.js";
+import { HoardGameFilters } from "./hoardPage/HoardGameFilters";
+import { HoardGameList } from "./hoardPage/HoardGameList.js";
 
 // Search Page imports
-import { SearchBar } from "./searchPage/SearchBar.js";
+import { SearchFilters } from "./searchPage/SearchFilters.js";
 import { SearchList } from "./searchPage/SearchList.js";
 
 export const ApplicationViews = () => {
     return (
         <>
             <Route exact path="/hoardPage">
-                <UserGameFilters />
-                <UserGameList />
+                <HoardGameFilters />
+                <HoardGameList />
             </Route>
 
             <Route exact path="/searchPage">
-                <SearchBar />
+                <SearchFilters />
                 <SearchList />
             </Route>
         </>

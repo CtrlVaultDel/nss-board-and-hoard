@@ -1,11 +1,11 @@
 import React from "react";
-import "./UserGameFilters.css";
+import "./SearchFilters.css";
 
-export const UserGameFilters = () => {
+export const SearchFilters = () => {
     return (
-        <form className="hoardFilters">
-            <h2 className="employeeForm__title">Hoard Filters</h2>
-            <fieldset>
+        <form className="SearchFilters">
+            <h2 className="employeeForm__title">Search Filters</h2>
+            <fieldset >
                 <div className="nameContainer">
                     <label htmlFor="boardgameName">Boardgame Name: </label>
                     <input type="text" id="boardgameName" className="boardgameName" name="name" autoFocus defaultValue=""></input>
