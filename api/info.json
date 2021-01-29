@@ -2,7 +2,8 @@
     "users": [
         {
             "id": 1,
-            "username": "Ryan DeVault"
+            "username": "Ryan DeVault",
+            "email": "boardgamegeek@games.net"
         }
     ],
     "userGames": [
