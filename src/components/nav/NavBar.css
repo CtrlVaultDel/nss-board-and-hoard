@@ -1,0 +1,22 @@
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background: rgb(61, 55, 55);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+li a, #logout_button {
+    display: block;
+    background: rgb(61, 55, 55);
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }

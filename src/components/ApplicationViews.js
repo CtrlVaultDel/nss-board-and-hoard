@@ -2,6 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 // Hoard Page imports
+import { UserGameFilters } from "./hoardPage/UserGameFilters";
 import { UserGameList } from "./hoardPage/UserGameList.js";
 
 // Search Page imports
@@ -12,6 +13,7 @@ export const ApplicationViews = () => {
     return (
         <>
             <Route exact path="/hoardPage">
+                <UserGameFilters />
                 <UserGameList />
             </Route>
 
