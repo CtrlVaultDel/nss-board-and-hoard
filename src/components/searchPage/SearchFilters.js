@@ -11,33 +11,38 @@ export const SearchFilters = () => {
     const { mechanics, getMechanics } = useContext(MechanicContext);
     const { games, getGamesByFilters } = useContext(GameContext);
 
-    useEffect(() => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const [search, setSearch] = useState({
+        name: "",
+        min_players: 1,
+        category: "",
+        mechanic: ""
+    });
+
+    const handleChange = (event) => {
+        // Create a copy of the state object
+        const newSearch = { ...search}
+
+        // Set the related property and its value to newSearch object
+        newSearch[event.target.name] = event.target.value;
+
+        // Update state of search
+        setSearch(newSearch);
+    }
+
+    const submitSearch = () => {
+        console.log(search)
+        // Request game data from Board Game Atlas with the new search criteria
+        //getGamesByFilters(search)
+        //.then(console.log(games))
+      };
+
+      useEffect(() => {
         getCategories()
         .then(getMechanics)
         .then(setIsLoading(false));
     },[]);
-
-    const [isLoading, setIsLoading] = useState(true);
-    const [search, setSearch] = useState({
-        name: "",
-        min_players: 1,
-        categories: [],
-        mechanics: []
-    });
-
-    const submitSearch = () => {
-        // Filter parameters: name, min_players, categories, mechanics 
-            const newSearch = { ...search}
-            newSearch.name = "Catan"
-            newSearch.min_players = "2"
-            newSearch.categories = ["2bdFPJUvFo"]
-            newSearch.mechanics = ["n1GtBt35Rd"]
-            
-            setSearch(newSearch)
-            
-        getGamesByFilters(search)
-        .then(console.log(games))
-      };
 
     return (
         <form className="SearchFilters">
@@ -45,29 +50,29 @@ export const SearchFilters = () => {
             <fieldset >
                 <div className="nameContainer">
                     <label htmlFor="boardgameName">Boardgame Name: </label>
-                    <input type="text" id="boardgameName" className="boardgameName" name="name" autoFocus defaultValue=""></input>
+                    <input type="text" id="boardgameName" className="boardgameName" name="name" onChange={handleChange} autoFocus defaultValue=""></input>
                 </div>
             </fieldset>
             <fieldset>
                 <div className="sliderContainer">
                     <label htmlFor="minPlayers">Min Players</label>
-                    <input type="range" id="minPlayerSlider" className="minPlayerSlider" min="1" max="8"></input>
+                    <input type="range" id="minPlayerSlider" name="min_players" onChange={handleChange} className="minPlayerSlider" min="1" max="8"></input>
                 </div>
             </fieldset>
             <fieldset>
                 <div className="category">
-                    <label htmlFor="category">Category 1: </label>
-                    <select>
-                        <option value="0">Select a category</option>
+                    <label htmlFor="category">Category: </label>
+                    <select name="category" onChange={handleChange}>
+                        <option value="">All Categories</option>
                         {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                 </div>
             </fieldset>
             <fieldset>
                 <div className="mechanic">
-                    <label htmlFor="mechanic">Mechanic 1: </label>
-                    <select>
-                        <option value="0">Select a mechanic</option>
+                    <label htmlFor="mechanic">Mechanic: </label>
+                    <select name="mechanic" onChange={handleChange}>
+                        <option value="">All Mechanics</option>
                         {mechanics.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                     </select>
                 </div>
