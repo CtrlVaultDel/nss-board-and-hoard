@@ -19,8 +19,8 @@ export const SearchFilters = () => {
     const [search, setSearch] = useState({
         name: "",
         min_players: 1,
-        categories: null,
-        mechanics: null
+        categories: "",
+        mechanics: ""
     });
 
     const handleChange = (event) => {
@@ -39,10 +39,13 @@ export const SearchFilters = () => {
     };
 
     const submitSearch = () => {
-        console.log(search)
         //Request game data from Board Game Atlas with the new search criteria
         getGamesByFilters(search)
-        .then(console.log(games))
+        .then(() => {
+            document.getElementById('SearchFilters').reset()
+            setRangeValue(1)
+            console.log(games)
+        });
       };
 
       useEffect(() => {
@@ -54,14 +57,16 @@ export const SearchFilters = () => {
     []);
 
     return (
-        <form className="SearchFilters">
+        <form className="SearchFilters" id="SearchFilters">
             <h2 className="employeeForm__title">Search Filters</h2>
+            {/* Displays a text input field for the user to fill out for the name of the boardgame(s) they are looking for */}
             <fieldset >
                 <div className="nameContainer">
                     <label htmlFor="boardgameName">Boardgame Name: </label>
-                    <input type="text" id="boardgameName" className="boardgameName" name="name" onChange={handleChange} autoFocus defaultValue=""></input>
+                    <input type="text" id="boardgameName" className="boardgameName" name="name" autoComplete="off" onChange={handleChange} autoFocus defaultValue=""></input>
                 </div>
             </fieldset>
+            {/* Displays a range slider that the user can use to indicate the mininum players */}
             <fieldset>
                 <div className="range-slider">
                     <label htmlFor="minPlayers">Min Players</label>
@@ -69,6 +74,7 @@ export const SearchFilters = () => {
                     <span className="range-slider__value">{rangeValue}</span>
                 </div>
             </fieldset>
+            {/* Displays a dropdown of categories that the user can select to include in the filter */}
             <fieldset>
                 <div className="categories">
                     <label htmlFor="categories">Category: </label>
@@ -78,6 +84,7 @@ export const SearchFilters = () => {
                     </select>
                 </div>
             </fieldset>
+            {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
             <fieldset>
                 <div className="mechanics">
                     <label htmlFor="mechanics">Mechanic: </label>
