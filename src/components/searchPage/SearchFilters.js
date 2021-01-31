@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./SearchFilters.css";
+import { SearchList } from "./SearchList.js";
+import "./Search.css";
 
 // import providers
 import { GameContext } from "../boardGameAtlas/GameProvider.js";
@@ -42,9 +43,10 @@ export const SearchFilters = () => {
         //Request game data from Board Game Atlas with the new search criteria
         getGamesByFilters(search)
         .then(() => {
-            document.getElementById('SearchFilters').reset()
-            setRangeValue(1)
             console.log(games)
+            SearchList(games);
+            setRangeValue(1)
+            document.getElementById('SearchFilters').reset()
         });
       };
 
