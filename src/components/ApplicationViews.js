@@ -11,8 +11,7 @@ import { HoardGameFilters } from "./hoardPage/HoardGameFilters";
 import { HoardGameList } from "./hoardPage/HoardGameList.js";
 
 // Search Page imports
-import { SearchFilters } from "./searchPage/SearchFilters.js";
-import { SearchList } from "./searchPage/SearchList.js";
+import { SearchPage } from "./searchPage/SearchPage.js";
 
 export const ApplicationViews = () => {
     return (
@@ -27,8 +26,7 @@ export const ApplicationViews = () => {
                     </Route>
                     {/* Display the Search Page filters and fetch call response when on /searchPage */}
                     <Route exact path="/searchPage">
-                        <SearchFilters />
-                        <SearchList />
+                        <SearchPage />
                     </Route>
                 </CategoryProvider>
             </MechanicProvider>

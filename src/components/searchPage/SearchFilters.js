@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SearchList } from "./SearchList.js";
 import "./Search.css";
 
 // import providers
-import { GameContext } from "../boardGameAtlas/GameProvider.js";
 import { CategoryContext } from "../categories/CategoryProvider.js"; 
 import { MechanicContext } from "../mechanics/MechanicProvider.js"; 
 
-export const SearchFilters = () => {
+export const SearchFilters = ({getGamesByFilters}) => {
     // Pull context from these providers
     const { categories, getCategories } = useContext(CategoryContext);
     const { mechanics, getMechanics } = useContext(MechanicContext);
-    const { games, getGamesByFilters } = useContext(GameContext);
+    
     
     const [rangeValue, setRangeValue] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
@@ -47,14 +45,23 @@ export const SearchFilters = () => {
     const submitSearch = () => {
         getGamesByFilters(search)
         .then(() => {
-            console.log("searched with: ",search)
-            console.log(games)
-            //SearchList(games);
+            // Reset the slider
             setRangeValue(1)
+
+            // Reset the form
             document.getElementById('SearchFilters').reset()
+
+            // Set the search object
+            setSearch({
+                name: "",
+                min_players: 1,
+                categories: "",
+                mechanics: ""
+            });
         });
       };
 
+      // Get mechanics and categories from local API in order to create drop downs for the user to choose one from each
       useEffect(() => {
         getCategories()
         .then(getMechanics)

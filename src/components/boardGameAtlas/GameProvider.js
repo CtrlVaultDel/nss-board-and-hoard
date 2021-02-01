@@ -43,16 +43,19 @@ export const GameProvider = (props) => {
         if(searchObject.categories !== ""){
             categories = categories + searchObject.categories;
         };
-        return fetch(`https://api.boardgameatlas.com/api/search?limit=5${name}${min_players}${categories}${mechanics}&client_id=${BGAkey}`)
+        console.log(name, mechanics, categories)
+        return fetch(`https://api.boardgameatlas.com/api/search?limit=5${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
         .then(response => response.json())
-        .then(setGames);
+        .then((gamesData) => {
+            setGames(gamesData.games)
+        })
     };
 
 
     const getGamesById = (ids) => {
         return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
         .then(response => response.json())
-        .then(setGames);
+        .then(setGames)
     };
 
     return (
