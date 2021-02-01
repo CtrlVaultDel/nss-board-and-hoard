@@ -16,7 +16,7 @@ export const SearchFilters = () => {
     const [rangeValue, setRangeValue] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Initialize the searchObject to be used for the fetch call to Board Game Atlas
+    // Initialize the search object to be used for the fetch call to Board Game Atlas
     const [search, setSearch] = useState({
         name: "",
         min_players: 1,
@@ -24,6 +24,7 @@ export const SearchFilters = () => {
         mechanics: ""
     });
 
+    // Updates the current search object when a new input is made
     const handleChange = (event) => {
         // Create a copy of the state object
         const newSearch = { ...search};
@@ -34,17 +35,21 @@ export const SearchFilters = () => {
         // Update state of search
         setSearch(newSearch);
 
+        // Updates the number beside the range slider
         if(event.target.name === 'min_players'){
             setRangeValue(event.target.value);
         };
     };
 
+    // Handles making the fetch call to Board Game Atlas API with the search object as the filter
+    // After receiving the reponse, sends the returned games to SearchList to be rendered on the DOM.
+    // Then, the entire form is reset back to its default state
     const submitSearch = () => {
-        //Request game data from Board Game Atlas with the new search criteria
         getGamesByFilters(search)
         .then(() => {
+            console.log("searched with: ",search)
             console.log(games)
-            SearchList(games);
+            //SearchList(games);
             setRangeValue(1)
             document.getElementById('SearchFilters').reset()
         });
