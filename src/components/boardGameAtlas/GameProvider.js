@@ -44,9 +44,7 @@ export const GameProvider = (props) => {
         };
         return fetch(`https://api.boardgameatlas.com/api/search?limit=15${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
         .then(response => response.json())
-        .then((gamesData) => {
-            setGames(gamesData.games)
-        })
+        .then((gamesData) => setGames(gamesData.games))
     };
 
     // Used for Hoard Page; pulls all relevant gameIds saved by the current 
@@ -54,20 +52,20 @@ export const GameProvider = (props) => {
     const getGamesById = (ids) => {
         return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
         .then(response => response.json())
-        .then(setGames)
+        .then((gamesData) => setGames(gamesData.games))
     };
 
     // Saves GameId from Board Game Atlas to local Joint Table UserGames 
     // to current user and sets default game state to 1.
-    const saveHoardGame = ({gameId}) => {
+    const saveUserGame = (game) => {
         const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
         const gameToSave = {
-            id: gameId,
+            gameId: game.id,
             userId: currentUser,
             gameState: 1
         };
 
-        return fetch('http://localhost:8088/useGames', {
+        return fetch('http://localhost:8088/userGames', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -77,7 +75,7 @@ export const GameProvider = (props) => {
     };
 
     return (
-        <GameContext.Provider value={{games, saveHoardGame, getGamesByFilters, getGamesById}}>
+        <GameContext.Provider value={{games, saveUserGame, getGamesByFilters, getGamesById}}>
             {props.children}
         </GameContext.Provider>
     );

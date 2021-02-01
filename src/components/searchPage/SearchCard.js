@@ -1,7 +1,7 @@
 import React from "react";
 import "./Search.css";
 
-export const SearchCard = ({game}) => {
+export const SearchCard = ({game, saveUserGame}) => {
     const checkRating = () => {
         const rating = Math.floor(game.average_user_rating);
         switch(rating){
@@ -37,6 +37,8 @@ export const SearchCard = ({game}) => {
             <div className="game__players">
                 Players: {game.min_players} - {game.max_players}
             </div>
-            <button onClick={() => console.log("Adding to Hoard!...ok not really")}>Hoard!</button>
+            <button onClick={() => saveUserGame(game)}>
+                Hoard!
+            </button>
         </section>
 )};
