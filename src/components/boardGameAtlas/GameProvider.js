@@ -21,7 +21,7 @@ export const GameProvider = (props) => {
     // fetch call. The url is constructed and then sent to the BGA API in order
     // to receive and store the relevant games.
     const getGamesByFilters = (searchObject) => {
-        let name = "&fuzzy_match=";
+        let name = "&name=";
         let mechanics = "&mechanics=";
         let categories = "&categories=";
         let min_players = `&gt_min_players=${searchObject.min_players-1}`
@@ -43,8 +43,7 @@ export const GameProvider = (props) => {
         if(searchObject.categories !== ""){
             categories = categories + searchObject.categories;
         };
-        console.log(name, mechanics, categories)
-        return fetch(`https://api.boardgameatlas.com/api/search?limit=5${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
+        return fetch(`https://api.boardgameatlas.com/api/search?limit=15${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
         .then(response => response.json())
         .then((gamesData) => {
             setGames(gamesData.games)

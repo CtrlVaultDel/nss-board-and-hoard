@@ -1,6 +1,69 @@
+/* Filters at the top of the Search Page */
 .SearchFilters {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: solid black 1px;
+    padding: 60px 10px 10px 10px;
+    background: rgb(219, 182, 114);
+    min-width: 290px;
 }
+
+/* List of games that appear towards the bottom of the Search Page */
+.searchList_games{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+    height: 644px;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    border: solid black 1px;
+}
+
+.searchList_games::-webkit-scrollbar{
+    display:none;
+}
+
+/* Individual game cards that appear on the Search Page */
+.game {
+    width: 220px;
+    border: solid black 1px;
+    margin: 15px;
+    padding: 5px;
+    transform: translateY(5px);
+    box-shadow: 3px 10px 20px #000000;
+    border-radius: 5px;
+}
+
+.game__img {
+    min-height: 154px;
+}
+
+/* The following are used to visually indicate the varying average user ratings */
+.game__name, .game__img{
+    text-align: center;
+}
+
+.game__averageRating--great {
+    background: green;
+}
+
+.game__averageRating--good {
+    background: lightgreen;
+}
+
+.game__averageRating--ok {
+    background: yellow;
+}
+
+.game__averageRating--bad {
+    background: pink;
+}
+
+.game__averageRating--terrible {
+    background: red;
+}
+/* End of user rating colors */

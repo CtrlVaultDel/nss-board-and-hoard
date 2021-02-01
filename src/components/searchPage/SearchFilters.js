@@ -1,17 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./Search.css";
 
-// import providers
+// import contexts
 import { CategoryContext } from "../categories/CategoryProvider.js"; 
 import { MechanicContext } from "../mechanics/MechanicProvider.js"; 
 
+import "./Search.css";
+
+// Responsible for displaying the form and taking input(s) from the user
+// in order to send a fetch call with the desired filters.
 export const SearchFilters = ({getGamesByFilters}) => {
-    // Pull context from these providers
+    // Pull category and mechanic context from these providers
     const { categories, getCategories } = useContext(CategoryContext);
     const { mechanics, getMechanics } = useContext(MechanicContext);
     
-    
+    // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
+
     const [isLoading, setIsLoading] = useState(true);
 
     // Initialize the search object to be used for the fetch call to Board Game Atlas
@@ -61,7 +65,8 @@ export const SearchFilters = ({getGamesByFilters}) => {
         });
       };
 
-      // Get mechanics and categories from local API in order to create drop downs for the user to choose one from each
+      // Get mechanics and categories from local API in order 
+      // to create drop downs for the user to choose one from each
       useEffect(() => {
         getCategories()
         .then(getMechanics)
@@ -83,7 +88,7 @@ export const SearchFilters = ({getGamesByFilters}) => {
             {/* Displays a range slider that the user can use to indicate the mininum players */}
             <fieldset>
                 <div className="range-slider">
-                    <label htmlFor="minPlayers">Min Players</label>
+                    <label htmlFor="minPlayers">Min Players: </label>
                     <input type="range" id="range-slider__range" name="min_players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
                     <span className="range-slider__value">{rangeValue}</span>
                 </div>
@@ -109,7 +114,7 @@ export const SearchFilters = ({getGamesByFilters}) => {
                 </div>
             </fieldset>
             <button className="btn btn-primary" disabled={isLoading} onClick={event => {
-                event.preventDefault(); // Prevent browser from submitting the form and refreshing the page
+                event.preventDefault();
                 submitSearch();
             }}>Search!
             </button>
