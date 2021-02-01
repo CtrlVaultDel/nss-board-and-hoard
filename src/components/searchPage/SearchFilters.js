@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import "./Search.css";
 
 // import contexts
 import { CategoryContext } from "../categories/CategoryProvider.js"; 

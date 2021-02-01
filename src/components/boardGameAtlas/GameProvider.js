@@ -15,7 +15,6 @@ export const GameProvider = (props) => {
     // Store API Key
     const BGAkey = key();
 
-    // ********TAKE OUT 5 GAME LIMIT LATER********
     // Used in the searchPage
     // Takes an object as an argument which holds filter information about the 
     // fetch call. The url is constructed and then sent to the BGA API in order
@@ -50,15 +49,35 @@ export const GameProvider = (props) => {
         })
     };
 
-
+    // Used for Hoard Page; pulls all relevant gameIds saved by the current 
+    // user and makes an fetch call to Board Game Atlas with them
     const getGamesById = (ids) => {
         return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
         .then(response => response.json())
         .then(setGames)
     };
 
+    // Saves GameId from Board Game Atlas to local Joint Table UserGames 
+    // to current user and sets default game state to 1.
+    const saveHoardGame = ({gameId}) => {
+        const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
+        const gameToSave = {
+            id: gameId,
+            userId: currentUser,
+            gameState: 1
+        };
+
+        return fetch('http://localhost:8088/useGames', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(gameToSave)
+        })
+    };
+
     return (
-        <GameContext.Provider value={{games, getGamesByFilters, getGamesById}}>
+        <GameContext.Provider value={{games, saveHoardGame, getGamesByFilters, getGamesById}}>
             {props.children}
         </GameContext.Provider>
     );

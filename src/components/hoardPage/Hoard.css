@@ -1,5 +1,5 @@
-/* Filters at the top of the Search Page */
-.SearchFilters {
+/* Filters at the top of the Hoard Page */
+.HoardFilters {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,8 +10,8 @@
     min-width: 290px;
 }
 
-/* List of games that appear towards the bottom of the Search Page */
-.searchList_games{
+/* List of games that appear towards the bottom of the Hoard Page */
+.hoardList_games{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -24,11 +24,11 @@
     background-image: url("../../images/Wood-Background.jpg");
 }
 
-.searchList_games::-webkit-scrollbar{
+.hoardList_games::-webkit-scrollbar{
     display:none;
 }
 
-/* Individual game cards that appear on the Search Page */
+/* Individual game cards that appear on the Hoard Page */
 .game {
     width: 220px;
     border: solid black 1px;
@@ -46,33 +46,3 @@
     margin: auto;
     padding-bottom: 10px;
 }
-
-/* The following are used to visually indicate the varying average user ratings */
-.game__name, .game__img{
-    text-align: center;
-}
-
-.game__averageRating--great {
-    background: green;
-}
-
-.game__averageRating--good {
-    background: lightgreen;
-}
-
-.game__averageRating--ok {
-    background: yellow;
-}
-
-.game__averageRating--bad {
-    background: pink;
-}
-
-.game__averageRating--terrible {
-    background: red;
-}
-
-.game__averageRating--unknown{
-    background: gray;
-}
-/* End of user rating colors */

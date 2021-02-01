@@ -14,7 +14,7 @@ export const SearchCard = ({game}) => {
             case 1:
                 return "bad";
             case 0:
-                return "horrible";
+                return "unknown";
             default:
                 return "unknown";
         };
