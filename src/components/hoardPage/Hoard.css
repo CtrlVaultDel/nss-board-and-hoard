@@ -21,7 +21,7 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     border: solid black 1px;
-    background-image: url("../../images/Wood-Background.jpg");
+    background-image: url("../images/Wood-Background.jpg");
 }
 
 .hoardList_games::-webkit-scrollbar{

@@ -18,6 +18,11 @@ export const GameProvider = (props) => {
     // userGameIds holds an array of game IDs that the user has saved to their hoard
     const [ userGameIds, setUserGameIds ] = useState([]);
 
+    // userGameRelationId holds an array of objects that reflects the relationships in the userGame table
+    // related to the current user. This will be used in conjunction with the deleteUserGame by making use of the
+    // unique userGame table id
+    const [ userGames, setUserGames ] = useState([]);
+
     // Store API Key
     const BGAkey = key();
 
@@ -48,21 +53,13 @@ export const GameProvider = (props) => {
         if(searchObject.categories !== ""){
             categories = categories + searchObject.categories;
         };
-        return fetch(`https://api.boardgameatlas.com/api/search?limit=15${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
-        .then(response => response.json())
-        .then((gamesData) => setGames(gamesData.games))
-    };
-
-    // Used for Hoard Page; pulls all relevant gameIds saved by the current 
-    // user and makes an fetch call to Board Game Atlas with them
-    const getGamesById = (ids) => {
-        return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
+        return fetch(`https://api.boardgameatlas.com/api/search?limit=5${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
         .then(response => response.json())
         .then((gamesData) => setGames(gamesData.games))
     };
 
     // Saves GameId from Board Game Atlas to local Joint Table UserGames 
-    // to current user and sets default game state to 1.
+    // to current user and sets default game state to 1 ("owned and played").
     const saveUserGame = (game) => {
         const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
         const gameToSave = {
@@ -70,7 +67,6 @@ export const GameProvider = (props) => {
             userId: currentUser,
             gameState: 1
         };
-
         return fetch('http://localhost:8088/userGames', {
             method: "POST",
             headers: {
@@ -81,17 +77,39 @@ export const GameProvider = (props) => {
         .then(getUserGameIds)
     };
 
+    // Handles deleting a board game from the user's hoard page. When a board game
+    // is deleted, a new array of relevant userGameIds will be saved to userGameIds
+    // which will then be used to fetch the relevant games to be rendered on the hoard
+    // page.
+    const deleteUserGame = (id) => {
+        return fetch(`http://localhost:8088/userGames/${id}`, {
+            method: "DELETE"
+        })
+            .then(getUserGameIds)
+            .then(() => getGamesById(userGameIds))
+    };
+
+
     // Retrieves the gameIds that the current user has saved to their library (hoard)
     const getUserGameIds = () => {
         return fetch (`http://localhost:8088/users/${currentUser}?_embed=userGames`)
         .then(response => response.json())
-        .then((data) => 
-            setUserGameIds(data.userGames.map(game => 
-                game.gameId)));
-    }
+        .then((data) => {
+            setUserGames(data.userGames.map(game => game));
+            setUserGameIds(data.userGames.map(game => game.gameId));
+        });
+    };
+
+    // Used for Hoard Page; pulls all relevant gameIds saved by the current 
+    // user and makes an fetch call to Board Game Atlas with them
+    const getGamesById = (ids) => {
+        return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
+        .then(response => response.json())
+        .then((gamesData) => setGames(gamesData.games))
+    };
 
     return (
-        <GameContext.Provider value={{games, userGameIds, getGamesByFilters, getGamesById, saveUserGame, getUserGameIds}}>
+        <GameContext.Provider value={{games, userGameIds, getGamesByFilters, getGamesById, saveUserGame, deleteUserGame, getUserGameIds}}>
             {props.children}
         </GameContext.Provider>
     );
