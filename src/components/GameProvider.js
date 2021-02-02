@@ -78,16 +78,16 @@ export const GameProvider = (props) => {
             },
             body: JSON.stringify(gameToSave)
         })
-        .then(setGames(games))
+        .then(getUserGameIds)
     };
 
+    // Retrieves the gameIds that the current user has saved to their library (hoard)
     const getUserGameIds = () => {
-        return fetch (`http://localhost:8088/users/${currentUser}`)
+        return fetch (`http://localhost:8088/users/${currentUser}?_embed=userGames`)
         .then(response => response.json())
-        .then((data) => {
-            const gameIds = data.userGames.map(game => game.gameId);
-            setUserGameIds(gameIds);
-        });
+        .then((data) => 
+            setUserGameIds(data.userGames.map(game => 
+                game.gameId)));
     }
 
     return (

@@ -28,11 +28,11 @@ export const SearchCard = ({game, saveUserGame, userGameIds}) => {
     // the user's hoard will be disabled.
     const isAlreadySaved = () => {
         if(userGameIds.some((savedId) => savedId === game.id)){
-            return <button disabled="true">Hoard!</button>
+            return <button disabled>Hoard!</button>
         } else {
             return <button onClick={() => saveUserGame(game)}>Hoard!</button>
-        }
-    }
+        };
+    };
     
     return (
         <section className="game">
