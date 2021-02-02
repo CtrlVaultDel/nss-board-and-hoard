@@ -1,7 +1,10 @@
 import React from "react";
 import "./Search.css";
 
-export const SearchCard = ({game, saveUserGame}) => {
+export const SearchCard = ({game, saveUserGame, userGameIds}) => {
+
+    // Assigns specific className addition to game__averageRating based off of rating
+    // This will be used in CSS later to dictate the color used for that section
     const checkRating = () => {
         const rating = Math.floor(game.average_user_rating);
         switch(rating){
@@ -19,6 +22,17 @@ export const SearchCard = ({game, saveUserGame}) => {
                 return "unknown";
         };
     };
+
+    // This determines whether the current game has already been saved to the
+    // user's library (hoard). If it has been, the button to save the game to 
+    // the user's hoard will be disabled.
+    const isAlreadySaved = () => {
+        if(userGameIds.some((savedId) => savedId === game.id)){
+            return <button disabled="true">Hoard!</button>
+        } else {
+            return <button onClick={() => saveUserGame(game)}>Hoard!</button>
+        }
+    }
     
     return (
         <section className="game">
@@ -34,11 +48,11 @@ export const SearchCard = ({game, saveUserGame}) => {
             <div className={`game__averageRating--${checkRating()}`}>
                 Average User Rating: {game.average_user_rating.toFixed(2)} / 5.00
             </div>
+            {/* Displays the game's minimum and maximum players */}
             <div className="game__players">
                 Players: {game.min_players} - {game.max_players}
             </div>
-            <button onClick={() => saveUserGame(game)}>
-                Hoard!
-            </button>
+            {/* Renders a button that lets the user save the game to their library if they haven't already */}
+            {isAlreadySaved()}
         </section>
 )};

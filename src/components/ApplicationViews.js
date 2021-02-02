@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 // Games, Mechanics & Categories imports
-import { GameProvider } from "./boardGameAtlas/GameProvider.js";
+import { GameProvider } from "./GameProvider.js";
 import { MechanicProvider } from "./mechanics/MechanicProvider.js";
 import { CategoryProvider } from "./categories/CategoryProvider.js";
 

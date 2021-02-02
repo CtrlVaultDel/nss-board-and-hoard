@@ -2,15 +2,21 @@ import React, { useState, createContext } from "react";
 
 // API key for Board Game Atlas (BGA) fetch calls 
 // Note: (key.js file is also inside .gitignore)
-import { key } from "../../key.js";
+import { key } from "../key.js";
 
 export const GameContext = createContext();
 
 // Component responsible for all functions and variables related to the BGA API
 export const GameProvider = (props) => {
 
-    // games holds the array of games returned by BGA fetch calls
+    // store the current user's ID in a local variable
+    const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
+
+    // games holds an array of games returned by BGA fetch calls
     const [games, setGames] = useState([]);
+
+    // userGameIds holds an array of game IDs that the user has saved to their hoard
+    const [ userGameIds, setUserGameIds ] = useState([]);
 
     // Store API Key
     const BGAkey = key();
@@ -72,10 +78,20 @@ export const GameProvider = (props) => {
             },
             body: JSON.stringify(gameToSave)
         })
+        .then(setGames(games))
     };
 
+    const getUserGameIds = () => {
+        return fetch (`http://localhost:8088/users/${currentUser}`)
+        .then(response => response.json())
+        .then((data) => {
+            const gameIds = data.userGames.map(game => game.gameId);
+            setUserGameIds(gameIds);
+        });
+    }
+
     return (
-        <GameContext.Provider value={{games, saveUserGame, getGamesByFilters, getGamesById}}>
+        <GameContext.Provider value={{games, userGameIds, getGamesByFilters, getGamesById, saveUserGame, getUserGameIds}}>
             {props.children}
         </GameContext.Provider>
     );
