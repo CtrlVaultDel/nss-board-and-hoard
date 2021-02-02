@@ -1,17 +1,9 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { HoardCard } from "./HoardCard.js";
 import "./Hoard.css";
 
 // Takes the array of 
-export const HoardList = ({getUserGames, getGamesById, hoardGames, deleteUserGame, userGames}) => {
-
-    useEffect(() => {
-        getUserGames()
-        .then(() => {
-            getGamesById(userGames.map(userGame => userGame.gameId))
-        })
-    }
-    ,[])
+export const HoardList = ({hoardGames, deleteUserGame, userGames}) => {
 
     return (
         <>

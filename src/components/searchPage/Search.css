@@ -6,7 +6,7 @@
     align-items: center;
     border: solid black 1px;
     padding: 60px 10px 10px 10px;
-    background: rgb(219, 182, 114);
+    background: rgb(79, 104, 51);
     min-width: 290px;
 }
 
@@ -30,7 +30,7 @@
 
 /* Individual game cards that appear on the Search Page */
 .game {
-    width: 220px;
+    min-width: 220px;
     border: solid black 1px;
     margin: 15px;
     padding: 5px;
@@ -45,6 +45,11 @@
     width: 150px;
     margin: auto;
     padding-bottom: 10px;
+}
+
+.game__img img {
+    max-height: 100%;
+    max-width: 100%;
 }
 
 /* The following are used to visually indicate the varying average user ratings */

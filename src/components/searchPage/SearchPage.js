@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import { SearchFilters } from "./SearchFilters.js";
 import { SearchList } from "./SearchList.js";
 import { GameContext } from "../GameProvider.js";

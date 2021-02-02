@@ -21,7 +21,7 @@ export const GameProvider = (props) => {
     // userGameRelationId holds an array of objects that reflects the relationships in the userGame table
     // related to the current user. This will be used in conjunction with the deleteUserGame by making use of the
     // unique userGame table id
-    const [ userGames, setUserGames ] = useState([]);
+    const [userGames, setUserGames] = useState([]);
 
     // =============================================================================
     // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
@@ -65,8 +65,8 @@ export const GameProvider = (props) => {
 
     // Used for Hoard Page; pulls all relevant gameIds saved by the current 
     // user and makes an fetch call to Board Game Atlas with them
-    const getGamesById = (ids) => {
-        return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
+    const getHoardGames = (ids) => {
+        return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${BGAkey}`)
         .then(response => response.json())
         .then((gamesData) => setHoardGames(gamesData.games));
     };
@@ -74,6 +74,18 @@ export const GameProvider = (props) => {
     // ===================BOARD GAME ATLAS API FETCH CALLS (END)====================
     // =============================================================================
 
+
+    // Retrieves the relevant objects from the userGames table 
+    // (Each object holds relationship information between a user, a game and its "state") 
+    // [e.g. owned and played, owned and not played, etc.]
+    const getUserGames = () => {
+        return fetch (`http://localhost:8088/users/${currentUser}?_embed=userGames`)
+        .then(response => response.json())
+        .then((data) => {
+            const newUserGames = data.userGames.map(userGame => userGame);
+            setUserGames(newUserGames);
+        });
+    };
 
     // Saves GameId from Board Game Atlas to local Joint Table UserGames 
     // to current user and sets default game state to 1 ("owned and played").
@@ -97,26 +109,15 @@ export const GameProvider = (props) => {
     // is deleted, a new array of relevant userGameIds will be saved to userGameIds
     // which will then be used to fetch the relevant games to be rendered on the hoard
     // page.
-    const deleteUserGame = id => {
+    const deleteUserGame = (id) => {
         return fetch(`http://localhost:8088/userGames/${id}`, {
             method: "DELETE"
         })
-            .then(getUserGames)
-            //.then(() => getGamesById(userGames.map(userGame => userGame.id)))
-    };
-
-
-    // Retrieves the relevant objects from the userGames table 
-    // (Each object holds relationship information between a user, a game and its "state") 
-    // [e.g. owned and played, owned and not played, etc.]
-    const getUserGames = () => {
-        return fetch (`http://localhost:8088/users/${currentUser}?_embed=userGames`)
-        .then(response => response.json())
-        .then((data) => setUserGames(data.userGames.map(game => game)));
+        .then(getUserGames)
     };
 
     return (
-        <GameContext.Provider value={{searchGames, hoardGames, userGames, getUserGames, getGamesByFilters, getGamesById, saveUserGame, deleteUserGame}}>
+        <GameContext.Provider value={{searchGames, hoardGames, userGames, getUserGames, getGamesByFilters, getHoardGames, saveUserGame, deleteUserGame}}>
             {props.children}
         </GameContext.Provider>
     );

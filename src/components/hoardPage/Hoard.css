@@ -30,7 +30,7 @@
 
 /* Individual game cards that appear on the Hoard Page */
 .game {
-    width: 220px;
+    min-width: 220px;
     border: solid black 1px;
     margin: 15px;
     padding: 5px;

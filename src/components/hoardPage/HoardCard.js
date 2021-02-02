@@ -22,14 +22,17 @@ export const HoardCard = ({hoardGame, deleteUserGame, userGames}) => {
                 return "unknown";
         };
     };
-    
+
+    // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
+
+        // Find the userGame Object (Local API) that relates to the current Hoard Game (from Board Game Atlas API)
         const userGameObject = userGames.find(relation => relation.gameId === hoardGame.id);
-        //console.log(userGames)
-        //console.log(userGameObject);
-        //return <button onClick = {deleteUserGame(userGameObject.id)}>Remove Game</button>
+
+        // Return a button which will send the related userGame Table ID to the deleteUserGame function
+        return <button onClick = {() => deleteUserGame(userGameObject.id)}>Remove Game</button>
     };
-    console.log()
+
     return (
         <section className="game">
             {/* Displays the game name */}
@@ -49,6 +52,6 @@ export const HoardCard = ({hoardGame, deleteUserGame, userGames}) => {
                 Players: {hoardGame.min_players} - {hoardGame.max_players}
             </div>
             {/* Renders a button that allows the user to delete the game from their hoard page */}
-            {/* {deleteButton()} */}
+            {deleteButton()}
         </section>
 )};
