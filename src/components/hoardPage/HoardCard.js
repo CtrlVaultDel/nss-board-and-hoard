@@ -1,12 +1,12 @@
 import React from "react";
 import "./Hoard.css";
 
-export const HoardCard = ({game, deleteUserGame, userGameIds}) => {
+export const HoardCard = ({hoardGame, deleteUserGame, userGames}) => {
 
     // Assigns specific className addition to game__averageRating based off of rating
     // This will be used in CSS later to dictate the color used for that section
     const checkRating = () => {
-        const rating = Math.floor(game.average_user_rating);
+        const rating = Math.floor(hoardGame.average_user_rating);
         switch(rating){
             case 4:
                 return "great";
@@ -23,25 +23,32 @@ export const HoardCard = ({game, deleteUserGame, userGameIds}) => {
         };
     };
     
+    const deleteButton = () => {
+        const userGameObject = userGames.find(relation => relation.gameId === hoardGame.id);
+        //console.log(userGames)
+        //console.log(userGameObject);
+        //return <button onClick = {deleteUserGame(userGameObject.id)}>Remove Game</button>
+    };
+    console.log()
     return (
         <section className="game">
             {/* Displays the game name */}
             <h3 className="game__name">
-                {game.name}
+                {hoardGame.name}
             </h3>
             {/* Displays the game image */}
             <div className="game__img">
-                <img src={game.images.small} alt={`Cover for ${game.name}`} />
+                <img src={hoardGame.images.small} alt={`Cover for ${hoardGame.name}`} />
             </div>
             {/* Displays the game's average user rating */}
             <div className={`game__averageRating--${checkRating()}`}>
-                Average User Rating: {game.average_user_rating.toFixed(2)} / 5.00
+                Average User Rating: {hoardGame.average_user_rating.toFixed(2)} / 5.00
             </div>
             {/* Displays the game's minimum and maximum players */}
             <div className="game__players">
-                Players: {game.min_players} - {game.max_players}
+                Players: {hoardGame.min_players} - {hoardGame.max_players}
             </div>
             {/* Renders a button that allows the user to delete the game from their hoard page */}
-            <button onClick={deleteUserGame(game.id)}></button>
+            {/* {deleteButton()} */}
         </section>
 )};

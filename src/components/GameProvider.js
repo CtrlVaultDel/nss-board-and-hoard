@@ -12,17 +12,20 @@ export const GameProvider = (props) => {
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
-    // games holds an array of games returned by BGA fetch calls
-    const [games, setGames] = useState([]);
+    // searchGames holds an array of games for Search Page returned by BGA fetch calls
+    const [searchGames, setSearchGames] = useState([]);
 
-    // userGameIds holds an array of game IDs that the user has saved to their hoard
-    const [ userGameIds, setUserGameIds ] = useState([]);
+    // hoardGames holds an array of games for Hoard Page returned by BGA fetch
+    const [hoardGames, setHoardGames] = useState([]);
 
     // userGameRelationId holds an array of objects that reflects the relationships in the userGame table
     // related to the current user. This will be used in conjunction with the deleteUserGame by making use of the
     // unique userGame table id
     const [ userGames, setUserGames ] = useState([]);
 
+    // =============================================================================
+    // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
+    // =============================================================================
     // Store API Key
     const BGAkey = key();
 
@@ -53,15 +56,28 @@ export const GameProvider = (props) => {
         if(searchObject.categories !== ""){
             categories = categories + searchObject.categories;
         };
+
+        // Fetch call with specific filters
         return fetch(`https://api.boardgameatlas.com/api/search?limit=5${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
         .then(response => response.json())
-        .then((gamesData) => setGames(gamesData.games))
+        .then((gamesData) => setSearchGames(gamesData.games));
     };
+
+    // Used for Hoard Page; pulls all relevant gameIds saved by the current 
+    // user and makes an fetch call to Board Game Atlas with them
+    const getGamesById = (ids) => {
+        return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
+        .then(response => response.json())
+        .then((gamesData) => setHoardGames(gamesData.games));
+    };
+    // =============================================================================
+    // ===================BOARD GAME ATLAS API FETCH CALLS (END)====================
+    // =============================================================================
+
 
     // Saves GameId from Board Game Atlas to local Joint Table UserGames 
     // to current user and sets default game state to 1 ("owned and played").
     const saveUserGame = (game) => {
-        const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
         const gameToSave = {
             gameId: game.id,
             userId: currentUser,
@@ -81,12 +97,12 @@ export const GameProvider = (props) => {
     // is deleted, a new array of relevant userGameIds will be saved to userGameIds
     // which will then be used to fetch the relevant games to be rendered on the hoard
     // page.
-    const deleteUserGame = (id) => {
+    const deleteUserGame = id => {
         return fetch(`http://localhost:8088/userGames/${id}`, {
             method: "DELETE"
         })
             .then(getUserGames)
-            .then(() => getGamesById(userGames.map(userGame => userGame.id)))
+            //.then(() => getGamesById(userGames.map(userGame => userGame.id)))
     };
 
 
@@ -99,16 +115,8 @@ export const GameProvider = (props) => {
         .then((data) => setUserGames(data.userGames.map(game => game)));
     };
 
-    // Used for Hoard Page; pulls all relevant gameIds saved by the current 
-    // user and makes an fetch call to Board Game Atlas with them
-    const getGamesById = (ids) => {
-        return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${key}`)
-        .then(response => response.json())
-        .then((gamesData) => setGames(gamesData.games))
-    };
-
     return (
-        <GameContext.Provider value={{games, userGames, getUserGames, getGamesByFilters, getGamesById, saveUserGame, deleteUserGame}}>
+        <GameContext.Provider value={{searchGames, hoardGames, userGames, getUserGames, getGamesByFilters, getGamesById, saveUserGame, deleteUserGame}}>
             {props.children}
         </GameContext.Provider>
     );

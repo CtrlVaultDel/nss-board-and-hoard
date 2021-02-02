@@ -6,12 +6,12 @@ import "./Hoard.css";
 
 // Responsible for displaying the Search Filters & Search List components
 export const HoardPage = () => {
-    const {games, getGamesByIds} = useContext(GameContext);
+    const {hoardGames, getGamesById, userGames, getUserGames, deleteUserGame} = useContext(GameContext);
 
     return (
         <>
             <HoardFilters />
-            <HoardList />
+            <HoardList getUserGames={getUserGames} getGamesById={getGamesById} hoardGames={hoardGames} deleteUserGame={deleteUserGame} userGames={userGames} />
         </>
     );
 };
