@@ -74,7 +74,7 @@ export const GameProvider = (props) => {
             },
             body: JSON.stringify(gameToSave)
         })
-        .then(getUserGameIds)
+        .then(getUserGames)
     };
 
     // Handles deleting a board game from the user's hoard page. When a board game
@@ -85,19 +85,18 @@ export const GameProvider = (props) => {
         return fetch(`http://localhost:8088/userGames/${id}`, {
             method: "DELETE"
         })
-            .then(getUserGameIds)
-            .then(() => getGamesById(userGameIds))
+            .then(getUserGames)
+            .then(() => getGamesById(userGames.map(userGame => userGame.id)))
     };
 
 
-    // Retrieves the gameIds that the current user has saved to their library (hoard)
-    const getUserGameIds = () => {
+    // Retrieves the relevant objects from the userGames table 
+    // (Each object holds relationship information between a user, a game and its "state") 
+    // [e.g. owned and played, owned and not played, etc.]
+    const getUserGames = () => {
         return fetch (`http://localhost:8088/users/${currentUser}?_embed=userGames`)
         .then(response => response.json())
-        .then((data) => {
-            setUserGames(data.userGames.map(game => game));
-            setUserGameIds(data.userGames.map(game => game.gameId));
-        });
+        .then((data) => setUserGames(data.userGames.map(game => game)));
     };
 
     // Used for Hoard Page; pulls all relevant gameIds saved by the current 
@@ -109,7 +108,7 @@ export const GameProvider = (props) => {
     };
 
     return (
-        <GameContext.Provider value={{games, userGameIds, getGamesByFilters, getGamesById, saveUserGame, deleteUserGame, getUserGameIds}}>
+        <GameContext.Provider value={{games, userGames, getUserGames, getGamesByFilters, getGamesById, saveUserGame, deleteUserGame}}>
             {props.children}
         </GameContext.Provider>
     );

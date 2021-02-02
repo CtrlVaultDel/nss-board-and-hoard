@@ -1,7 +1,7 @@
 import React from "react";
 import "./Search.css";
 
-export const SearchCard = ({game, saveUserGame, userGameIds}) => {
+export const SearchCard = ({game, saveUserGame, userGames}) => {
 
     // Assigns specific className addition to game__averageRating based off of rating
     // This will be used in CSS later to dictate the color used for that section
@@ -27,7 +27,7 @@ export const SearchCard = ({game, saveUserGame, userGameIds}) => {
     // user's library (hoard). If it has been, the button to save the game to 
     // the user's hoard will be disabled.
     const isAlreadySaved = () => {
-        if(userGameIds.some((savedId) => savedId === game.id)){
+        if(userGames.some(userGame => userGame.gameId === game.id)){
             return <button disabled>Hoard!</button>
         } else {
             return <button onClick={() => saveUserGame(game)}>Hoard!</button>
