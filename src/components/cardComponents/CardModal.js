@@ -26,7 +26,7 @@ function getModalStyle() {
     },
   }));
   
-  export const SearchModal = ({searchGame}) => {
+  export const CardModal = ({game}) => {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
@@ -42,10 +42,10 @@ function getModalStyle() {
   
     const body = (
       <div style={modalStyle} className={classes.paper}>
-        <h2 id="simple-modal-title">{searchGame.name}</h2>
+        <h2 id="simple-modal-title">{game.name}</h2>
         <div id="simple-modal-description">
             <div className="game__description">
-                {searchGame.description_preview}
+                {game.description_preview}
             </div>
         </div>
       </div>

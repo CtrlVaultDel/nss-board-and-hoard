@@ -8,22 +8,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
 // Import Details Modal
-import { SearchModal } from "./SearchModal.js";
+import { CardModal } from "../cardComponents/CardModal.js";
 
 // Import Ratings Component
-import { SearchRating } from "./SearchRating.js";
+import { CardRating } from "../cardComponents/CardRating.js";
 
 // Import CSS
 import "./Search.css";
 
 export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
-
-    // Breaks ratings into 0.5 segments and uses Material UI to display a number
-    // of stars equal to the rating
-    const displayRating = () => {
-        const rating = (Math.round(searchGame.average_user_rating*2)/2);
-        return <SearchRating rating={rating}/> 
-    };
 
     // This determines whether the current game has already been saved to the
     // user's library (hoard). If it has been, the button to save the game to 
@@ -36,24 +29,26 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
         };
     };
 
-    const msrp = () => {
-        if(searchGame.msrp_text === undefined){
+    // Validates the current game's msrp & returns appropriate HTML
+    const getMSRP = (msrp) => {
+        if(msrp === undefined){
             return "No price available"
         } else {
-            return `MSRP: ${searchGame.msrp_text}`
-        }
-    }
+            return `MSRP: ${msrp}`
+        };
+    };
 
-    const rules = () => {
-        if(searchGame.rules_url === null || searchGame.rules_url === undefined){
+    // Validates the related game's rules & returns appropriate HTML or link
+    const getRules = (rules) => {
+        if(rules === null || rules === undefined){
             return "No rules available"
         } else {
-            return <a href={searchGame.rules_url} target="_blank">Rules</a>
-        }
-    }
+            return <a href={rules} target="_blank">Rules</a>
+        };
+    };
 
     return (
-        <Card raised="true" className="game">
+        <Card className="game">
                 <CardContent>
                     {/* Displays the game name */}
                     <h3 className="game__name">
@@ -65,22 +60,22 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
                     </div>
                     {/* Displays the game's average user rating */}
                     <div className={`game__averageRating`}>
-                        Average User Rating: {displayRating()}
+                        Average User Rating: <CardRating rating={searchGame.average_user_rating}/>
                     </div>
                     {/* Displays the game's minimum and maximum players */}
                     <div className="game__players">
                         Players: {searchGame.min_players} - {searchGame.max_players}
                     </div>
                     <div className="game__msrp">
-                        {msrp()}
+                        {getMSRP(searchGame.msrp_text)}
                     </div>
                     <div className="game__rules">
-                        {rules()}
+                        {getRules(searchGame.rules_url)}
                     </div>
                 </CardContent>
             <Grid container justify="center">
                 <CardActions style={{}}>
-                    <SearchModal searchGame={searchGame}/>
+                    <CardModal game={searchGame}/>
 
                     {/* Renders a button that lets the user save the game to their library if they haven't already */}
                     {saveButton()}

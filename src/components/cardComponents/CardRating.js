@@ -12,12 +12,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SearchRating = ({rating}) => {
-  const classes = useStyles();
+export const CardRating = ({rating}) => {
+    const starRating = (Math.round(rating*2))/2
+    const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
-    </div>
-  );
-}
+    return (
+        <div className={classes.root}>
+        <Rating name="half-rating-read" defaultValue={starRating} precision={0.5} readOnly />
+        </div>
+    );
+};
