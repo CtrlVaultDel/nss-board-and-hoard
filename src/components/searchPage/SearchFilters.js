@@ -22,7 +22,7 @@ export const SearchFilters = ({getGamesByFilters}) => {
     // Initialize the search object to be used for the fetch call to Board Game Atlas
     const [search, setSearch] = useState({
         name: "",
-        min_players: 1,
+        gt_min_players: 1,
         categories: "",
         mechanics: ""
     });
@@ -39,7 +39,7 @@ export const SearchFilters = ({getGamesByFilters}) => {
         setSearch(newSearch);
 
         // Updates the number beside the range slider
-        if(event.target.name === 'min_players'){
+        if(event.target.name === 'gt_min_players'){
             setRangeValue(event.target.value);
         };
     };
@@ -50,16 +50,10 @@ export const SearchFilters = ({getGamesByFilters}) => {
     const submitSearch = () => {
         getGamesByFilters(search)
         .then(() => {
-            // Reset the slider
-            setRangeValue(1)
-
-            // Reset the form
-            document.getElementById('SearchFilters').reset()
-
             // Set the search object
             setSearch({
                 name: "",
-                min_players: 1,
+                gt_min_players: 1,
                 categories: "",
                 mechanics: ""
             });
@@ -90,7 +84,7 @@ export const SearchFilters = ({getGamesByFilters}) => {
             <fieldset>
                 <div className="range-slider">
                     <label htmlFor="minPlayers">Min Players: </label>
-                    <input type="range" id="range-slider__range" name="min_players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
+                    <input type="range" id="range-slider__range" name="gt_min_players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
                     <span className="range-slider__value">{rangeValue}</span>
                 </div>
             </fieldset>

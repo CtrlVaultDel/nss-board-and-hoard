@@ -21,28 +21,9 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     border: solid black 1px;
-    background-image: url("../../images/Wood-Background.jpg");
+    background-image: url("../images/Wood-Background.jpg");
 }
 
 .hoardList_games::-webkit-scrollbar{
     display:none;
-}
-
-/* Individual game cards that appear on the Hoard Page */
-.game {
-    width: 220px;
-    border: solid black 1px;
-    margin: 15px;
-    padding: 5px;
-    transform: translateY(5px);
-    box-shadow: 3px 10px 20px #000000;
-    border-radius: 5px;
-    background: white;
-}
-
-.game__img {
-    height: 150px;
-    width: 150px;
-    margin: auto;
-    padding-bottom: 10px;
 }

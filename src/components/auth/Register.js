@@ -36,7 +36,7 @@ export const Register = (props) => {
                         .then(createdUser => {
                             if (createdUser.hasOwnProperty("id")) {
                                 localStorage.setItem("board_and_hoard_user", createdUser.id)
-                                history.push("/")
+                                history.push("/hoardPage")
                             }
                         })
                 }
