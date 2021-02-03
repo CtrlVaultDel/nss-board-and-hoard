@@ -12,6 +12,10 @@ export const GameProvider = (props) => {
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
+    // =============================================================================
+    // ========================LOCAL STATE VARIABLES (START)========================
+    // =============================================================================
+
     // searchGames holds an array of games for Search Page returned by BGA fetch calls
     const [searchGames, setSearchGames] = useState([]);
 
@@ -24,6 +28,10 @@ export const GameProvider = (props) => {
     const [userGames, setUserGames] = useState([]);
 
     const [isLoading, setIsLoading] = useState(true);
+
+    // =============================================================================
+    // =========================LOCAL STATE VARIABLES (END)=========================
+    // =============================================================================
 
     // Initialization function
     const initializeRequiredAppData = () => {
@@ -38,13 +46,12 @@ export const GameProvider = (props) => {
     // Takes an object as an argument which holds filter information about the 
     // fetch call. The url is constructed and then sent to the BGA API in order
     // to receive and store the relevant games.
-    const getGamesByFilters = (searchObject) => {
+    const getSearchGames = (searchObject) => {
         let queryOptions = ["name", "mechanics", "categories", "gt_min_players"]
         let baseUrl = `https://api.boardgameatlas.com/api/search?limit=5&order_by=popularity&client_id=${BGAkey}&`
         const fullUrl = baseUrl + queryOptions
             .map((optionName) => {
                 let value = "";
-                console.log(searchObject[optionName])
                 if(optionName === "gt_min_players"){
                     value = parseInt(searchObject[optionName])-1
                 } else if(searchObject[optionName] !== ""){
@@ -59,10 +66,12 @@ export const GameProvider = (props) => {
         .then((gamesData) => setSearchGames(gamesData.games));
     };
 
-    // Used for Hoard Page; pulls all relevant gameIds saved by the current 
+    // Used for Hoard Page
+    // Pulls all relevant gameIds saved by the current 
     // user and makes an fetch call to Board Game Atlas with them
     const getHoardGames = (ids) => {
-        return fetch (`https://api.boardgameatlas.com/api/search?ids=${ids.map(id => id).join(",")}&client_id=${BGAkey}`)
+        let idArray = ids.map(id => id).join(",");
+        return fetch (`https://api.boardgameatlas.com/api/search?ids=${idArray}&client_id=${BGAkey}`)
         .then(response => response.json())
         .then((gamesData) => setHoardGames(gamesData.games));
     };
@@ -116,7 +125,7 @@ export const GameProvider = (props) => {
 
     //initializeRequiredAppData()
     return (
-        <GameContext.Provider value={{searchGames, hoardGames, userGames, getUserGames, getGamesByFilters, getHoardGames, saveUserGame, deleteUserGame}}>
+        <GameContext.Provider value={{searchGames, hoardGames, userGames, getUserGames, getSearchGames, getHoardGames, saveUserGame, deleteUserGame}}>
             {props.children}
         </GameContext.Provider>
     );

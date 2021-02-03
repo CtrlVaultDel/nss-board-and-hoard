@@ -9,7 +9,7 @@ import "./Search.css";
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
-export const SearchFilters = ({getGamesByFilters}) => {
+export const SearchFilters = ({getSearchGames}) => {
     // Pull category and mechanic context from these providers
     const { categories, getCategories } = useContext(CategoryContext);
     const { mechanics, getMechanics } = useContext(MechanicContext);
@@ -48,7 +48,7 @@ export const SearchFilters = ({getGamesByFilters}) => {
     // After receiving the reponse, sends the returned games to SearchList to be rendered on the DOM.
     // Then, the entire form is reset back to its default state
     const submitSearch = () => {
-        getGamesByFilters(search)
+        getSearchGames(search)
         .then(() => {
             // Set the search object
             setSearch({

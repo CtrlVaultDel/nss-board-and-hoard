@@ -1,8 +1,15 @@
 import React from "react";
+
+// Material UI Imports
 import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+
+// Import Modal
+import { SearchModal } from "./SearchModal.js";
+
+// Import CSS
 import "./Search.css";
 
 export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
@@ -30,14 +37,14 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
     // This determines whether the current game has already been saved to the
     // user's library (hoard). If it has been, the button to save the game to 
     // the user's hoard will be disabled.
-    const isAlreadySaved = () => {
+    const saveButton = () => {
         if(userGames.some(userGame => userGame.gameId === searchGame.id)){
-            return <Button disabled>Hoard!</Button>
+            return <Button disabled>Already in Hoard</Button>
         } else {
-            return <Button onClick={() => saveUserGame(searchGame)}>Hoard!</Button>
+            return <Button variant="contained" color="primary" onClick={() => saveUserGame(searchGame)}>Hoard!</Button>
         };
     };
-    
+
     return (
         <Card className="game">
             <CardContent>
@@ -60,7 +67,9 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
             </CardContent>
             {/* Renders a button that lets the user save the game to their library if they haven't already */}
             <CardActions>
-                {isAlreadySaved()}
+                <SearchModal />
+                {saveButton()}
             </CardActions>
         </Card>
 )};
+

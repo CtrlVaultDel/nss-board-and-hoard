@@ -6,9 +6,9 @@ export const CategoryProvider = (props) => {
     const [categories, setCategories] = useState([]);
 
     const getCategories = () => {
-        return fetch("http://localhost:8088/categories")
+        return fetch("https://www.boardgameatlas.com/api/game/categories?pretty=true&client_id=JLBr5npPhV")
         .then(response => response.json())
-        .then(setCategories);
+        .then((data) => setCategories(data.categories));
     };
 
     return (
