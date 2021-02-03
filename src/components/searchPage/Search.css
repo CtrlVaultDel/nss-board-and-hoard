@@ -41,6 +41,10 @@
     background: white;
 }
 
+.game__name{
+    overflow-wrap: break-word;
+}
+
 .game__img {
     height: 150px;
     width: 150px;
