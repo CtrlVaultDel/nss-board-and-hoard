@@ -7,8 +7,9 @@ import "./Hoard.css";
 // Responsible for displaying the Search Filters & Search List components
 export const HoardPage = () => {
     const {hoardGames, getHoardGames, userGames, getUserGames, deleteUserGame} = useContext(GameContext);
-
     // Allows the Hoard Page to render the saved games when it is initially mounted
+
+    // *** Create an initializeHoardPage function here that lives in the GameProvider.js
     useEffect(() => {
         getUserGames()
         .then(() => {
@@ -24,7 +25,11 @@ export const HoardPage = () => {
     return (
         <>
             <HoardFilters />
-            <HoardList hoardGames={hoardGames} deleteUserGame={deleteUserGame} userGames={userGames} />
+            <HoardList 
+                hoardGames={hoardGames} 
+                deleteUserGame={deleteUserGame} 
+                userGames={userGames} 
+            />
         </>
     );
 };

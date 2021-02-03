@@ -4,7 +4,6 @@ import "./Hoard.css";
 
 // Takes the array of 
 export const HoardList = ({hoardGames, deleteUserGame, userGames}) => {
-
     return (
         <>
             <h1>Hoard List goes here</h1>

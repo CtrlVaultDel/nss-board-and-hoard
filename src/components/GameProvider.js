@@ -2,7 +2,7 @@ import React, { useState, createContext } from "react";
 
 // API key for Board Game Atlas (BGA) fetch calls 
 // Note: (key.js file is also inside .gitignore)
-import { key } from "../key.js";
+import BGAkey from "../key.js";
 
 export const GameContext = createContext();
 
@@ -23,42 +23,38 @@ export const GameProvider = (props) => {
     // unique userGame table id
     const [userGames, setUserGames] = useState([]);
 
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Initialization function
+    const initializeRequiredAppData = () => {
+
+    }
+
     // =============================================================================
     // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
     // =============================================================================
-    // Store API Key
-    const BGAkey = key();
 
     // Used in the searchPage
     // Takes an object as an argument which holds filter information about the 
     // fetch call. The url is constructed and then sent to the BGA API in order
     // to receive and store the relevant games.
     const getGamesByFilters = (searchObject) => {
-        let name = "&name=";
-        let mechanics = "&mechanics=";
-        let categories = "&categories=";
-        let min_players = `&gt_min_players=${searchObject.min_players-1}`
-
-        // Check to see if a name was passed in the searchObject
-        // If they were not, leave the name variable empty
-        if(searchObject.name !== ""){
-            name = name + searchObject.name;
-        }
-
-        // Check to see if mechanics were passed in the searchObject
-        // If they were not, leave the mechanics variable empty
-        if(searchObject.mechanics !== ""){
-            mechanics = mechanics + searchObject.mechanics;
-        };
-
-        // Check to see if categories were passed in the searchObject
-        // If they were not, leave the categories variable empty
-        if(searchObject.categories !== ""){
-            categories = categories + searchObject.categories;
-        };
-
+        let queryOptions = ["name", "mechanics", "categories", "gt_min_players"]
+        let baseUrl = `https://api.boardgameatlas.com/api/search?limit=5&order_by=popularity&client_id=${BGAkey}&`
+        const fullUrl = baseUrl + queryOptions
+            .map((optionName) => {
+                let value = "";
+                console.log(searchObject[optionName])
+                if(optionName === "gt_min_players"){
+                    value = parseInt(searchObject[optionName])-1
+                } else if(searchObject[optionName] !== ""){
+                    value = searchObject[optionName]
+                }
+                return `${optionName}=${value}`;
+            })
+            .join("&");
         // Fetch call with specific filters
-        return fetch(`https://api.boardgameatlas.com/api/search?limit=5${name}${min_players}${categories}${mechanics}&order_by=popularity&client_id=${BGAkey}`)
+        return fetch(fullUrl)
         .then(response => response.json())
         .then((gamesData) => setSearchGames(gamesData.games));
     };
@@ -84,6 +80,7 @@ export const GameProvider = (props) => {
         .then((data) => {
             const newUserGames = data.userGames.map(userGame => userGame);
             setUserGames(newUserGames);
+            getHoardGames(newUserGames.map(newUserGame => newUserGame.gameId));
         });
     };
 
@@ -116,6 +113,8 @@ export const GameProvider = (props) => {
         .then(getUserGames)
     };
 
+
+    //initializeRequiredAppData()
     return (
         <GameContext.Provider value={{searchGames, hoardGames, userGames, getUserGames, getGamesByFilters, getHoardGames, saveUserGame, deleteUserGame}}>
             {props.children}

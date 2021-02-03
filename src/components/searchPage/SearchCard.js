@@ -1,4 +1,8 @@
 import React from "react";
+import { Button } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import "./Search.css";
 
 export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
@@ -28,31 +32,35 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
     // the user's hoard will be disabled.
     const isAlreadySaved = () => {
         if(userGames.some(userGame => userGame.gameId === searchGame.id)){
-            return <button disabled>Hoard!</button>
+            return <Button disabled>Hoard!</Button>
         } else {
-            return <button onClick={() => saveUserGame(searchGame)}>Hoard!</button>
+            return <Button onClick={() => saveUserGame(searchGame)}>Hoard!</Button>
         };
     };
     
     return (
-        <section className="game">
-            {/* Displays the game name */}
-            <h3 className="game__name">
-                {searchGame.name}
-            </h3>
-            {/* Displays the game image */}
-            <div className="game__img">
-                <img src={searchGame.images.small} alt={`Cover for ${searchGame.name}`} />
-            </div>
-            {/* Displays the game's average user rating */}
-            <div className={`game__averageRating--${checkRating()}`}>
-                Average User Rating: {searchGame.average_user_rating.toFixed(2)} / 5.00
-            </div>
-            {/* Displays the game's minimum and maximum players */}
-            <div className="game__players">
-                Players: {searchGame.min_players} - {searchGame.max_players}
-            </div>
+        <Card className="game">
+            <CardContent>
+                {/* Displays the game name */}
+                <h3 className="game__name">
+                    {searchGame.name}
+                </h3>
+                {/* Displays the game image */}
+                <div className="game__img">
+                    <img src={searchGame.images.small} alt={`Cover for ${searchGame.name}`} />
+                </div>
+                {/* Displays the game's average user rating */}
+                <div className={`game__averageRating--${checkRating()}`}>
+                    Average User Rating: {searchGame.average_user_rating.toFixed(2)} / 5.00
+                </div>
+                {/* Displays the game's minimum and maximum players */}
+                <div className="game__players">
+                    Players: {searchGame.min_players} - {searchGame.max_players}
+                </div>
+            </CardContent>
             {/* Renders a button that lets the user save the game to their library if they haven't already */}
-            {isAlreadySaved()}
-        </section>
+            <CardActions>
+                {isAlreadySaved()}
+            </CardActions>
+        </Card>
 )};

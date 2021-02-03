@@ -1,4 +1,8 @@
 import React from "react";
+import { Button } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import "./Hoard.css";
 
 export const HoardCard = ({hoardGame, deleteUserGame, userGames}) => {
@@ -30,28 +34,33 @@ export const HoardCard = ({hoardGame, deleteUserGame, userGames}) => {
         const userGameObject = userGames.find(relation => relation.gameId === hoardGame.id);
 
         // Return a button which will send the related userGame Table ID to the deleteUserGame function
-        return <button onClick = {() => deleteUserGame(userGameObject.id)}>Remove Game</button>
+        return <Button variant="contained" color="primary" onClick = {() => deleteUserGame(userGameObject.id)}>Remove Game</Button>
     };
 
     return (
-        <section className="game">
-            {/* Displays the game name */}
-            <h3 className="game__name">
-                {hoardGame.name}
-            </h3>
-            {/* Displays the game image */}
-            <div className="game__img">
-                <img src={hoardGame.images.small} alt={`Cover for ${hoardGame.name}`} />
-            </div>
-            {/* Displays the game's average user rating */}
-            <div className={`game__averageRating--${checkRating()}`}>
-                Average User Rating: {hoardGame.average_user_rating.toFixed(2)} / 5.00
-            </div>
-            {/* Displays the game's minimum and maximum players */}
-            <div className="game__players">
-                Players: {hoardGame.min_players} - {hoardGame.max_players}
-            </div>
-            {/* Renders a button that allows the user to delete the game from their hoard page */}
-            {deleteButton()}
-        </section>
+        <Card className="game">
+            <CardContent>
+                {/* Displays the game name */}
+                <h3 className="game__name">
+                    {hoardGame.name}
+                </h3>
+                {/* Displays the game image */}
+                <div className="game__img">
+                    <img src={hoardGame.images.small} alt={`Cover for ${hoardGame.name}`} />
+                </div>
+                {/* Displays the game's average user rating */}
+                <div className={`game__averageRating--${checkRating()}`}>
+                    Average User Rating: {hoardGame.average_user_rating.toFixed(2)} / 5.00
+                </div>
+                {/* Displays the game's minimum and maximum players */}
+                <div className="game__players">
+                    Players: {hoardGame.min_players} - {hoardGame.max_players}
+                </div>
+            </CardContent>
+            <CardActions>
+                {/* Renders a button that allows the user to delete the game from their hoard page */}
+                {deleteButton()}
+            </CardActions>
+            
+        </Card>
 )};
