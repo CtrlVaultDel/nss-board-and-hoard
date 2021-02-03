@@ -44,22 +44,6 @@ export const SearchFilters = ({getSearchGames}) => {
         };
     };
 
-    // Handles making the fetch call to Board Game Atlas API with the search object as the filter
-    // After receiving the reponse, sends the returned games to SearchList to be rendered on the DOM.
-    // Then, the entire form is reset back to its default state
-    const submitSearch = () => {
-        getSearchGames(search)
-        .then(() => {
-            // Set the search object
-            setSearch({
-                name: "",
-                gt_min_players: 1,
-                categories: "",
-                mechanics: ""
-            });
-        });
-      };
-
       // Get mechanics and categories from local API in order 
       // to create drop downs for the user to choose one from each
       useEffect(() => {
@@ -110,7 +94,7 @@ export const SearchFilters = ({getSearchGames}) => {
             </fieldset>
             <button className="btn btn-primary" disabled={isLoading} onClick={event => {
                 event.preventDefault();
-                submitSearch();
+                getSearchGames(search);
             }}>Search!
             </button>
         </form>
