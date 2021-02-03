@@ -1,41 +1,53 @@
 {
-    "users": [
-        {
-        "id": 1,
-        "username": "Ryan DeVault",
-        "email": "boardgamegeek@games.net"
-        }
-    ],
-    "userGames": [
-        {
-        "gameId": "kPDxpJZ8PD",
-        "userId": 1,
-        "gameState": 1,
-        "id": 10
-        },
-        {
-        "gameId": "5H5JS0KLzK",
-        "userId": 1,
-        "gameState": 1,
-        "id": 11
-        }
-    ],
-    "gameState": [
-        {
-        "id": 1,
-        "state": "Owned & Played"
-        },
-        {
-        "id": 2,
-        "state": "Owned & Not Played"
-        },
-        {
-        "id": 3,
-        "state": "Wishlisted & Played"
-        },
-        {
-        "id": 4,
-        "state": "Wishlisted & Not Played"
-        }
-    ]   
+  "users": [
+    {
+      "id": 1,
+      "username": "Ryan DeVault",
+      "email": "boardgamegeek@games.net"
+    }
+  ],
+  "userGames": [
+    {
+      "gameId": "kPDxpJZ8PD",
+      "userId": 1,
+      "gameState": 1,
+      "id": 10
+    },
+    {
+      "gameId": "gvhGefZQBd",
+      "userId": 1,
+      "gameState": 1,
+      "id": 11
+    },
+    {
+      "gameId": "FVKaz7JhBO",
+      "userId": 1,
+      "gameState": 1,
+      "id": 12
+    },
+    {
+      "gameId": "vPUTmVPc1E",
+      "userId": 1,
+      "gameState": 1,
+      "id": 13
+    }
+  ],
+  "gameState": [
+    {
+      "id": 1,
+      "state": "Owned & Played"
+    },
+    {
+      "id": 2,
+      "state": "Owned & Not Played"
+    },
+    {
+      "id": 3,
+      "state": "Wishlisted & Played"
+    },
+    {
+      "id": 4,
+      "state": "Wishlisted & Not Played"
+    }
+  ]
 }

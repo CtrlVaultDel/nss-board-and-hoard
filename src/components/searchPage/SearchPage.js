@@ -6,11 +6,11 @@ import "./Search.css";
 
 // Responsible for displaying the Search Filters & Search List components
 export const SearchPage = () => {
-    const {searchGames, userGames, getGamesByFilters, saveUserGame} = useContext(GameContext);
+    const {searchGames, userGames, getSearchGames, saveUserGame} = useContext(GameContext);
 
     return (
         <>
-            <SearchFilters getGamesByFilters={getGamesByFilters} />
+            <SearchFilters getSearchGames={getSearchGames} />
             <SearchList searchGames={searchGames} saveUserGame={saveUserGame} userGames={userGames} />
         </>
     );
