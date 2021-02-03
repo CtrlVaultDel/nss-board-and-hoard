@@ -45,6 +45,23 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
         };
     };
 
+    const msrp = () => {
+        if(searchGame.msrp_text === undefined){
+            return "No price available"
+        } else {
+            return `MSRP: ${searchGame.msrp_text}`
+        }
+    }
+
+    const rules = () => {
+        console.log(searchGame.rules_url)
+        if(searchGame.rules_url === null || searchGame.rules_url === undefined){
+            return "No rules available"
+        } else {
+            return <a href={searchGame.rules_url} target="_blank">Rules</a>
+        }
+    }
+
     return (
         <Card className="game">
             <CardContent>
@@ -64,10 +81,16 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
                 <div className="game__players">
                     Players: {searchGame.min_players} - {searchGame.max_players}
                 </div>
+                <div className="game__msrp">
+                    {msrp()}
+                </div>
+                <div className="game__rules">
+                    {rules()}
+                </div>
             </CardContent>
             {/* Renders a button that lets the user save the game to their library if they haven't already */}
             <CardActions>
-                <SearchModal />
+                <SearchModal searchGame={searchGame}/>
                 {saveButton()}
             </CardActions>
         </Card>

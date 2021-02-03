@@ -5,7 +5,6 @@ import "./Search.css";
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
 import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
 
-import "./Search.css";
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
@@ -37,7 +36,6 @@ export const SearchFilters = ({getSearchGames}) => {
 
         // Update state of search
         setSearch(newSearch);
-
         // Updates the number beside the range slider
         if(event.target.name === 'gt_min_players'){
             setRangeValue(event.target.value);
