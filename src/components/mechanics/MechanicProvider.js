@@ -6,9 +6,9 @@ export const MechanicProvider = (props) => {
     const [mechanics, setMechanics] = useState([]);
 
     const getMechanics = () => {
-        return fetch("http://localhost:8088/mechanics")
+        return fetch("https://www.boardgameatlas.com/api/game/mechanics?pretty=true&client_id=JLBr5npPhV")
         .then(response => response.json())
-        .then(setMechanics);
+        .then((data) => setMechanics(data.mechanics));
     };
 
     return (
