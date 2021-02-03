@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Search.css";
 
 // import contexts
-import { CategoryContext } from "../categories/CategoryProvider.js"; 
-import { MechanicContext } from "../mechanics/MechanicProvider.js"; 
+import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
+import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
 
 import "./Search.css";
 

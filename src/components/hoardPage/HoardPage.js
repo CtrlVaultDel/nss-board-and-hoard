@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import { HoardFilters } from "./HoardFilters.js";
 import { HoardList } from "./HoardList.js";
-import { GameContext } from "../GameProvider.js";
+import { GameContext } from "../applicationProviders/GameProvider.js";
 import "./Hoard.css";
 
 // Responsible for displaying the Search Filters & Search List components

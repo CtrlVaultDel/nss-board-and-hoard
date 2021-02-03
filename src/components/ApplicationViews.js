@@ -2,9 +2,9 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 // Games, Mechanics & Categories imports
-import { GameProvider } from "./GameProvider.js";
-import { MechanicProvider } from "./mechanics/MechanicProvider.js";
-import { CategoryProvider } from "./categories/CategoryProvider.js";
+import { GameProvider } from "./applicationProviders/GameProvider.js";
+import { MechanicProvider } from "./applicationProviders/MechanicProvider.js";
+import { CategoryProvider } from "./applicationProviders/CategoryProvider.js";
 
 // Hoard Page imports
 import { HoardPage } from "./hoardPage/HoardPage.js";
