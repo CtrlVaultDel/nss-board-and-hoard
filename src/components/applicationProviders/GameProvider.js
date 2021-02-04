@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 
 // API key for Board Game Atlas (BGA) fetch calls 
 // Note: (key.js file is also inside .gitignore)
@@ -8,6 +8,8 @@ export const GameContext = createContext();
 
 // Component responsible for all functions and variables related to the BGA API
 export const GameProvider = (props) => {
+    // Initialize Application State
+
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
