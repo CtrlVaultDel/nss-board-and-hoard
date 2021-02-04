@@ -24,6 +24,12 @@
       "userId": 1,
       "gameStateId": 1,
       "id": 6
+    },
+    {
+      "gameId": "NmpDUK2glo",
+      "userId": 1,
+      "gameStateId": 1,
+      "id": 7
     }
   ],
   "gameStates": [

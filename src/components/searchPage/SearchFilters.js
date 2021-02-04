@@ -4,15 +4,17 @@ import "./Search.css";
 // import contexts
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
 import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
+import { GameContext } from "../applicationProviders/GameProvider.js";
 
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
-export const SearchFilters = ({ getSearchGames }) => {
-    // Pull category and mechanic context from these providers
+export const SearchFilters = () => {
+    // Pull context from these providers
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);
-    
+    const { getSearchGames } = useContext(GameContext);
+
     // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
 
