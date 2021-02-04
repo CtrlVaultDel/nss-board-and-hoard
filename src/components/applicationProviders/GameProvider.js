@@ -83,6 +83,7 @@ export const GameProvider = (props) => {
         .then((data) => {
             const newUserGames = data.userGames.map(userGame => userGame);
             setUserGames(newUserGames);
+            // Just fetch the games that the user currently has saved
             getHoardGames(newUserGames.map(newUserGame => newUserGame.gameId));
         });
     };
@@ -93,7 +94,7 @@ export const GameProvider = (props) => {
         const gameToSave = {
             gameId: game.id,
             userId: currentUser,
-            gameState: 1
+            gameStateId: 1
         };
         return fetch('http://localhost:8088/userGames', {
             method: "POST",

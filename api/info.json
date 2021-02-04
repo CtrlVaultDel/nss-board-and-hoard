@@ -8,16 +8,16 @@
   ],
   "userGames": [
     {
-      "gameId": "B0SDLm87ik",
+      "gameId": "PoCLi4eJGH",
       "userId": 1,
-      "gameState": 1,
-      "id": 14
+      "gameStateId": 1,
+      "id": 1
     },
     {
-      "gameId": "FipINT97FD",
+      "gameId": "NC63MEtoQn",
       "userId": 1,
-      "gameState": 1,
-      "id": 17
+      "gameStateId": 1,
+      "id": 3
     }
   ],
   "gameStates": [

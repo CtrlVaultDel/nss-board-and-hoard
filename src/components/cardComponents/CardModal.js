@@ -36,13 +36,21 @@ const getModalStyle = () => {
 
     const handleClose = () => setOpen(false);
     
+    const isDescription = () => {
+        if(game.description_preview === ""){
+            return "No description available";
+        } else {
+            return game.description_preview;
+        };
+    };
+    
   
     const body = (
       <div style={modalStyle} className={classes.paper}>
         <h2 id="simple-modal-title">{game.name}</h2>
         <div id="simple-modal-description">
             <div className="game__description">
-                {game.description_preview}
+                {isDescription()}
             </div>
         </div>
       </div>

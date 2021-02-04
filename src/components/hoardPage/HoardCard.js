@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 // Material UI Imports
 import { Button } from '@material-ui/core';
@@ -16,14 +16,19 @@ import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 import "./Hoard.css";
 
 export const HoardCard = ({hoardGame, deleteUserGame, userGames, gameStates}) => {
+    // store the current user's ID in a local variable
+    const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
     // Find the userGame Object (Local API) that relates to the current Hoard Game (from Board Game Atlas API)
-    const userGameObject = (userGames.find(relation => relation.gameId === hoardGame.id));
+    const userGameObject = (userGames.find(relation => relation.gameId === hoardGame.id && relation.userId === currentUser));
 
     // Find GameState name
     const findState = () => {
         if(userGameObject !== undefined){
-            gameStates.find(gs => gs.id === userGameObject.gameState)
+            gameStates.find(gs => gs.id === userGameObject.gameStateId)
+            console.log(userGameObject)
+        } else {
+            console.log(userGameObject)
         }
     };
 
