@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 // Material UI Imports
 import { Button } from '@material-ui/core';
@@ -7,6 +7,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
+// Context
+import { GameContext } from "../applicationProviders/GameProvider.js";
+import { GameStateContext } from "../applicationProviders/GameStateProvider.js";
 
 // Import Card Components and Functions
 import { CardModal } from "../cardComponents/CardModal.js";
@@ -15,25 +18,20 @@ import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 
 import "./Hoard.css";
 
-export const HoardCard = ({hoardGame, deleteUserGame, userGames, gameStates}) => {
+export const HoardCard = ({ hoardGame }) => {
+    const { gameStates } = useContext(GameStateContext);
+    const { deleteUserGame, userGames } = useContext(GameContext);
 
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
     // Find the userGame Object (Local API) that relates to the current hoardGame (from Board Game Atlas API)
-    // The object returned will have this layout:
-    // {
-    //      "gameId": "TbeRD8FFrG",
-    //      "userId": 1,
-    //      "gameStateId": 1,
-    //      "id": 3
-    // }
     const userGameObject = userGames.find(relation => relation.gameId === hoardGame.id && relation.userId === currentUser);
 
     // Find GameState name (e.g. "Owned and Played, Owned and Not Played, etc.")
-    const findState = () => {
-        return gameStates.find(gs => gs.id === userGameObject.gameStateId).state;
-    };
+    // const findState = () => {
+    //     return gameStates.find(gs => gs.id === userGameObject.gameStateId).state;
+    // };
 
     // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
@@ -66,9 +64,9 @@ export const HoardCard = ({hoardGame, deleteUserGame, userGames, gameStates}) =>
                 <div className="game__rules">
                     {getRules(hoardGame.rules_url)}
                 </div>
-                <div className="game__status">
+                {/* <div className="game__status">
                     {findState()}
-                </div>
+                </div> */}
             </CardContent>
             <Grid container justify="center">
                 <CardActions>

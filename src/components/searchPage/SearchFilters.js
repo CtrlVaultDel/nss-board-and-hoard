@@ -1,15 +1,18 @@
+// React
 import React, { useContext, useState } from "react";
-import "./Search.css";
 
-// import contexts
+// Context
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
 import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
 import { GameContext } from "../applicationProviders/GameProvider.js";
 
+// Styling
+import "./Search.css";
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
 export const SearchFilters = () => {
+
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);

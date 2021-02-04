@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext } from "react";
 
 // API key for Board Game Atlas (BGA) fetch calls 
 // Note: (key.js file is also inside .gitignore)
@@ -13,10 +13,6 @@ export const GameProvider = (props) => {
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
-    // =============================================================================
-    // ========================LOCAL STATE VARIABLES (START)========================
-    // =============================================================================
-
     // searchGames holds an array of games for Search Page returned by BGA fetch calls
     const [searchGames, setSearchGames] = useState([]);
 
@@ -27,11 +23,6 @@ export const GameProvider = (props) => {
     // related to the current user. This will be used in conjunction with the deleteUserGame by making use of the
     // unique userGame table id
     const [userGames, setUserGames] = useState([]);
-    // =============================================================================
-    // =========================LOCAL STATE VARIABLES (END)=========================
-    // =============================================================================
-
-
 
     // =============================================================================
     // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
