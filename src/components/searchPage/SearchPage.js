@@ -10,8 +10,14 @@ export const SearchPage = () => {
 
     return (
         <>
-            <SearchFilters getSearchGames={getSearchGames} />
-            <SearchList searchGames={searchGames} saveUserGame={saveUserGame} userGames={userGames} />
+            <SearchFilters 
+                getSearchGames={getSearchGames} 
+            />
+            <SearchList 
+                searchGames={searchGames} 
+                saveUserGame={saveUserGame} 
+                userGames={userGames} 
+            />
         </>
     );
 };

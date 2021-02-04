@@ -82,9 +82,9 @@ export const GameProvider = (props) => {
         .then(response => response.json())
         .then((data) => {
             const newUserGames = data.userGames.map(userGame => userGame);
-            setUserGames(newUserGames);
             // Just fetch the games that the user currently has saved
             getHoardGames(newUserGames.map(newUserGame => newUserGame.gameId));
+            setUserGames(newUserGames);
         });
     };
 
