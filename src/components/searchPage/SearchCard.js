@@ -7,13 +7,11 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
-// Import Details Modal
+// Import Card Components and Functions
 import { CardModal } from "../cardComponents/CardModal.js";
-
-// Import Ratings Component
 import { CardRating } from "../cardComponents/CardRating.js";
+import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 
-// Import CSS
 import "./Search.css";
 
 export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
@@ -26,24 +24,6 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
             return <Button disabled>Already in Hoard</Button>
         } else {
             return <Button variant="contained" color="primary" onClick={() => saveUserGame(searchGame)}>Hoard!</Button>
-        };
-    };
-
-    // Validates the current game's msrp & returns appropriate HTML
-    const getMSRP = (msrp) => {
-        if(msrp === undefined){
-            return "No price available"
-        } else {
-            return `MSRP: ${msrp}`
-        };
-    };
-
-    // Validates the related game's rules & returns appropriate HTML or link
-    const getRules = (rules) => {
-        if(rules === null || rules === undefined){
-            return "No rules available"
-        } else {
-            return <a href={rules} target="_blank">Rules</a>
         };
     };
 

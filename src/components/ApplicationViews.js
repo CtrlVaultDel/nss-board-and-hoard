@@ -5,6 +5,7 @@ import { Route } from "react-router-dom";
 import { GameProvider } from "./applicationProviders/GameProvider.js";
 import { MechanicProvider } from "./applicationProviders/MechanicProvider.js";
 import { CategoryProvider } from "./applicationProviders/CategoryProvider.js";
+import { GameStateContext, GameStateProvider } from "./applicationProviders/GameStateProvider.js";
 
 // Hoard Page imports
 import { HoardPage } from "./hoardPage/HoardPage.js";
@@ -18,10 +19,13 @@ export const ApplicationViews = () => {
             <GameProvider>
                 <MechanicProvider>
                     <CategoryProvider>
-                        {/* Display the Hoard Page filters and user-saved games when on /hoardPage */}
-                        <Route exact path="/hoardPage">
-                            <HoardPage />
-                        </Route>
+                        <GameStateProvider>
+                            {/* Display the Hoard Page filters and user-saved games when on /hoardPage */}
+                            <Route exact path="/hoardPage">
+                                <HoardPage />
+                            </Route>
+                        </GameStateProvider>
+
                         {/* Display the Search Page filters and fetch call response when on /searchPage */}
                         <Route exact path="/searchPage">
                             <SearchPage />

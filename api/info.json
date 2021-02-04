@@ -8,25 +8,19 @@
   ],
   "userGames": [
     {
-      "gameId": "kPDxpJZ8PD",
+      "gameId": "B0SDLm87ik",
       "userId": 1,
       "gameState": 1,
-      "id": 10
+      "id": 14
     },
     {
-      "gameId": "gvhGefZQBd",
+      "gameId": "FipINT97FD",
       "userId": 1,
       "gameState": 1,
-      "id": 11
-    },
-    {
-      "gameId": "JBjv2A2S7H",
-      "userId": 1,
-      "gameState": 1,
-      "id": 12
+      "id": 17
     }
   ],
-  "gameState": [
+  "gameStates": [
     {
       "id": 1,
       "state": "Owned & Played"

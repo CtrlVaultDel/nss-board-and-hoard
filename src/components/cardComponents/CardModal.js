@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 
-function getModalStyle() {
+const getModalStyle = () => {
     const top = 50;
     const left = 50;
   
@@ -13,7 +13,7 @@ function getModalStyle() {
       left: `${left}%`,
       transform: `translate(-${top}%, -${left}%)`,
     };
-  }
+}
   
   const useStyles = makeStyles((theme) => ({
     paper: {
@@ -32,13 +32,10 @@ function getModalStyle() {
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
     
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const handleOpen = () => setOpen(true);
 
-    const handleClose = () => {
-      setOpen(false);
-    };
+    const handleClose = () => setOpen(false);
+    
   
     const body = (
       <div style={modalStyle} className={classes.paper}>
@@ -66,4 +63,4 @@ function getModalStyle() {
             </Modal>
         </div>
     );
-  }
+};
