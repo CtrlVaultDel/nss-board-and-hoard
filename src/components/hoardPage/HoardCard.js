@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 
 // Material UI Imports
 import { Button } from '@material-ui/core';

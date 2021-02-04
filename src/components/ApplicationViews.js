@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import { GameProvider } from "./applicationProviders/GameProvider.js";
 import { MechanicProvider } from "./applicationProviders/MechanicProvider.js";
 import { CategoryProvider } from "./applicationProviders/CategoryProvider.js";
-import { GameStateContext, GameStateProvider } from "./applicationProviders/GameStateProvider.js";
+import { GameStateProvider } from "./applicationProviders/GameStateProvider.js";
 
 // Hoard Page imports
 import { HoardPage } from "./hoardPage/HoardPage.js";

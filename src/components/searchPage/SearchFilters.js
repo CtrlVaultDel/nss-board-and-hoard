@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Search.css";
 
 // import contexts
@@ -8,15 +8,13 @@ import { MechanicContext } from "../applicationProviders/MechanicProvider.js";
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
-export const SearchFilters = ({getSearchGames}) => {
+export const SearchFilters = ({ getSearchGames }) => {
     // Pull category and mechanic context from these providers
-    const { categories, getCategories } = useContext(CategoryContext);
-    const { mechanics, getMechanics } = useContext(MechanicContext);
+    const { categories } = useContext(CategoryContext);
+    const { mechanics } = useContext(MechanicContext);
     
     // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
-
-    const [isLoading, setIsLoading] = useState(true);
 
     // Initialize the search object to be used for the fetch call to Board Game Atlas
     const [search, setSearch] = useState({
@@ -42,16 +40,7 @@ export const SearchFilters = ({getSearchGames}) => {
         };
     };
 
-      // Get mechanics and categories from local API in order 
-      // to create drop downs for the user to choose one from each
-      useEffect(() => {
-        getCategories()
-        .then(getMechanics)
-        .then(setIsLoading(false));
-    },
-    //eslint-disable-next-line
-    []);
-
+    // Search Filter Form
     return (
         <form className="SearchFilters" id="SearchFilters">
             <h2 className="employeeForm__title">Search Filters</h2>
@@ -90,7 +79,7 @@ export const SearchFilters = ({getSearchGames}) => {
                     </select>
                 </div>
             </fieldset>
-            <button className="btn btn-primary" disabled={isLoading} onClick={event => {
+            <button className="btn btn-primary" onClick={event => {
                 event.preventDefault();
                 getSearchGames(search);
             }}>Search!

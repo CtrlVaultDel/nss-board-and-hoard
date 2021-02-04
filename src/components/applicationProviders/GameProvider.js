@@ -8,7 +8,6 @@ export const GameContext = createContext();
 
 // Component responsible for all functions and variables related to the BGA API
 export const GameProvider = (props) => {
-
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 

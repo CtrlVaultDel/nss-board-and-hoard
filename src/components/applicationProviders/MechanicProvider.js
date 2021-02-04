@@ -1,9 +1,14 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 
 export const MechanicContext = createContext();
 
 export const MechanicProvider = (props) => {
     const [mechanics, setMechanics] = useState([]);
+
+     // Initialize the mechanics states
+     useEffect(() => (getMechanics),
+    //eslint-disable-next-line
+    []);
 
     const getMechanics = () => {
         return fetch("https://www.boardgameatlas.com/api/game/mechanics?pretty=true&client_id=JLBr5npPhV")
@@ -12,7 +17,7 @@ export const MechanicProvider = (props) => {
     };
 
     return (
-        <MechanicContext.Provider value={{mechanics, getMechanics}}>
+        <MechanicContext.Provider value={{mechanics}}>
             {props.children}
         </MechanicContext.Provider>
     );
