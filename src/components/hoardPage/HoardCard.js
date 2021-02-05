@@ -64,7 +64,6 @@ export const HoardCard = ({ hoardGame }) => {
             <Grid container justify="center">
                 <CardActions>
                     <CardModal game={hoardGame}/>
-
                     {/* Renders a button that allows the user to delete the game from their hoard page */}
                     {deleteButton()}
                 </CardActions>

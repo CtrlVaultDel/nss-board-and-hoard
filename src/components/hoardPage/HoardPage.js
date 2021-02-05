@@ -16,14 +16,16 @@ export const HoardPage = () => {
     const { getHoardGames, hoardGames, getUserGames, userGames } = useContext(GameContext);
 
     // On mount, get the latest userGames
-    useEffect(() => {
-        getUserGames().then ()
-    }, [])
+    useEffect(() => getUserGames
+    //eslint-disable-next-line
+    , [])
 
     // If userGames has changed, fetch the hoardGames from BGA API
     useEffect(() => {
         getHoardGames()
-    },[userGames])
+    }
+    //eslint-disable-next-line
+    ,[userGames])
 
     return (
         <>

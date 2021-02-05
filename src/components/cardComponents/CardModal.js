@@ -41,7 +41,7 @@ const getModalStyle = () => {
     let categoryNames = [];
     let mechanicNames = [];
 
-    // Match up category ids with their related names
+    // If the game lists categories, get them and convert them from IDs to names
     if(game.categories.length > 0){
         for (let i = 0; i < game.categories.length; i++) {
             for(let j = 0; j < categories.length; j++) {
@@ -54,6 +54,7 @@ const getModalStyle = () => {
         categoryNames = ["No categories available"];
     };
 
+    // If the game lists mechanics, get them and convert them from IDs to names
     if(game.mechanics.length > 0){
         for (let i = 0; i < game.mechanics.length; i++) {
             for(let j = 0; j < mechanics.length; j++) {

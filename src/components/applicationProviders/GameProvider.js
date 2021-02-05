@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext } from "react";
 
 // API key for Board Game Atlas (BGA) fetch calls 
 // Note: (key.js file is also inside .gitignore)
@@ -106,10 +106,6 @@ export const GameProvider = (props) => {
             method: "DELETE"
         })
         .then(getUserGames)
-        .then(() => {
-            const newHoardGames = hoardGames.filter(hg => userGames.map(ug => ug.gameId === hg.id))
-            setHoardGames(newHoardGames);
-        });
     };
 
     return (
