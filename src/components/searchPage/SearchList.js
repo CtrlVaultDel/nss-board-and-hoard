@@ -15,10 +15,13 @@ import "./Search.css";
 export const SearchList = () => {
     const {searchGames} = useContext(GameContext);
 
+    // Only use search results that have images
+    const gamesWithImages = searchGames.filter(sg => !sg.images.small.includes(null, "empty"))
+    console.log(gamesWithImages)
     return (
         <div className="searchList_games">
         {
-            searchGames.map(searchGame => <SearchCard 
+            gamesWithImages.map(searchGame => <SearchCard 
                 key={searchGame.id} 
                 searchGame={searchGame} 
             />)
