@@ -29,7 +29,7 @@ export const HoardPage = () => {
 
     return (
         <>
-            <HoardFilters />
+            <HoardFilters hoardGames={hoardGames} />
             <HoardList hoardGames={hoardGames} userGames={userGames}/>
         </>
     );
