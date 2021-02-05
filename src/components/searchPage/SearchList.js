@@ -1,14 +1,27 @@
-import React from "react";
+// React
+import React, {useContext} from "react";
+
+// Component
 import { SearchCard } from "./SearchCard.js";
+
+// Context
+import { GameContext } from "../applicationProviders/GameProvider.js";
+
+//Styling
 import "./Search.css";
 
-// Takes the array of games passed in and sends each individual game to SearchCard
+// Takes the array of searchGames passed in and sends each individual game to SearchCard
 // so each is rendered as its own card on the DOM in the Search List below the Search Filters
-export const SearchList = ({searchGames, saveUserGame, userGames}) => {
+export const SearchList = () => {
+    const {searchGames} = useContext(GameContext);
+
     return (
         <div className="searchList_games">
         {
-            searchGames.map(searchGame => <SearchCard key={searchGame.id} searchGame={searchGame} saveUserGame={saveUserGame} userGames={userGames} />)
+            searchGames.map(searchGame => <SearchCard 
+                key={searchGame.id} 
+                searchGame={searchGame} 
+            />)
         }
         </div>
     );

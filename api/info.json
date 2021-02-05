@@ -8,31 +8,19 @@
   ],
   "userGames": [
     {
-      "gameId": "kPDxpJZ8PD",
+      "gameId": "NmpDUK2glo",
       "userId": 1,
-      "gameState": 1,
+      "gameStateId": 1,
+      "id": 7
+    },
+    {
+      "gameId": "2eoe0273LD",
+      "userId": 1,
+      "gameStateId": 1,
       "id": 10
-    },
-    {
-      "gameId": "gvhGefZQBd",
-      "userId": 1,
-      "gameState": 1,
-      "id": 11
-    },
-    {
-      "gameId": "FVKaz7JhBO",
-      "userId": 1,
-      "gameState": 1,
-      "id": 12
-    },
-    {
-      "gameId": "vPUTmVPc1E",
-      "userId": 1,
-      "gameState": 1,
-      "id": 13
     }
   ],
-  "gameState": [
+  "gameStates": [
     {
       "id": 1,
       "state": "Owned & Played"

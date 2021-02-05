@@ -41,6 +41,10 @@
     background: white;
 }
 
+.game__name{
+    overflow-wrap: break-word;
+}
+
 .game__img {
     height: 150px;
     width: 150px;
@@ -57,28 +61,3 @@
 .game__name, .game__img{
     text-align: center;
 }
-
-.game__averageRating--great {
-    background: green;
-}
-
-.game__averageRating--good {
-    background: lightgreen;
-}
-
-.game__averageRating--ok {
-    background: yellow;
-}
-
-.game__averageRating--bad {
-    background: pink;
-}
-
-.game__averageRating--terrible {
-    background: red;
-}
-
-.game__averageRating--unknown{
-    background: gray;
-}
-/* End of user rating colors */

@@ -1,23 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
-import "./Search.css";
+// React
+import React, { useContext, useState } from "react";
 
-// import contexts
-import { CategoryContext } from "../categories/CategoryProvider.js"; 
-import { MechanicContext } from "../mechanics/MechanicProvider.js"; 
+// Context
+import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
+import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
+import { GameContext } from "../applicationProviders/GameProvider.js";
 
+// Styling
 import "./Search.css";
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
-export const SearchFilters = ({getSearchGames}) => {
-    // Pull category and mechanic context from these providers
-    const { categories, getCategories } = useContext(CategoryContext);
-    const { mechanics, getMechanics } = useContext(MechanicContext);
-    
+export const SearchFilters = () => {
+
+    // Pull context from these providers
+    const { categories } = useContext(CategoryContext);
+    const { mechanics } = useContext(MechanicContext);
+    const { getSearchGames } = useContext(GameContext);
+
     // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
-
-    const [isLoading, setIsLoading] = useState(true);
 
     // Initialize the search object to be used for the fetch call to Board Game Atlas
     const [search, setSearch] = useState({
@@ -37,39 +39,13 @@ export const SearchFilters = ({getSearchGames}) => {
 
         // Update state of search
         setSearch(newSearch);
-
         // Updates the number beside the range slider
         if(event.target.name === 'gt_min_players'){
             setRangeValue(event.target.value);
         };
     };
 
-    // Handles making the fetch call to Board Game Atlas API with the search object as the filter
-    // After receiving the reponse, sends the returned games to SearchList to be rendered on the DOM.
-    // Then, the entire form is reset back to its default state
-    const submitSearch = () => {
-        getSearchGames(search)
-        .then(() => {
-            // Set the search object
-            setSearch({
-                name: "",
-                gt_min_players: 1,
-                categories: "",
-                mechanics: ""
-            });
-        });
-      };
-
-      // Get mechanics and categories from local API in order 
-      // to create drop downs for the user to choose one from each
-      useEffect(() => {
-        getCategories()
-        .then(getMechanics)
-        .then(setIsLoading(false));
-    },
-    //eslint-disable-next-line
-    []);
-
+    // Search Filter Form
     return (
         <form className="SearchFilters" id="SearchFilters">
             <h2 className="employeeForm__title">Search Filters</h2>
@@ -108,9 +84,9 @@ export const SearchFilters = ({getSearchGames}) => {
                     </select>
                 </div>
             </fieldset>
-            <button className="btn btn-primary" disabled={isLoading} onClick={event => {
+            <button className="btn btn-primary" onClick={event => {
                 event.preventDefault();
-                submitSearch();
+                getSearchGames(search);
             }}>Search!
             </button>
         </form>

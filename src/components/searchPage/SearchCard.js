@@ -1,42 +1,31 @@
-import React from "react";
+// React
+import React, {useContext} from "react";
 
-// Material UI Imports
+// Material UI
 import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
 
-// Import Modal
-import { SearchModal } from "./SearchModal.js";
+// Components and Function
+import { CardModal } from "../cardComponents/CardModal.js";
+import { CardRating } from "../cardComponents/CardRating.js";
+import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 
-// Import CSS
+// Context
+import { GameContext } from "../applicationProviders/GameProvider.js";
+
+// Styling
 import "./Search.css";
 
-export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
+export const SearchCard = ({searchGame}) => {
+    // Gets state context for userGames from GameProvider.js
+    const { userGames, saveUserGame} = useContext(GameContext);
 
-    // Assigns specific className addition to game__averageRating based off of rating
-    // This will be used in CSS later to dictate the color used for that section
-    const checkRating = () => {
-        const rating = Math.floor(searchGame.average_user_rating);
-        switch(rating){
-            case 4:
-                return "great";
-            case 3:
-                return "good";
-            case 2:
-                return "ok";
-            case 1:
-                return "bad";
-            case 0:
-                return "unknown";
-            default:
-                return "unknown";
-        };
-    };
 
-    // This determines whether the current game has already been saved to the
-    // user's library (hoard). If it has been, the button to save the game to 
-    // the user's hoard will be disabled.
+    // Renders a save button which allows the user to save the selected game in
+    // the userGames Table. If the has already been saved, the button will be disabled
     const saveButton = () => {
         if(userGames.some(userGame => userGame.gameId === searchGame.id)){
             return <Button disabled>Already in Hoard</Button>
@@ -45,6 +34,7 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
         };
     };
 
+    // Renders a card on the page that represents a game and its related information
     return (
         <Card className="game">
             <CardContent>
@@ -57,19 +47,29 @@ export const SearchCard = ({searchGame, saveUserGame, userGames}) => {
                     <img src={searchGame.images.small} alt={`Cover for ${searchGame.name}`} />
                 </div>
                 {/* Displays the game's average user rating */}
-                <div className={`game__averageRating--${checkRating()}`}>
-                    Average User Rating: {searchGame.average_user_rating.toFixed(2)} / 5.00
+                <div className={`game__averageRating`}>
+                    Average User Rating: <CardRating rating={searchGame.average_user_rating}/>
                 </div>
                 {/* Displays the game's minimum and maximum players */}
                 <div className="game__players">
                     Players: {searchGame.min_players} - {searchGame.max_players}
                 </div>
+                {/* Displays the game's manufacturer suggested retail price (if the external API gave one)*/}
+                <div className="game__msrp">
+                    {getMSRP(searchGame.msrp_text)}
+                </div>
+                {/* Displays a link to the game's rules (if such a link exists from the external API) */}
+                <div className="game__rules">
+                    {getRules(searchGame.rules_url)}
+                </div>
             </CardContent>
-            {/* Renders a button that lets the user save the game to their library if they haven't already */}
-            <CardActions>
-                <SearchModal />
-                {saveButton()}
-            </CardActions>
+            <Grid container justify="center">
+                <CardActions style={{}}>
+                    <CardModal game={searchGame}/>
+                    {/* Renders a button that lets the user save the game to their library if they haven't already */}
+                    {saveButton()}
+                </CardActions>
+            </Grid>
         </Card>
-)};
-
+    );
+};
