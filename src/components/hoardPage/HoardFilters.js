@@ -45,27 +45,30 @@ export const HoardFilters = ({hoardGames}) => {
         };
     };
 
+    // Filters the hoard games currently saved to the user's profile with the selected filters
     const filterHoardGames = () => {
         const newFilteredGames = hoardGames.filter(hoardGame => {
             let keep = true;
             // If the user entered a name, check if the game's name includes the filter
             if(search.name !== ""){
-                keep = keep && hoardGame.name.includes(search.name.toLowerCase())
-            }
+                keep = keep && hoardGame.name.toLowerCase().includes(search.name.toLowerCase());
+            };
             // If the user entered a category, check if the game's categories includes the filter
             if(search.categories !== ""){
-                keep = keep && hoardGame.categories.some(c => c.id === search.categories)
-            }
+                keep = keep && hoardGame.categories.some(c => 
+                    c.id === search.categories);
+            };
             // If the user entered a mechanic, check if the game's mechanics includes the filter
             if(search.mechanics !== ""){
-                keep = keep && hoardGame.mechanics.some(c => c.id === search.mechanics)
-            }
+                keep = keep && hoardGame.mechanics.some(c => 
+                    c.id === search.mechanics);
+            };
             // Since there is always a player input, check that the filter is below the game's max players and above the game's min players
-            keep = keep && hoardGame.min_players <= search.players && hoardGame.max_players >= search.players
+            keep = keep && hoardGame.min_players <= search.players && hoardGame.max_players >= search.players;
             return keep;
         });
         console.log(newFilteredGames)
-        return newFilteredGames
+        return newFilteredGames;
     };
 
     // Hoard Filter Form
