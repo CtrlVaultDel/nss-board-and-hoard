@@ -21,7 +21,7 @@ import "./Hoard.css";
 export const HoardCard = ({ hoardGame }) => {
     const { gameStates } = useContext(GameStateContext);
     const { deleteUserGame, userGames } = useContext(GameContext);
-
+    
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
@@ -29,9 +29,9 @@ export const HoardCard = ({ hoardGame }) => {
     const userGameObject = userGames.find(relation => relation.gameId === hoardGame.id && relation.userId === currentUser);
 
     // Find GameState name (e.g. "Owned and Played, Owned and Not Played, etc.")
-    // const findState = () => {
-    //     return gameStates.find(gs => gs.id === userGameObject.gameStateId).state;
-    // };
+    const findState = () => {
+        return gameStates.find(gs => gs.id === userGameObject.gameStateId).state;
+    };
 
     // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
@@ -64,9 +64,9 @@ export const HoardCard = ({ hoardGame }) => {
                 <div className="game__rules">
                     {getRules(hoardGame.rules_url)}
                 </div>
-                {/* <div className="game__status">
+                <div className="game__status">
                     {findState()}
-                </div> */}
+                </div>
             </CardContent>
             <Grid container justify="center">
                 <CardActions>

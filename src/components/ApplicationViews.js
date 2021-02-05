@@ -25,7 +25,6 @@ export const ApplicationViews = () => {
                                 <HoardPage />
                             </Route>
                         </GameStateProvider>
-
                         {/* Display the Search Page filters and fetch call response when on /searchPage */}
                         <Route exact path="/searchPage">
                             <SearchPage />
