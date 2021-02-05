@@ -67,7 +67,6 @@ export const HoardFilters = ({hoardGames}) => {
             keep = keep && hoardGame.min_players <= search.players && hoardGame.max_players >= search.players;
             return keep;
         });
-        console.log(newFilteredGames)
         return newFilteredGames;
     };
 
@@ -112,10 +111,11 @@ export const HoardFilters = ({hoardGames}) => {
             </fieldset>
             <button className="btn btn-primary" onClick={event => {
                 event.preventDefault();
-                setFilteredHoardGames(filterHoardGames())
+                setFilteredHoardGames(filteredHoardGames)
             }}>
                 Filter Hoard
             </button>
+            {/* Sets filteredHoardGames back to its default state (hoardGames) */}
             <button className="btn btn-primary" onClick={event => {
                 event.preventDefault();
                 setFilteredHoardGames(hoardGames)
