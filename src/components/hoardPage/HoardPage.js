@@ -22,10 +22,7 @@ export const HoardPage = () => {
 
     // If userGames has changed, fetch the hoardGames from BGA API
     useEffect(() => {
-        if(hoardGames.map(hg => userGames.some(ug => ug.gameId === hg.id))) {
-            const gameIdsToFetch = userGames.map(ug => ug.gameId).join(",");
-            getHoardGames(gameIdsToFetch)
-        }
+        getHoardGames()
     },[userGames])
 
     return (

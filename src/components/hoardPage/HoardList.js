@@ -22,6 +22,6 @@ export const HoardList = ({hoardGames, userGames}) => {
             </div>
         );
     } else {
-        return <div>Loading</div>
+        return <h3 className="hoardList_games">No Games!</h3>
     }
 };

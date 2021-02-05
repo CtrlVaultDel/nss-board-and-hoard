@@ -22,7 +22,7 @@ export const GameProvider = (props) => {
     // to receive and store the relevant games.
     const getSearchGames = (searchObject) => {
         let queryOptions = ["name", "mechanics", "categories", "gt_min_players"]
-        let baseUrl = `https://api.boardgameatlas.com/api/search?&order_by="popularity"&fuzzy_search="true"&client_id=${BGAkey}&`
+        let baseUrl = `https://api.boardgameatlas.com/api/search?&limit=50&order_by="popularity"&fuzzy_search="true"&client_id=${BGAkey}&`
         const fullUrl = baseUrl + queryOptions
             .map((optionName) => {
                 let value = "";
@@ -47,9 +47,10 @@ export const GameProvider = (props) => {
     // Used for Hoard Page
     // Takes gameIds as an argument which then makes a fetch call to Board
     // Game Atlas for games with those specific ids
-    const getHoardGames = (idArray) => {
+    const getHoardGames = () => {
         console.log("Calling BGA API")
-        return fetch (`https://api.boardgameatlas.com/api/search?ids=${idArray}&client_id=${BGAkey}`)
+        const idsToFetch = userGames.map(ug => ug.gameId).join(",")
+        return fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
         .then(response => response.json())
         .then(gamesData => gamesData.games)
         .then(setHoardGames)
@@ -66,10 +67,13 @@ export const GameProvider = (props) => {
     // (Each object holds relationship information between a user, a game and its "state") 
     // [e.g. owned and played, owned and not played, etc.]
     const getUserGames = () => {
-        return fetch (`http://localhost:8088/users/${currentUser}?_embed=userGames`)
+        return fetch (`http://localhost:8088/userGames?_expand=gameState`)
         .then(response => response.json())
-        .then((data) => data.userGames)
-        .then((uGames) => setUserGames(uGames))
+        .then((data) => data)
+        .then((uGames) => {
+            const newUserGames = uGames.filter(ug => ug.userId === currentUser)
+            setUserGames(newUserGames)
+        })
     };
 
     // Holds an array of objects that reflects the current user's saved games in the userGame table
