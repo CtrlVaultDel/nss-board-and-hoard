@@ -25,15 +25,21 @@ export const HoardList = () => {
             getHoardGames(gameIdsToFetch)
         }
     },[userGames])
+    console.log("hoardGames",hoardGames)
+    console.log("userGames",userGames)
 
-    return (
-        <div className="hoardList_games">
-            {
-                hoardGames.map(hoardGame => <HoardCard 
-                    key={hoardGame.id} 
-                    hoardGame={hoardGame} 
-                />)
-            }
-        </div>
-    );
+    if(hoardGames.length === userGames.length){
+        return (
+            <div className="hoardList_games">
+                {
+                    hoardGames.map(hoardGame => <HoardCard 
+                        key={hoardGame.id} 
+                        hoardGame={hoardGame} 
+                    />)
+                }
+            </div>
+        );
+    } else {
+        return <div>Loading</div>
+    }
 };
