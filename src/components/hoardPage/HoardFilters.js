@@ -93,8 +93,9 @@ export const HoardFilters = ({hoardGames}) => {
             setAvailableCategories(categories);
             setAvailableMechanics(mechanics);
         };
-        
-    }, [hoardGames])
+    }
+    //eslint-disable-next-line
+    ,[hoardGames]);
 
     useEffect(()=> {
         //console.log("all games", hoardGames);
