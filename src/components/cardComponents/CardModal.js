@@ -1,8 +1,15 @@
-// Basic Modal for Cards
-import React from "react";
+// React
+import React, { useContext } from "react";
+
+// Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import Grid from '@material-ui/core/Grid';
+
+// Context
+import {CategoryContext} from "../applicationProviders/CategoryProvider.js";
+import {MechanicContext} from "../applicationProviders/MechanicProvider.js";
 
 const getModalStyle = () => {
     const top = 50;
@@ -27,6 +34,10 @@ const getModalStyle = () => {
   }));
   
   export const CardModal = ({game}) => {
+    // Get Context for categories and mechanics
+    const { categories } = useContext(CategoryContext);
+    const { mechanics } = useContext(MechanicContext);
+
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
@@ -52,6 +63,28 @@ const getModalStyle = () => {
             <div className="game__description">
                 {isDescription()}
             </div>
+            <Grid
+                container
+                direction="row"
+                justify="space-evenly"
+                alignItems="center">
+                <div className="game__categories">
+                   <h3 className="game__categories__title">
+                       Categories
+                    </h3>
+                   <div className="game__categories__list">
+
+                   </div>
+                </div>
+                <div className="game__mechanics">
+                    <h3 className="game__mechanics__title">
+                        Mechanics
+                    </h3>
+                    <div className="game__mechanics__list">
+
+                    </div>
+                </div>
+            </Grid>
         </div>
       </div>
     );
