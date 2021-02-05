@@ -25,6 +25,7 @@ export const HoardList = () => {
             getHoardGames(gameIdsToFetch)
         }
     },[userGames])
+    
     console.log("hoardGames",hoardGames)
     console.log("userGames",userGames)
 

@@ -12,6 +12,18 @@
       "userId": 1,
       "gameStateId": 1,
       "id": 11
+    },
+    {
+      "gameId": "7o1BvaDKoO",
+      "userId": 1,
+      "gameStateId": 1,
+      "id": 12
+    },
+    {
+      "gameId": "46AdARACqm",
+      "userId": 1,
+      "gameStateId": 1,
+      "id": 13
     }
   ],
   "gameStates": [
