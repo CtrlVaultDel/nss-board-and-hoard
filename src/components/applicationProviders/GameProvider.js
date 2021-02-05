@@ -11,6 +11,18 @@ const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
 // Component responsible for all functions and variables related to the BGA API
 export const GameProvider = (props) => {
+    // =============================================================================
+    // ========================LOCAL STATE VARIABLES (START)========================
+    // =============================================================================
+
+    // Holds an array of objects that reflects the current user's saved games in the userGame table
+    const [userGames, setUserGames] = useState([]);
+
+    // searchGames holds an array of games for Search Page returned by BGA fetch calls
+    const [searchGames, setSearchGames] = useState([]);
+
+    // Holds an array of games for Hoard Page
+    const [hoardGames, setHoardGames] = useState([]);
 
     // =============================================================================
     // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
@@ -41,23 +53,19 @@ export const GameProvider = (props) => {
         .then(setSearchGames)
     };
 
-    // searchGames holds an array of games for Search Page returned by BGA fetch calls
-    const [searchGames, setSearchGames] = useState([]);
-
     // Used for Hoard Page
     // Takes gameIds as an argument which then makes a fetch call to Board
     // Game Atlas for games with those specific ids
     const getHoardGames = () => {
         console.log("Calling BGA API")
-        const idsToFetch = userGames.map(ug => ug.gameId).join(",")
-        return fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
-        .then(response => response.json())
-        .then(gamesData => gamesData.games)
-        .then(setHoardGames)
+        if(userGames.length > 0){
+            const idsToFetch = userGames.map(ug => ug.gameId).join(",")
+            return fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
+                .then(response => response.json())
+                .then(gamesData => gamesData.games)
+                .then(setHoardGames)
+        }
     };
-
-    // Holds an array of games for Hoard Page
-    const [hoardGames, setHoardGames] = useState([]);
 
     // =============================================================================
     // ==================USERGAME FETCH CALLS & FUNCTIONS (START)===================
@@ -75,9 +83,6 @@ export const GameProvider = (props) => {
             setUserGames(newUserGames)
         })
     };
-
-    // Holds an array of objects that reflects the current user's saved games in the userGame table
-    const [userGames, setUserGames] = useState([]);
 
     // Saves GameId from gameObject to local Joint Table UserGames 
     // to current user and sets default game state to 1 ("owned and played").

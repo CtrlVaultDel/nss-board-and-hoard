@@ -1,5 +1,5 @@
 // React
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 // Context
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
@@ -11,12 +11,14 @@ import "./Hoard.css";
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
 export const HoardFilters = ({hoardGames}) => {
-    // Local State
-    const [filteredHoardGames, setFilteredHoardGames] = useState([hoardGames])
-
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);
+
+    // Local States
+    const [filteredHoardGames, setFilteredHoardGames] = useState([hoardGames])
+    const [availableCategories, setAvailableCategories] = useState([categories])
+    const [availableMechanics, setAvailableMechanics] = useState([mechanics])
 
     // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
@@ -67,8 +69,37 @@ export const HoardFilters = ({hoardGames}) => {
             keep = keep && hoardGame.min_players <= search.players && hoardGame.max_players >= search.players;
             return keep;
         });
-        return newFilteredGames;
+        return setFilteredHoardGames(newFilteredGames);
     };
+
+    // Determine available categories and mechanics based off available hoardGames 
+    // (This will reduce uneeded clutter of the category and mechanic drop downs)
+    useEffect(()=> {
+        if(hoardGames.length > 0){
+            // Get a single array of all categories from the available hoard games
+            // Remove duplicate IDs
+            // Search through categories and pull out the related category object (ID & Name)
+            const allCategoryIds = hoardGames.map(hg => hg.categories.map(c => c.id)).flat();
+            const uniqueCategoryIds = [...new Set(allCategoryIds)];
+            setAvailableCategories(categories.filter(c => uniqueCategoryIds.find(uci => uci === c.id)));
+
+            // Get a single array of all mechanics from the available hoard games
+            // Remove duplicate IDs
+            // Search through mechanics and pull out the related category object (ID & Name)
+            const allMechanicIds = hoardGames.map(hg => hg.mechanics.map(m => m.id)).flat();
+            const uniqueMechanicIds = [...new Set(allMechanicIds)];
+            setAvailableMechanics(mechanics.filter(m => uniqueMechanicIds.find(umi => umi === m.id)));
+        } else {
+            setAvailableCategories(categories);
+            setAvailableMechanics(mechanics);
+        };
+        
+    }, [hoardGames])
+
+    useEffect(()=> {
+        //console.log("all games", hoardGames);
+        //console.log("filtered games", filteredHoardGames);
+    },[filteredHoardGames]);
 
     // Hoard Filter Form
     return (
@@ -95,7 +126,7 @@ export const HoardFilters = ({hoardGames}) => {
                     <label htmlFor="categories">Category: </label>
                     <select name="categories" onChange={handleChange}>
                         <option value="">All Categories</option>
-                        {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                        {availableCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                 </div>
             </fieldset>
@@ -105,13 +136,13 @@ export const HoardFilters = ({hoardGames}) => {
                     <label htmlFor="mechanics">Mechanic: </label>
                     <select name="mechanics" onChange={handleChange}>
                         <option value="">All Mechanics</option>
-                        {mechanics.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+                        {availableMechanics.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                     </select>
                 </div>
             </fieldset>
             <button className="btn btn-primary" onClick={event => {
                 event.preventDefault();
-                setFilteredHoardGames(filteredHoardGames)
+                filterHoardGames();
             }}>
                 Filter Hoard
             </button>
