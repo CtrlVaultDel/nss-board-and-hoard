@@ -24,7 +24,7 @@ export const HoardFilters = ({hoardGames}) => {
     // Initialize the search object to be used for the fetch call to Board Game Atlas
     const [search, setSearch] = useState({
         name: "",
-        gt_min_players: 1,
+        players: 1,
         categories: "",
         mechanics: ""
     });
@@ -40,12 +40,33 @@ export const HoardFilters = ({hoardGames}) => {
         // Update state of search
         setSearch(newSearch);
         // Updates the number beside the range slider
-        if(event.target.name === 'gt_min_players'){
+        if(event.target.name === 'players'){
             setRangeValue(event.target.value);
         };
     };
 
-    const filterHoardGames = () => {}
+    const filterHoardGames = () => {
+        const newFilteredGames = hoardGames.filter(hoardGame => {
+            let keep = true;
+            // If the user entered a name, check if the game's name includes the filter
+            if(search.name !== ""){
+                keep = keep && hoardGame.name.includes(search.name.toLowerCase())
+            }
+            // If the user entered a category, check if the game's categories includes the filter
+            if(search.categories !== ""){
+                keep = keep && hoardGame.categories.some(c => c.id === search.categories)
+            }
+            // If the user entered a mechanic, check if the game's mechanics includes the filter
+            if(search.mechanics !== ""){
+                keep = keep && hoardGame.mechanics.some(c => c.id === search.mechanics)
+            }
+            // Since there is always a player input, check that the filter is below the game's max players and above the game's min players
+            keep = keep && hoardGame.min_players <= search.players && hoardGame.max_players >= search.players
+            return keep;
+        });
+        console.log(newFilteredGames)
+        return newFilteredGames
+    };
 
     // Hoard Filter Form
     return (
@@ -62,7 +83,7 @@ export const HoardFilters = ({hoardGames}) => {
             <fieldset>
                 <div className="range-slider">
                     <label htmlFor="minPlayers">Min Players: </label>
-                    <input type="range" id="range-slider__range" name="gt_min_players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
+                    <input type="range" id="range-slider__range" name="players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
                     <span className="range-slider__value">{rangeValue}</span>
                 </div>
             </fieldset>
@@ -88,8 +109,15 @@ export const HoardFilters = ({hoardGames}) => {
             </fieldset>
             <button className="btn btn-primary" onClick={event => {
                 event.preventDefault();
-                //filterHoardGames()
-            }}>Search!
+                setFilteredHoardGames(filterHoardGames())
+            }}>
+                Filter Hoard
+            </button>
+            <button className="btn btn-primary" onClick={event => {
+                event.preventDefault();
+                setFilteredHoardGames(hoardGames)
+            }}>
+                Clear Filters
             </button>
         </form>
     );
