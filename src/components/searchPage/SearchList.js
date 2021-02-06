@@ -16,14 +16,17 @@ export const SearchList = () => {
     const {searchGames} = useContext(GameContext);
 
     // Only use search results that have images
-    const gamesWithImages = searchGames.filter(sg => !sg.images.small.includes(null, "empty"))
+    const gamesWithImages = searchGames.filter(sg => 
+        !sg.images.small.includes("https://d2k4q26owzy373.cloudfront.net/150x150/games/empty+box.jpg"))
     
+    console.log("allGames", searchGames, "filteredGames", gamesWithImages)
     return (
         <div className="searchList_games">
         {
-            gamesWithImages.map(searchGame => <SearchCard 
-                key={searchGame.id} 
-                searchGame={searchGame} 
+            gamesWithImages.map(game => 
+            <SearchCard 
+                key={game.id} 
+                searchGame={game} 
             />)
         }
         </div>

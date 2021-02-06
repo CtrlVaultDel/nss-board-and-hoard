@@ -75,7 +75,9 @@ export const HoardFilters = ({hoardGames}) => {
     // Determine available categories and mechanics based off available hoardGames 
     // (This will reduce uneeded clutter of the category and mechanic drop downs)
     useEffect(()=> {
-        if(hoardGames.length > 0){
+        // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
+        if(hoardGames.length){
+
             // Get a single array of all categories from the available hoard games
             // Remove duplicate IDs
             // Search through categories and pull out the related category object (ID & Name)
@@ -98,8 +100,6 @@ export const HoardFilters = ({hoardGames}) => {
     ,[hoardGames]);
 
     useEffect(()=> {
-        //console.log("all games", hoardGames);
-        //console.log("filtered games", filteredHoardGames);
     },[filteredHoardGames]);
 
     // Hoard Filter Form
@@ -127,7 +127,12 @@ export const HoardFilters = ({hoardGames}) => {
                     <label htmlFor="categories">Category: </label>
                     <select name="categories" onChange={handleChange}>
                         <option value="">All Categories</option>
-                        {availableCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                        {
+                            availableCategories.map(({id, name}) => 
+                            <option key={id} value={id}>
+                                {name}
+                            </option>)
+                        }
                     </select>
                 </div>
             </fieldset>
@@ -137,7 +142,12 @@ export const HoardFilters = ({hoardGames}) => {
                     <label htmlFor="mechanics">Mechanic: </label>
                     <select name="mechanics" onChange={handleChange}>
                         <option value="">All Mechanics</option>
-                        {availableMechanics.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+                        {
+                            availableMechanics.map(({id, name}) => 
+                            <option key={id} value={id}>
+                                {name}
+                            </option>)
+                        }
                     </select>
                 </div>
             </fieldset>

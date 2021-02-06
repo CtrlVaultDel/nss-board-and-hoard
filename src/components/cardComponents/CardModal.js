@@ -83,7 +83,6 @@ const getModalStyle = () => {
             return game.description_preview;
         };
     };
-    
   
     const body = (
       <div style={modalStyle} className={classes.paper}>
@@ -101,17 +100,17 @@ const getModalStyle = () => {
                    <h3 className="game__categories__title">
                         Categories
                     </h3>
-                   <div className="game__categories__list">
-                        {categoryNames.map(c => <div>{c}</div>)}
-                   </div>
+                   <ul className="game__categories__list">
+                        {categoryNames.map(c => <li key={c}>{c}</li>)}
+                   </ul>
                 </div>
                 <div className="game__mechanics">
                     <h3 className="game__mechanics__title">
                         Mechanics
                     </h3>
-                    <div className="game__mechanics__list">
-                        {mechanicNames.map(m => <div>{m}</div>)}
-                    </div>
+                    <ul className="game__mechanics__list">
+                        {mechanicNames.map(m => <li key={m}>{m}</li>)}
+                    </ul>
                 </div>
             </Grid>
         </div>

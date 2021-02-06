@@ -24,6 +24,11 @@ export const GameProvider = (props) => {
     // Holds an array of games for Hoard Page
     const [hoardGames, setHoardGames] = useState([]);
 
+    const [loadingStates, setLoadingStates] =useState({
+        userGamesLoading: false,
+        hoardGamesLoading: false
+    })
+
     // =============================================================================
     // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
     // =============================================================================
@@ -57,13 +62,24 @@ export const GameProvider = (props) => {
     // Takes gameIds as an argument which then makes a fetch call to Board
     // Game Atlas for games with those specific ids
     const getHoardGames = () => {
-        console.log("Calling BGA API")
-        if(userGames.length > 0){
+        // If there are userGames but no hoardGames, then make the call
+        if(userGames.length && !hoardGames.length){
             const idsToFetch = userGames.map(ug => ug.gameId).join(",")
+            setLoadingStates([{
+                ...loadingStates, 
+                hoardGamesLoading:true
+            }])
+            console.log("Getting Information from Board Game Atlas")
             return fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
-                .then(response => response.json())
+                .then(response => {
+                    return response.json()
+                })
                 .then(gamesData => gamesData.games)
                 .then(setHoardGames)
+                .finally(() => setLoadingStates({
+                    ...loadingStates, 
+                    hoardGamesLoading:false
+                }))
         }
     };
 
@@ -100,21 +116,30 @@ export const GameProvider = (props) => {
             body: JSON.stringify(gameToSave)
         })
         .then(getUserGames)
+        .then(() => {
+            const newHoardGames = [...hoardGames, gameObject]
+            setHoardGames(newHoardGames)
+        })
     };
 
     // Handles deleting a board game from the user's hoard page. When a board game
     // is deleted, a new array of relevant userGameIds will be saved to userGameIds
     // which will then be used to fetch the relevant games to be rendered on the hoard
     // page.
-    const deleteUserGame = (userGameId) => {
+    const deleteUserGame = (userGameId, hoardGameId) => {
         return fetch(`http://localhost:8088/userGames/${userGameId}`, {
             method: "DELETE"
         })
         .then(getUserGames)
+        .then(() => {
+            let oldHoardGames = [...hoardGames]
+            let newHoardGames = oldHoardGames.filter(g => g.id !== hoardGameId)
+            setHoardGames(newHoardGames)
+        })
     };
 
     return (
-        <GameContext.Provider value={{getSearchGames, searchGames, getHoardGames, hoardGames, getUserGames, userGames, saveUserGame, deleteUserGame}}>
+        <GameContext.Provider value={{loadingStates, getSearchGames, searchGames, getHoardGames, hoardGames, getUserGames, userGames, saveUserGame, deleteUserGame}}>
             {props.children}
         </GameContext.Provider>
     );

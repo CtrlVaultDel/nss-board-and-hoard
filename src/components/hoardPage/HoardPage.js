@@ -1,5 +1,5 @@
 // React
-import React, {useEffect, useContext} from "react";
+import React, {useEffect, useContext } from "react";
 
 // Components
 import { HoardFilters } from "./HoardFilters.js";
@@ -15,21 +15,18 @@ import "./Hoard.css";
 export const HoardPage = () => {
     const { getHoardGames, hoardGames, getUserGames, userGames } = useContext(GameContext);
 
+
     // On mount, get the latest userGames
-    useEffect(() => getUserGames
     //eslint-disable-next-line
-    , [])
+    useEffect(getUserGames, [])
 
     // If userGames has changed, fetch the hoardGames from BGA API
-    useEffect(() => {
-        getHoardGames()
-    }
     //eslint-disable-next-line
-    ,[userGames])
+    useEffect(getHoardGames, [userGames])
 
     return (
         <>
-            <HoardFilters hoardGames={hoardGames} />
+            <HoardFilters hoardGames={hoardGames}/>
             <HoardList hoardGames={hoardGames} userGames={userGames}/>
         </>
     );

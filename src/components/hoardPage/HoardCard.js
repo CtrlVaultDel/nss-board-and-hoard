@@ -29,7 +29,7 @@ export const HoardCard = ({ hoardGame }) => {
     // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
         // Return a button which will send the related userGame Table ID to the deleteUserGame function
-        return <Button variant="contained" color="primary" onClick = {() => deleteUserGame(userGameObject.id)}>Remove Game</Button>
+        return <Button variant="contained" color="primary" onClick = {() => deleteUserGame(userGameObject.id, hoardGame.id)}>Remove Game</Button>
     };
 
     return (

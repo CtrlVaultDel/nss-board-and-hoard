@@ -70,7 +70,12 @@ export const SearchFilters = () => {
                     <label htmlFor="categories">Category: </label>
                     <select name="categories" onChange={handleChange}>
                         <option value="">All Categories</option>
-                        {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                        {
+                            categories.map(c => 
+                                <option key={c.id} value={c.id}>
+                                    {c.name}
+                                </option>)
+                        }
                     </select>
                 </div>
             </fieldset>
@@ -80,7 +85,12 @@ export const SearchFilters = () => {
                     <label htmlFor="mechanics">Mechanic: </label>
                     <select name="mechanics" onChange={handleChange}>
                         <option value="">All Mechanics</option>
-                        {mechanics.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+                        {
+                            mechanics.map(m => 
+                                <option key={m.id} value={m.id}>
+                                    {m.name}
+                                </option>)
+                        }
                     </select>
                 </div>
             </fieldset>
