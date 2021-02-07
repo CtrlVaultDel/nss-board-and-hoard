@@ -137,9 +137,7 @@ export const GameProvider = (props) => {
                 hoardGamesLoading:true
             }])
             const newHoardGames = [...hoardGames, gameObject]
-            console.log("Save button pressed, here is the old list of hoardGames", hoardGames)
             setHoardGames(newHoardGames)
-            console.log("Save button pressed here is the new list of hoardGames", newHoardGames)
         })
         // Set loading state for hoardGames to false (finished loading)
         .finally(() => setLoadingStates({

@@ -19,37 +19,37 @@ export const HoardFilters = () => {
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);
     const { hoardGames } = useContext(GameContext);
-    console.log("***********************")
-    console.log("hoardGames from within HoardFilter", hoardGames)
+    // console.log("***********************")
+    // console.log("hoardGames from within HoardFilter", hoardGames)
 
     // Local States
     const [filteredHoardGames, setFilteredHoardGames] = useState([])
     const [availableCategories, setAvailableCategories] = useState([categories])
     const [availableMechanics, setAvailableMechanics] = useState([mechanics])
-    console.log("***********************")
-    console.log("filteredHoardGames from within the HoardFilter", filteredHoardGames)
+    // console.log("***********************")
+    // console.log("filteredHoardGames from within the HoardFilter", filteredHoardGames)
 
     // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
 
-    // Initialize the search object to be used for the fetch call to Board Game Atlas
-    const [search, setSearch] = useState({
+    // Initialize the filter object to be used for the fetch call to Board Game Atlas
+    const [filter, setFilter] = useState({
         name: "",
         players: 1,
         categories: "",
         mechanics: ""
     });
 
-    // Updates the current search object when a new input is made
+    // Updates the current filter object when a new input is made
     const handleChange = (event) => {
         // Create a copy of the state object
-        const newSearch = { ...search};
+        const newFilter = { ...filter};
 
-        // Set the related property and its value to newSearch object
-        newSearch[event.target.name] = event.target.value;
+        // Set the related property and its value to newFilter object
+        newFilter[event.target.name] = event.target.value;
 
-        // Update state of search
-        setSearch(newSearch);
+        // Update state of filter
+        setFilter(newFilter);
         // Updates the number beside the range slider
         if(event.target.name === 'players'){
             setRangeValue(event.target.value);
@@ -58,27 +58,33 @@ export const HoardFilters = () => {
 
     // Filters the hoard games currently saved to the user's profile with the selected filters
     const filterHoardGames = () => {
-        const newFilteredGames = hoardGames.filter(hoardGame => {
+        console.log("Search for these:", filter)
+        const newFilteredGames = hoardGames.filter(game => {
             let keep = true;
             // If the user entered a name, check if the game's name includes the filter
-            if(search.name !== ""){
-                keep = keep && hoardGame.name.toLowerCase().includes(search.name.toLowerCase());
+            if(filter.name !== ""){
+                keep = keep && game.name.toLowerCase().includes(filter.name.toLowerCase());
+                console.log("There is a filter name and does it match?",keep)
             };
             // If the user entered a category, check if the game's categories includes the filter
-            if(search.categories !== ""){
-                keep = keep && hoardGame.categories.some(c => 
-                    c.id === search.categories);
+            if(filter.categories !== ""){
+                keep = keep && game.categories.some(c => 
+                    c.id === filter.categories);
+                console.log("There is a filter category and does it match?",keep)
             };
             // If the user entered a mechanic, check if the game's mechanics includes the filter
-            if(search.mechanics !== ""){
-                keep = keep && hoardGame.mechanics.some(c => 
-                    c.id === search.mechanics);
+            if(filter.mechanics !== ""){
+                keep = keep && game.mechanics.some(c => 
+                    c.id === filter.mechanics);
+                console.log("There is a filter mechanic and does it match?",keep)
             };
             // Since there is always a player input, check that the filter is below the game's max players and above the game's min players
-            keep = keep && hoardGame.min_players <= search.players && hoardGame.max_players >= search.players;
+            keep = keep && game.min_players <= parseInt(filter.players) && game.max_players >= parseInt(filter.players);
+            console.log("Absolute Match?", game.name, keep)
             return keep;
         });
-        return setFilteredHoardGames(newFilteredGames);
+        console.log("newFilteredGames",newFilteredGames)
+        setFilteredHoardGames(newFilteredGames);
     };
 
     // Determine available categories and mechanics based off available hoardGames 
@@ -86,7 +92,6 @@ export const HoardFilters = () => {
     useEffect(()=> {
         // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
         if(hoardGames.length){
-            setFilteredHoardGames([...hoardGames])
 
             // Get a single array of all categories from the available hoard games
             // Remove duplicate IDs
@@ -108,6 +113,11 @@ export const HoardFilters = () => {
     }
     //eslint-disable-next-line
     ,[hoardGames]);
+
+    useEffect(()=>{
+        setFilteredHoardGames([...hoardGames])
+        console.log("Setting default filteredHoardGames", filteredHoardGames)
+    },[])
 
     // Hoard Filter Form
     return (
@@ -172,6 +182,12 @@ export const HoardFilters = () => {
                     event.preventDefault();
                     document.getElementById("HoardFilters").reset();
                     setRangeValue(1);
+                    setFilter({
+                        name: "",
+                        players: 1,
+                        categories: "",
+                        mechanics: ""
+                    });
                     setFilteredHoardGames(hoardGames)
                 }}>
                     Clear Filters
