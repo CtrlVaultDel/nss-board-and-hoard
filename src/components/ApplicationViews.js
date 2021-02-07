@@ -8,7 +8,7 @@ import { CategoryProvider } from "./applicationProviders/CategoryProvider.js";
 import { GameStateProvider } from "./applicationProviders/GameStateProvider.js";
 
 // Hoard Page imports
-import { HoardPage } from "./hoardPage/HoardPage.js";
+import { HoardFilters } from "./hoardPage/HoardFilters.js";
 
 // Search Page imports
 import { SearchPage } from "./searchPage/SearchPage.js";
@@ -22,7 +22,7 @@ export const ApplicationViews = () => {
                         <GameStateProvider>
                             {/* Display the Hoard Page filters and user-saved games when on /hoardPage */}
                             <Route exact path="/hoardPage">
-                                <HoardPage />
+                                <HoardFilters />
                             </Route>
                         </GameStateProvider>
                         {/* Display the Search Page filters and fetch call response when on /searchPage */}

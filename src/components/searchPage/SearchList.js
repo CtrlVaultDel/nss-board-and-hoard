@@ -13,7 +13,7 @@ import "./Search.css";
 // Takes the array of searchGames passed in and sends each individual game to SearchCard
 // so each is rendered as its own card on the DOM in the Search List below the Search Filters
 export const SearchList = () => {
-    const {searchGames} = useContext(GameContext);
+    const {searchGames, userGames} = useContext(GameContext)
 
     // Only use search results that have images
     const gamesWithImages = searchGames.filter(sg => 
@@ -26,6 +26,7 @@ export const SearchList = () => {
             <SearchCard 
                 key={game.id} 
                 searchGame={game} 
+                userGames={userGames}
             />)
         }
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 
 // API key for Board Game Atlas (BGA) fetch calls 
 // Note: (key.js file is also inside .gitignore)
@@ -27,7 +27,7 @@ export const GameProvider = (props) => {
     const [loadingStates, setLoadingStates] =useState({
         userGamesLoading: false,
         hoardGamesLoading: false
-    })
+    });
 
     // =============================================================================
     // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
@@ -63,23 +63,26 @@ export const GameProvider = (props) => {
     // Game Atlas for games with those specific ids
     const getHoardGames = () => {
         // If there are userGames but no hoardGames, then make the call
-        if(userGames.length && !hoardGames.length){
+        if(userGames.length)
+        {
             const idsToFetch = userGames.map(ug => ug.gameId).join(",")
-            setLoadingStates([{
-                ...loadingStates, 
-                hoardGamesLoading:true
-            }])
-            console.log("Getting Information from Board Game Atlas")
-            return fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
-                .then(response => {
-                    return response.json()
-                })
-                .then(gamesData => gamesData.games)
-                .then(setHoardGames)
-                .finally(() => setLoadingStates({
+            if(idsToFetch.length > 0){
+                setLoadingStates([{
                     ...loadingStates, 
-                    hoardGamesLoading:false
-                }))
+                    hoardGamesLoading:true
+                }])
+                console.log("Getting Information from Board Game Atlas")
+                return fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
+                    .then(response => {
+                        return response.json()
+                    })
+                    .then(gamesData => gamesData.games)
+                    .then(setHoardGames)
+                    .finally(() => setLoadingStates({
+                        ...loadingStates, 
+                        hoardGamesLoading:false
+                    }))
+            }
         }
     };
 
@@ -91,12 +94,22 @@ export const GameProvider = (props) => {
     // (Each object holds relationship information between a user, a game and its "state") 
     // [e.g. owned and played, owned and not played, etc.]
     const getUserGames = () => {
+        // Set loading state for userGames to true (loading)
+        setLoadingStates([{
+            ...loadingStates, 
+            userGamesLoading:true
+        }])
         return fetch (`http://localhost:8088/userGames?_expand=gameState`)
         .then(response => response.json())
         .then((data) => data)
         .then((uGames) => {
             const newUserGames = uGames.filter(ug => ug.userId === currentUser)
             setUserGames(newUserGames)
+            // Set loading state for userGames to true (loading)
+            setLoadingStates([{
+                ...loadingStates, 
+                userGamesLoading:false
+            }])
         })
     };
 
@@ -116,10 +129,23 @@ export const GameProvider = (props) => {
             body: JSON.stringify(gameToSave)
         })
         .then(getUserGames)
+        // Instead of calling BoardGameAtlas to update the new hoardGames, modify the current hoardGames state manually
         .then(() => {
+            // Set loading state for hoardGames to true (loading)
+            setLoadingStates([{
+                ...loadingStates, 
+                hoardGamesLoading:true
+            }])
             const newHoardGames = [...hoardGames, gameObject]
+            console.log("Save button pressed, here is the old list of hoardGames", hoardGames)
             setHoardGames(newHoardGames)
+            console.log("Save button pressed here is the new list of hoardGames", newHoardGames)
         })
+        // Set loading state for hoardGames to false (finished loading)
+        .finally(() => setLoadingStates({
+            ...loadingStates, 
+            hoardGamesLoading:false
+        }))
     };
 
     // Handles deleting a board game from the user's hoard page. When a board game
@@ -131,12 +157,34 @@ export const GameProvider = (props) => {
             method: "DELETE"
         })
         .then(getUserGames)
+        // Instead of calling BoardGameAtlas to update the new hoardGames, modify the current hoardGames state manually
         .then(() => {
+            // Set loading state for hoardGames to false (loading)
+            setLoadingStates([{
+                ...loadingStates, 
+                hoardGamesLoading:true
+            }])
+            // Save original hoardGames state, filter over it and return everything exept what was deleted
+            // When finished filtering, take the newHoardGames and set the state hoardGames with its value
             let oldHoardGames = [...hoardGames]
             let newHoardGames = oldHoardGames.filter(g => g.id !== hoardGameId)
+            console.log("new hoardGames that are about to be set", newHoardGames)
             setHoardGames(newHoardGames)
         })
+        // Set loading state for hoardGames to false (finished loading)
+        .finally(() => setLoadingStates({
+            ...loadingStates, 
+            hoardGamesLoading:false
+        }))
     };
+
+    // Upon initialization, get and set these states
+    useEffect(() => {
+        console.log("**** using useEffect inside of GameProvider.js to get userGames & hoardGames****")
+        getUserGames()
+        .then(getHoardGames)
+         //eslint-disable-next-line
+    },[])
 
     return (
         <GameContext.Provider value={{loadingStates, getSearchGames, searchGames, getHoardGames, hoardGames, getUserGames, userGames, saveUserGame, deleteUserGame}}>

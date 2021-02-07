@@ -4,21 +4,30 @@ import React, { useContext, useState, useEffect } from "react";
 // Context
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
 import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
+import { GameContext } from "../applicationProviders/GameProvider.js";
+
+// Components
+import { HoardList } from "./HoardList.js";
 
 // Styling
 import "./Hoard.css";
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
-export const HoardFilters = ({hoardGames}) => {
+export const HoardFilters = () => {
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);
+    const { hoardGames } = useContext(GameContext);
+    console.log("***********************")
+    console.log("hoardGames from within HoardFilter", hoardGames)
 
     // Local States
-    const [filteredHoardGames, setFilteredHoardGames] = useState([hoardGames])
+    const [filteredHoardGames, setFilteredHoardGames] = useState([])
     const [availableCategories, setAvailableCategories] = useState([categories])
     const [availableMechanics, setAvailableMechanics] = useState([mechanics])
+    console.log("***********************")
+    console.log("filteredHoardGames from within the HoardFilter", filteredHoardGames)
 
     // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
@@ -77,6 +86,7 @@ export const HoardFilters = ({hoardGames}) => {
     useEffect(()=> {
         // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
         if(hoardGames.length){
+            setFilteredHoardGames([...hoardGames])
 
             // Get a single array of all categories from the available hoard games
             // Remove duplicate IDs
@@ -99,71 +109,76 @@ export const HoardFilters = ({hoardGames}) => {
     //eslint-disable-next-line
     ,[hoardGames]);
 
-    useEffect(()=> {
-    },[filteredHoardGames]);
-
     // Hoard Filter Form
     return (
-        <form className="SearchFilters" id="SearchFilters">
-            <h2 className="employeeForm__title">Hoard Filters</h2>
-            {/* Displays a text input field for the user to fill out for the name of the boardgame(s) they are looking for */}
-            <fieldset >
-                <div className="nameContainer">
-                    <label htmlFor="boardgameName">Boardgame Name: </label>
-                    <input type="text" id="boardgameName" className="boardgameName" name="name" autoComplete="off" onChange={handleChange} autoFocus defaultValue=""></input>
-                </div>
-            </fieldset>
-            {/* Displays a range slider that the user can use to indicate the mininum players */}
-            <fieldset>
-                <div className="range-slider">
-                    <label htmlFor="minPlayers">Min Players: </label>
-                    <input type="range" id="range-slider__range" name="players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
-                    <span className="range-slider__value">{rangeValue}</span>
-                </div>
-            </fieldset>
-            {/* Displays a dropdown of categories that the user can select to include in the filter */}
-            <fieldset>
-                <div className="categories">
-                    <label htmlFor="categories">Category: </label>
-                    <select name="categories" onChange={handleChange}>
-                        <option value="">All Categories</option>
-                        {
-                            availableCategories.map(({id, name}) => 
-                            <option key={id} value={id}>
-                                {name}
-                            </option>)
-                        }
-                    </select>
-                </div>
-            </fieldset>
-            {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
-            <fieldset>
-                <div className="mechanics">
-                    <label htmlFor="mechanics">Mechanic: </label>
-                    <select name="mechanics" onChange={handleChange}>
-                        <option value="">All Mechanics</option>
-                        {
-                            availableMechanics.map(({id, name}) => 
-                            <option key={id} value={id}>
-                                {name}
-                            </option>)
-                        }
-                    </select>
-                </div>
-            </fieldset>
-            <button className="btn btn-primary" onClick={event => {
-                event.preventDefault();
-                filterHoardGames();
-            }}>
-                Filter Hoard
-            </button>
-            {/* Sets filteredHoardGames back to its default state (hoardGames) */}
-            <button className="btn btn-primary" onClick={event => {
-                event.preventDefault();
-                setFilteredHoardGames(hoardGames)
-            }}>
-                Clear Filters
-            </button>
-        </form>
+        <>
+            <form className="HoardFilters" id="HoardFilters">
+                <h2 className="employeeForm__title">Hoard Filters</h2>
+                {/* Displays a text input field for the user to fill out for the name of the boardgame(s) they are looking for */}
+                <fieldset >
+                    <div className="nameContainer">
+                        <label htmlFor="boardgameName">Boardgame Name: </label>
+                        <input type="text" id="boardgameName" className="boardgameName" name="name" autoComplete="off" onChange={handleChange} autoFocus defaultValue=""></input>
+                    </div>
+                </fieldset>
+                {/* Displays a range slider that the user can use to indicate the mininum players */}
+                <fieldset>
+                    <div className="range-slider">
+                        <label htmlFor="minPlayers">Min Players: </label>
+                        <input type="range" id="range-slider__range" name="players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
+                        <span className="range-slider__value">{rangeValue}</span>
+                    </div>
+                </fieldset>
+                {/* Displays a dropdown of categories that the user can select to include in the filter */}
+                <fieldset>
+                    <div className="categories">
+                        <label htmlFor="categories">Category: </label>
+                        <select name="categories" onChange={handleChange}>
+                            <option value="">All Categories</option>
+                            {/* Only list categories relevant to the current hoardGames */}
+                            {
+                                availableCategories.map(({id, name}) => 
+                                <option key={id} value={id}>
+                                    {name}
+                                </option>)
+                            }
+                        </select>
+                    </div>
+                </fieldset>
+                {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
+                <fieldset>
+                    <div className="mechanics">
+                        <label htmlFor="mechanics">Mechanic: </label>
+                        <select name="mechanics" onChange={handleChange}>
+                            <option value="">All Mechanics</option>
+                            {/* Only list mechanics relevant to the current hoardGames */}
+                            {
+                                availableMechanics.map(({id, name}) => 
+                                <option key={id} value={id}>
+                                    {name}
+                                </option>)
+                            }
+                        </select>
+                    </div>
+                </fieldset>
+                <button className="btn btn-filter" onClick={event => {
+                    event.preventDefault();
+                    filterHoardGames();
+                }}>
+                    Filter Hoard
+                </button>
+                {/* Sets filteredHoardGames back to its default state (hoardGames) */}
+                <button className="btn btn-clear" onClick={event => {
+                    event.preventDefault();
+                    document.getElementById("HoardFilters").reset();
+                    setRangeValue(1);
+                    setFilteredHoardGames(hoardGames)
+                }}>
+                    Clear Filters
+                </button>
+            </form>
+            
+            <HoardList filteredHoardGames={filteredHoardGames}/>
+        </>
     );
 };

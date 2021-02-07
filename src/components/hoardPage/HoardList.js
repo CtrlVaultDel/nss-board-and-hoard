@@ -14,6 +14,7 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 // Styling
 import "./Hoard.css";
 
+// For Material UI Loading Circle
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -25,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
 
 // Takes the array of hoardGames passed in and sends each individual game to HoardCard
 // so each is rendered as its own card on the DOM in the Hoard List below the Hoard Filters
-export const HoardList = ({hoardGames}) => {
-    const { loadingStates } = useContext( GameContext );
+export const HoardList = ({ filteredHoardGames }) => {
+    const { loadingStates, userGames } = useContext( GameContext );
 
     const classes = useStyles();
 
@@ -38,21 +39,24 @@ export const HoardList = ({hoardGames}) => {
           </div>
         );
     }
-    // When there are hoard games
-    else if(hoardGames.length){
+    // When there are games saved
+    else if(filteredHoardGames.length > 0 && userGames.length > 0 && filteredHoardGames.length === userGames.length){
         return (
             <div className="hoardList_games">
                 {
-                    hoardGames.map(hoardGame => <HoardCard 
-                        key={hoardGame.id} 
-                        hoardGame={hoardGame} 
+                    filteredHoardGames.map(game => <HoardCard 
+                        key={game.id} 
+                        hoardGame={game} 
+                        userGames={userGames}
                     />)
                 }
             </div>
         );
     } 
-    // When there are no hoard games
+    // When there are no games saved
     else {
-        return <h1 className="hoardList_games">No Games!</h1>
+        return (
+            <h1 className="hoardList_games">No Games!</h1>
+        )
     }
 };
