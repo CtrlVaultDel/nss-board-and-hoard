@@ -48,31 +48,32 @@ export const Register = (props) => {
     }
 
     return (
-        <main style={{ textAlign: "center" }}>
+        <main className="container--login" style={{ textAlign: "center" }}>
 
             <dialog className="dialog dialog--password" ref={conflictDialog}>
                 <div>Account with that email address already exists</div>
                 <button className="button--close" onClick={e => conflictDialog.current.close()}>Close</button>
             </dialog>
-
-            <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Please Register for Board and Hoard</h1>
-                <fieldset>
-                    <label htmlFor="firstName"> First Name </label>
-                    <input ref={firstName} type="text" name="firstName" className="form-control" placeholder="First name" required autoFocus />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="lastName"> Last Name </label>
-                    <input ref={lastName} type="text" name="lastName" className="form-control" placeholder="Last name" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="inputEmail"> Email address </label>
-                    <input ref={email} type="email" name="email" className="form-control" placeholder="Email address" required />
-                </fieldset>
-                <fieldset>
-                    <button type="submit"> Sign in </button>
-                </fieldset>
-            </form>
+            <section className="registration--page">
+                <form className="form--login" onSubmit={handleRegister}>
+                    <h1 className="h3 mb-3 font-weight-normal">Please Register for Board and Hoard</h1>
+                    <fieldset>
+                        <label htmlFor="firstName"> First Name </label>
+                        <input ref={firstName} type="text" name="firstName" className="form-control" placeholder="First name" required autoFocus />
+                    </fieldset>
+                    <fieldset>
+                        <label htmlFor="lastName"> Last Name </label>
+                        <input ref={lastName} type="text" name="lastName" className="form-control" placeholder="Last name" required />
+                    </fieldset>
+                    <fieldset>
+                        <label htmlFor="inputEmail"> Email address </label>
+                        <input ref={email} type="email" name="email" className="form-control" placeholder="Email address" required />
+                    </fieldset>
+                    <fieldset>
+                        <button type="submit"> Sign in </button>
+                    </fieldset>
+                </form>
+            </section>
         </main>
     )
 }

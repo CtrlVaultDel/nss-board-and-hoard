@@ -44,16 +44,28 @@ fieldset {
 
 .container--login {
     text-align: center;
+    background-image: url("../images/Dice-Background.jpg");
+}
+
+.form--page {
+    height: 42.4rem;
+    display: flex;
+}
+
+.registration--page {
+    height: 42.4rem;
+    display: flex;
 }
 
 .form--login {
+    margin: auto;
     background-position-x: right;
     z-index: 1;
-    min-height: 25rem;
+    height: 300px;
     min-width: 47rem;
-    background-color: hsla(0,0%,100%,0.40);
     background-blend-mode: overlay;
     background-repeat: no-repeat;
+    
 }
 
 .button--close {
