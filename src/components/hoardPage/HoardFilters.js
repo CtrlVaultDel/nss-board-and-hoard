@@ -1,33 +1,59 @@
 // React
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, createContext } from "react";
 
 // Context
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
 import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
 import { GameContext } from "../applicationProviders/GameProvider.js";
 
-// Components
-import { HoardList } from "./HoardList.js";
-
 // Styling
 import "./Hoard.css";
 
+export const FilteredGameContext = createContext()
+
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
-export const HoardFilters = () => {
+export const HoardFilters = (props) => {
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);
     const { initializeHoardPage, hoardGames } = useContext(GameContext);
-    // console.log("***********************")
-    // console.log("hoardGames from within HoardFilter", hoardGames)
 
     // Local States
     const [filteredHoardGames, setFilteredHoardGames] = useState([])
     const [availableCategories, setAvailableCategories] = useState([categories])
     const [availableMechanics, setAvailableMechanics] = useState([mechanics])
-    // console.log("***********************")
-    // console.log("filteredHoardGames from within the HoardFilter", filteredHoardGames)
+
+    // Initialize relevant data
+    useEffect(initializeHoardPage,[])
+
+    // Determine available categories and mechanics based off available hoardGames 
+    // (This will reduce uneeded clutter of the category and mechanic drop downs)
+    useEffect(()=> {
+        if(hoardGames.length){
+            // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
+            console.log("Got hoardgames, setting filteredHoardGames to it")
+            setFilteredHoardGames([...hoardGames])
+            // Get a single array of all categories from the available hoard games
+            // Remove duplicate IDs
+            // Search through categories and pull out the related category object (ID & Name)
+            const allCategoryIds = hoardGames.map(hg => hg.categories.map(c => c.id)).flat();
+            const uniqueCategoryIds = [...new Set(allCategoryIds)];
+            setAvailableCategories(categories.filter(c => uniqueCategoryIds.find(uci => uci === c.id)));
+
+            // Get a single array of all mechanics from the available hoard games
+            // Remove duplicate IDs
+            // Search through mechanics and pull out the related category object (ID & Name)
+            const allMechanicIds = hoardGames.map(hg => hg.mechanics.map(m => m.id)).flat();
+            const uniqueMechanicIds = [...new Set(allMechanicIds)];
+            setAvailableMechanics(mechanics.filter(m => uniqueMechanicIds.find(umi => umi === m.id)));
+        } else {
+            setAvailableCategories(categories);
+            setAvailableMechanics(mechanics);
+            console.log("Did not get HoardGames, leaving filteredHoardGames empty")
+        };
+        //eslint-disable-next-line
+    } ,[hoardGames]);
 
     // Related to the min_player slider
     const [rangeValue, setRangeValue] = useState(1);
@@ -39,8 +65,6 @@ export const HoardFilters = () => {
         categories: "",
         mechanics: ""
     });
-
-    initializeHoardPage()
 
     // Updates the current filter object when a new input is made
     const handleChange = (event) => {
@@ -88,37 +112,6 @@ export const HoardFilters = () => {
         console.log("newFilteredGames",newFilteredGames)
         setFilteredHoardGames(newFilteredGames)
     };
-
-    // Determine available categories and mechanics based off available hoardGames 
-    // (This will reduce uneeded clutter of the category and mechanic drop downs)
-    // useEffect(()=> {
-    //     // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
-    //     console.log("Listing hoardGames in HoardFilters",hoardGames)
-    //     if(hoardGames.length){
-    //         setTimeout(() => {
-    //             setFilteredHoardGames([...hoardGames])
-    //             console.log("Setting default filteredHoardGames", [...hoardGames])
-    //         }, 500);
-
-    //         // Get a single array of all categories from the available hoard games
-    //         // Remove duplicate IDs
-    //         // Search through categories and pull out the related category object (ID & Name)
-    //         const allCategoryIds = hoardGames.map(hg => hg.categories.map(c => c.id)).flat();
-    //         const uniqueCategoryIds = [...new Set(allCategoryIds)];
-    //         setAvailableCategories(categories.filter(c => uniqueCategoryIds.find(uci => uci === c.id)));
-
-    //         // Get a single array of all mechanics from the available hoard games
-    //         // Remove duplicate IDs
-    //         // Search through mechanics and pull out the related category object (ID & Name)
-    //         const allMechanicIds = hoardGames.map(hg => hg.mechanics.map(m => m.id)).flat();
-    //         const uniqueMechanicIds = [...new Set(allMechanicIds)];
-    //         setAvailableMechanics(mechanics.filter(m => uniqueMechanicIds.find(umi => umi === m.id)));
-    //     } else {
-    //         setAvailableCategories(categories);
-    //         setAvailableMechanics(mechanics);
-    //     };
-    //     //eslint-disable-next-line
-    // } ,[hoardGames]);
     
     // Hoard Filter Form
     return (
@@ -195,7 +188,9 @@ export const HoardFilters = () => {
                 </button>
             </form>
             
-            <HoardList filteredHoardGames={filteredHoardGames}/>
+            <FilteredGameContext.Provider value={{filteredHoardGames}}>
+                {props.children}
+            </FilteredGameContext.Provider>
         </>
     );
 };

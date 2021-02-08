@@ -13,22 +13,10 @@
   ],
   "userGames": [
     {
-      "gameId": "gvhGefZQBd",
+      "gameId": "zHrhkTw3ET",
       "userId": 1,
       "gameStateId": 1,
       "id": 1
-    },
-    {
-      "gameId": "XEX9Eirznn",
-      "userId": 1,
-      "gameStateId": 1,
-      "id": 3
-    },
-    {
-      "gameId": "CwRvGevTTe",
-      "userId": 1,
-      "gameStateId": 1,
-      "id": 4
     }
   ],
   "gameStates": [
