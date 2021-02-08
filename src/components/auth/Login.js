@@ -36,7 +36,7 @@ export const Login = props => {
                 <button className="button--close" onClick={e => existDialog.current.close()}>Close</button>
             </dialog>
 
-            <section>
+            <section className="form--page">
                 <form className="form--login" onSubmit={handleLogin}>
                     <h1>Board and Hoard</h1>
                     <h2>Please sign in</h2>
