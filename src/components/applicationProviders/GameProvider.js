@@ -28,10 +28,7 @@ export const GameProvider = (props) => {
         .then(response => response.json())
         .then(userGameData => {
             const newUserGames = userGameData.filter(ugd => ugd.userId === currentUser)
-            console.log("************************")
-            console.log("initialization-ALL userGames", userGameData)
-            console.log("Match this userId for userGames", currentUser)
-            console.log("initialization-SPECIFIC userGames",newUserGames)
+
             setUserGames(newUserGames)
             // If userGames for this user exist, make a fetch call to BGA
             if(newUserGames.length){
@@ -39,7 +36,6 @@ export const GameProvider = (props) => {
                 fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
                 .then(hoardGameResponse => hoardGameResponse.json())
                 .then (hoardGameData => {
-                    console.log("initialization-hoardGames",hoardGameData.games)
                     setHoardGames(hoardGameData.games)
             })
             }

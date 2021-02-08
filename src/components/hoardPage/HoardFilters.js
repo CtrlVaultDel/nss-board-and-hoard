@@ -10,7 +10,7 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 import "./Hoard.css";
 
 // To export filteredHoardGames to HoardList
-export const FilteredGameContext = createContext()
+export const FilteredGameContext = createContext();
 
 // Responsible for displaying the Hoard filter form and taking input(s) from the user
 // Instead of hitting the external API, this alters the state of filteredHoardGames which
@@ -23,9 +23,9 @@ export const HoardFilters = (props) => {
     const { initializeHoardPage, hoardGames } = useContext(GameContext);
 
     // Local States
-    const [filteredHoardGames, setFilteredHoardGames] = useState([])
-    const [availableCategories, setAvailableCategories] = useState([categories])
-    const [availableMechanics, setAvailableMechanics] = useState([mechanics])
+    const [filteredHoardGames, setFilteredHoardGames] = useState([]);
+    const [availableCategories, setAvailableCategories] = useState([categories]);
+    const [availableMechanics, setAvailableMechanics] = useState([mechanics]);
 
     // Determine available categories and mechanics based off available hoardGames 
     useEffect(()=> {
@@ -35,7 +35,7 @@ export const HoardFilters = (props) => {
         // If there are hoard games, determine the relevant categories and mechanics to include in the filters
         if(hoardGames.length){
             // Apply hoardGames to filteredHoardGames by default
-            setFilteredHoardGames([...hoardGames])
+            setFilteredHoardGames([...hoardGames]);
 
             // Get a single array of all categories from the available hoard games
             // Remove duplicate IDs
@@ -87,7 +87,6 @@ export const HoardFilters = (props) => {
 
     // Filters the hoard games currently saved to the user's profile with the selected filters
     const filterHoardGames = () => {
-        console.log("Search for these:", filter)
         const newFilteredGames = hoardGames.filter(game => {
             let keep = true;
             // If the user entered a name, check if the game's name includes the filter
@@ -186,7 +185,7 @@ export const HoardFilters = (props) => {
                     Clear Filters
                 </button>
             </form>
-            
+
             <FilteredGameContext.Provider value={{filteredHoardGames}}>
                 {props.children}
             </FilteredGameContext.Provider>

@@ -20,10 +20,6 @@ export const HoardList = () => {
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
-    // console.log("currentUser", currentUser)
-    // console.log("filteredHoardGames", filteredHoardGames)
-    // console.log("userGames", userGames)
-
     return filteredHoardGames.length && userGames.length
         ? ( <div className="hoardList_games">
                 {
