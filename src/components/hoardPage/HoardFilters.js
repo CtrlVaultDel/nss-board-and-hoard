@@ -107,7 +107,6 @@ export const HoardFilters = (props) => {
             keep = keep && game.min_players <= parseInt(filter.players) && game.max_players >= parseInt(filter.players);
             return keep;
         });
-        console.log("newFilteredGames",newFilteredGames)
         setFilteredHoardGames(newFilteredGames)
     };
     
