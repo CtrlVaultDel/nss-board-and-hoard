@@ -27,5 +27,5 @@ export const HoardList = () => {
                     />)
                 }
             </div>)
-        : (<div>No Games Yet</div>)
+        : (<div className="hoardList__games">No Games Yet</div>)
 }

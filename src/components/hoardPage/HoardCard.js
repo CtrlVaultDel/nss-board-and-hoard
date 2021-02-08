@@ -17,8 +17,8 @@ import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 
 import "./Hoard.css";
 
-export const HoardCard = ({ hoardGame, userGames }) => {
-    const { deleteUserGame } = useContext(GameContext);
+export const HoardCard = ({ hoardGame }) => {
+    const { deleteUserGame, userGames } = useContext(GameContext);
     
     // store the current user's ID in a local variable
     const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));

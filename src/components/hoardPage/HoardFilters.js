@@ -25,6 +25,7 @@ export const HoardFilters = (props) => {
     const [availableMechanics, setAvailableMechanics] = useState([mechanics])
 
     // Initialize relevant data
+    //eslint-disable-next-line
     useEffect(initializeHoardPage,[])
 
     // Determine available categories and mechanics based off available hoardGames 
