@@ -48,7 +48,7 @@ export const GameProvider = (props) => {
     // to receive and store the relevant games.
     const getSearchGames = (searchObject) => {
         let queryOptions = ["name", "mechanics", "categories", "gt_min_players"]
-        let baseUrl = `https://api.boardgameatlas.com/api/search?&limit=50&order_by="popularity"&fuzzy_search="true"&client_id=${BGAkey}&`
+        let baseUrl = `https://api.boardgameatlas.com/api/search?&limit=50&order_by=popularity&ascending=false&fuzzy_search=true&client_id=${BGAkey}&`
         const fullUrl = baseUrl + queryOptions
             .map((optionName) => {
                 let value = "";

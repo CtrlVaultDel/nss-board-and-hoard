@@ -6,6 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 // Context
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
@@ -17,7 +21,7 @@ import "./Search.css";
 
 // Material UI Style Functions
 
-// Text Input
+// Name input -- used to style name input
 const useTextStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -49,6 +53,17 @@ const marks = [
     }
 ]
 
+// Select -- used to style the select dropdowns
+const useSelectStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
 export const SearchFilters = () => {
@@ -59,13 +74,13 @@ export const SearchFilters = () => {
     // MUI Slider Input
     const sliderClasses = useSliderStyles();
 
+    // MUI Select Input
+    const selectClasses = useSelectStyles();
+
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);
     const { getSearchGames } = useContext(GameContext);
-
-    // Related to the min_player slider
-    const [rangeValue, setRangeValue] = useState(1);
 
     // Initialize the search object to be used for the fetch call to Board Game Atlas
     const [search, setSearch] = useState({
@@ -78,19 +93,33 @@ export const SearchFilters = () => {
     // Updates the current search object when a new input is made
     const handleChange = (event, newValue) => {
 
-        // Create a copy of the state object
+        // Create a copy of the search object
         const newSearch = { ...search };
 
-        if(newValue){
+        if(newValue >= 1 && newValue <= 8){
             newSearch["gt_min_players"] = newValue;
             setSearch(newSearch);
+            console.log("Setting Range", newValue)
+        } else if(event === "category") {
+            newSearch["categories"] = newValue;
+            setSearch(newSearch);
+            console.log("Setting Category", newValue)
         } else {
+            console.log("Setting other things")
             // Set the related property and its value to newSearch object
             newSearch[event.target.name] = event.target.value;
 
             // Update state of search
             setSearch(newSearch);
         }   
+    };
+
+    // Handles the category state
+    const [category, setCategory] = useState("")
+
+    const handleCategoryChange = (event) => {
+        setCategory(event.target.value)
+        handleChange("category", event.target.value)
     };
 
     // Search Filter Form
@@ -120,24 +149,32 @@ export const SearchFilters = () => {
                         max={8}
                         onChangeCommitted={handleChange}
                     />
-                    {/* <label htmlFor="minPlayers">Min Players: </label>
-                    <input type="range" id="range-slider__range" name="gt_min_players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
-                    <span className="range-slider__value">{rangeValue}</span> */}
                 </div>
             </fieldset>
             {/* Displays a dropdown of categories that the user can select to include in the filter */}
             <fieldset>
                 <div className="categories">
-                    <label htmlFor="categories">Category: </label>
-                    <select name="categories" onChange={handleChange}>
-                        <option value="">All Categories</option>
-                        {
-                            categories.map(c => 
-                                <option key={c.id} value={c.id}>
-                                    {c.name}
-                                </option>)
-                        }
-                    </select>
+                    <FormControl className={selectClasses.formControl}>
+                        <InputLabel 
+                            id="categories"> Category: 
+                        </InputLabel>
+                        <Select 
+                            labelId="categoriesLabel"
+                            id="categories-select"
+                            name="categories" 
+                            value={category}
+                            onChange={handleCategoryChange}>
+                            <MenuItem 
+                                value=""> All Categories
+                            </MenuItem>
+                            {
+                                categories.map(c => 
+                                    <MenuItem key={c.id} value={c.id}>
+                                        {c.name}
+                                    </MenuItem>)
+                            }
+                        </Select>
+                    </FormControl>
                 </div>
             </fieldset>
             {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
