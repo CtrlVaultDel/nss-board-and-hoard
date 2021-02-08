@@ -10,6 +10,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 // Context
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
@@ -62,7 +64,16 @@ const useSelectStyles = makeStyles((theme) => ({
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
-  }));
+}));
+
+// Submit -- used to style filter button
+const useButtonStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+}));
 
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
@@ -76,6 +87,9 @@ export const SearchFilters = () => {
 
     // MUI Select Input
     const selectClasses = useSelectStyles();
+
+    // MUI Button
+    const buttonClasses = useButtonStyles();
 
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
@@ -104,8 +118,12 @@ export const SearchFilters = () => {
             newSearch["categories"] = newValue;
             setSearch(newSearch);
             console.log("Setting Category", newValue)
+        } else if(event === "mechanic") {
+            newSearch["mechanics"] = newValue;
+            setSearch(newSearch);
+            console.log("Setting Mechanic", newValue)
         } else {
-            console.log("Setting other things")
+            console.log("Setting name")
             // Set the related property and its value to newSearch object
             newSearch[event.target.name] = event.target.value;
 
@@ -120,6 +138,13 @@ export const SearchFilters = () => {
     const handleCategoryChange = (event) => {
         setCategory(event.target.value)
         handleChange("category", event.target.value)
+    };
+
+    const [mechanic, setMechanic] = useState("");
+
+    const handleMechanicChange = (event) => {
+        setMechanic(event.target.value)
+        handleChange("mechanic", event.target.value)
     };
 
     // Search Filter Form
@@ -153,51 +178,69 @@ export const SearchFilters = () => {
             </fieldset>
             {/* Displays a dropdown of categories that the user can select to include in the filter */}
             <fieldset>
-                <div className="categories">
-                    <FormControl className={selectClasses.formControl}>
-                        <InputLabel 
-                            id="categories"> Category: 
-                        </InputLabel>
-                        <Select 
-                            labelId="categoriesLabel"
-                            id="categories-select"
-                            name="categories" 
-                            value={category}
-                            onChange={handleCategoryChange}>
-                            <MenuItem 
-                                value=""> All Categories
-                            </MenuItem>
-                            {
-                                categories.map(c => 
-                                    <MenuItem key={c.id} value={c.id}>
-                                        {c.name}
-                                    </MenuItem>)
-                            }
-                        </Select>
-                    </FormControl>
-                </div>
+                <Grid 
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <div className="categories">
+                        <FormControl className={selectClasses.formControl}>
+                            <InputLabel 
+                                id="categories"> Category: 
+                            </InputLabel>
+                            <Select 
+                                labelId="categoriesLabel"
+                                id="categories-select"
+                                name="categories" 
+                                value={category}
+                                onChange={handleCategoryChange}>
+                                <MenuItem 
+                                    value=""> All Categories
+                                </MenuItem>
+                                {
+                                    categories.map(c => 
+                                        <MenuItem key={c.id} value={c.id}>
+                                            {c.name}
+                                        </MenuItem>)
+                                }
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <div className="mechanics">
+                        <FormControl className={selectClasses.formControl}>
+                            <InputLabel 
+                                id="mechanics"> Mechanic: 
+                            </InputLabel>
+                            <Select 
+                                labelId="mechanicsLabel"
+                                id="mechanics-select"
+                                name="mechanics" 
+                                value={mechanic}
+                                onChange={handleMechanicChange}>
+                                <MenuItem 
+                                    value=""> All Mechanics
+                                </MenuItem>
+                                {
+                                    mechanics.map(m => 
+                                        <MenuItem key={m.id} value={m.id}>
+                                            {m.name}
+                                        </MenuItem>)
+                                }
+                            </Select>
+                        </FormControl>
+                    </div>
+                </Grid>
             </fieldset>
             {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
-            <fieldset>
-                <div className="mechanics">
-                    <label htmlFor="mechanics">Mechanic: </label>
-                    <select name="mechanics" onChange={handleChange}>
-                        <option value="">All Mechanics</option>
-                        {
-                            mechanics.map(m => 
-                                <option key={m.id} value={m.id}>
-                                    {m.name}
-                                </option>)
-                        }
-                    </select>
-                </div>
-            </fieldset>
-            <button className="btn btn-search" onClick={event => {
-                event.preventDefault();
-                getSearchGames(search);
-                console.log("Searching for", search)
-            }}>Search!
-            </button>
+            <div className={buttonClasses.root}>
+                <Button className="btn btn-search" variant="contained" color="default" onClick={event => {
+                    event.preventDefault();
+                    getSearchGames(search);
+                    console.log("Searching for", search)
+                }}>Search!
+                </Button>
+            </div>
         </form>
     );
 };
