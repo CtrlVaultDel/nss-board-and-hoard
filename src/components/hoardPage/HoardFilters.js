@@ -12,8 +12,10 @@ import "./Hoard.css";
 // To export filteredHoardGames to HoardList
 export const FilteredGameContext = createContext()
 
-// Responsible for displaying the form and taking input(s) from the user
-// in order to send a fetch call with the desired filters.
+// Responsible for displaying the Hoard filter form and taking input(s) from the user
+// Instead of hitting the external API, this alters the state of filteredHoardGames which
+// is sent to HoardList. The original hoardGames array is left unaltered unless something is
+// deleted in the Hoard List or saved from the SearchPage
 export const HoardFilters = (props) => {
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
@@ -25,17 +27,16 @@ export const HoardFilters = (props) => {
     const [availableCategories, setAvailableCategories] = useState([categories])
     const [availableMechanics, setAvailableMechanics] = useState([mechanics])
 
-    // Initialize relevant data
-    //eslint-disable-next-line
-    //useEffect(initializeHoardPage,[])
-
     // Determine available categories and mechanics based off available hoardGames 
-    // (This will reduce uneeded clutter of the category and mechanic drop downs)
     useEffect(()=> {
+        // Go fetch userGames and hoardGames from their respective APIs when the page is rendered
         initializeHoardPage()
+
+        // If there are hoard games, determine the relevant categories and mechanics to include in the filters
         if(hoardGames.length){
-            // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
+            // Apply hoardGames to filteredHoardGames by default
             setFilteredHoardGames([...hoardGames])
+
             // Get a single array of all categories from the available hoard games
             // Remove duplicate IDs
             // Search through categories and pull out the related category object (ID & Name)
@@ -50,6 +51,7 @@ export const HoardFilters = (props) => {
             const uniqueMechanicIds = [...new Set(allMechanicIds)];
             setAvailableMechanics(mechanics.filter(m => uniqueMechanicIds.find(umi => umi === m.id)));
         } else {
+            // Set categories and mechanics to default (both will have all options)
             setAvailableCategories(categories);
             setAvailableMechanics(mechanics);
         };

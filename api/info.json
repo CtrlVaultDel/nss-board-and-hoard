@@ -1,22 +1,23 @@
 {
   "users": [
     {
-      "id": 1,
       "username": "Ryan DeVault",
-      "email": "boardgamegeek@games.net"
-    },
-    {
-      "email": "bobbyross@paint.net",
-      "username": "Bob Ross",
-      "id": 2
+      "email": "boardgamegeek@games.net",
+      "id": 1
     }
   ],
   "userGames": [
     {
-      "gameId": "zHrhkTw3ET",
+      "gameId": "D1bsBUwFJb",
       "userId": 1,
       "gameStateId": 1,
-      "id": 1
+      "id": 2
+    },
+    {
+      "gameId": "XEX9Eirznn",
+      "userId": 1,
+      "gameStateId": 1,
+      "id": 3
     }
   ],
   "gameStates": [
