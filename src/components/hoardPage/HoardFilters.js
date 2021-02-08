@@ -18,7 +18,7 @@ export const HoardFilters = () => {
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
     const { mechanics } = useContext(MechanicContext);
-    const { hoardGames } = useContext(GameContext);
+    const { initializeHoardPage, hoardGames } = useContext(GameContext);
     // console.log("***********************")
     // console.log("hoardGames from within HoardFilter", hoardGames)
 
@@ -39,6 +39,8 @@ export const HoardFilters = () => {
         categories: "",
         mechanics: ""
     });
+
+    initializeHoardPage()
 
     // Updates the current filter object when a new input is made
     const handleChange = (event) => {
@@ -89,34 +91,34 @@ export const HoardFilters = () => {
 
     // Determine available categories and mechanics based off available hoardGames 
     // (This will reduce uneeded clutter of the category and mechanic drop downs)
-    useEffect(()=> {
-        // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
-        console.log("Listing hoardGames in HoardFilters",hoardGames)
-        if(hoardGames.length){
-            setTimeout(() => {
-                setFilteredHoardGames([...hoardGames])
-                console.log("Setting default filteredHoardGames", [...hoardGames])
-            }, 500);
+    // useEffect(()=> {
+    //     // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
+    //     console.log("Listing hoardGames in HoardFilters",hoardGames)
+    //     if(hoardGames.length){
+    //         setTimeout(() => {
+    //             setFilteredHoardGames([...hoardGames])
+    //             console.log("Setting default filteredHoardGames", [...hoardGames])
+    //         }, 500);
 
-            // Get a single array of all categories from the available hoard games
-            // Remove duplicate IDs
-            // Search through categories and pull out the related category object (ID & Name)
-            const allCategoryIds = hoardGames.map(hg => hg.categories.map(c => c.id)).flat();
-            const uniqueCategoryIds = [...new Set(allCategoryIds)];
-            setAvailableCategories(categories.filter(c => uniqueCategoryIds.find(uci => uci === c.id)));
+    //         // Get a single array of all categories from the available hoard games
+    //         // Remove duplicate IDs
+    //         // Search through categories and pull out the related category object (ID & Name)
+    //         const allCategoryIds = hoardGames.map(hg => hg.categories.map(c => c.id)).flat();
+    //         const uniqueCategoryIds = [...new Set(allCategoryIds)];
+    //         setAvailableCategories(categories.filter(c => uniqueCategoryIds.find(uci => uci === c.id)));
 
-            // Get a single array of all mechanics from the available hoard games
-            // Remove duplicate IDs
-            // Search through mechanics and pull out the related category object (ID & Name)
-            const allMechanicIds = hoardGames.map(hg => hg.mechanics.map(m => m.id)).flat();
-            const uniqueMechanicIds = [...new Set(allMechanicIds)];
-            setAvailableMechanics(mechanics.filter(m => uniqueMechanicIds.find(umi => umi === m.id)));
-        } else {
-            setAvailableCategories(categories);
-            setAvailableMechanics(mechanics);
-        };
-        //eslint-disable-next-line
-    } ,[hoardGames]);
+    //         // Get a single array of all mechanics from the available hoard games
+    //         // Remove duplicate IDs
+    //         // Search through mechanics and pull out the related category object (ID & Name)
+    //         const allMechanicIds = hoardGames.map(hg => hg.mechanics.map(m => m.id)).flat();
+    //         const uniqueMechanicIds = [...new Set(allMechanicIds)];
+    //         setAvailableMechanics(mechanics.filter(m => uniqueMechanicIds.find(umi => umi === m.id)));
+    //     } else {
+    //         setAvailableCategories(categories);
+    //         setAvailableMechanics(mechanics);
+    //     };
+    //     //eslint-disable-next-line
+    // } ,[hoardGames]);
     
     // Hoard Filter Form
     return (
