@@ -27,7 +27,7 @@ export const SearchCard = ({searchGame, userGames}) => {
     // the userGames Table. If the has already been saved, the button will be disabled
     const saveButton = () => {
         if(userGames.some(userGame => userGame.gameId === searchGame.id)){
-            return <Button disabled>Already in Hoard</Button>
+            return <Button disabled>Hoarded</Button>
         } else {
             return <Button variant="contained" color="primary" onClick={() => saveUserGame(searchGame)}>Hoard!</Button>
         };
