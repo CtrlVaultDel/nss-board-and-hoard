@@ -25,7 +25,9 @@ const getModalStyle = () => {
   const useStyles = makeStyles((theme) => ({
     paper: {
       position: 'absolute',
+      overflow: 'scroll',
       width: 500,
+      height: 500,
       backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
@@ -41,7 +43,7 @@ const getModalStyle = () => {
     let categoryNames = [];
     let mechanicNames = [];
 
-    // Match up category ids with their related names
+    // If the game lists categories, get them and convert them from IDs to names
     if(game.categories.length > 0){
         for (let i = 0; i < game.categories.length; i++) {
             for(let j = 0; j < categories.length; j++) {
@@ -54,6 +56,7 @@ const getModalStyle = () => {
         categoryNames = ["No categories available"];
     };
 
+    // If the game lists mechanics, get them and convert them from IDs to names
     if(game.mechanics.length > 0){
         for (let i = 0; i < game.mechanics.length; i++) {
             for(let j = 0; j < mechanics.length; j++) {
@@ -82,7 +85,6 @@ const getModalStyle = () => {
             return game.description_preview;
         };
     };
-    
   
     const body = (
       <div style={modalStyle} className={classes.paper}>
@@ -100,17 +102,17 @@ const getModalStyle = () => {
                    <h3 className="game__categories__title">
                         Categories
                     </h3>
-                   <div className="game__categories__list">
-                        {categoryNames.map(c => <div>{c}</div>)}
-                   </div>
+                   <ul className="game__categories__list">
+                        {categoryNames.map(c => <li key={c}>{c}</li>)}
+                   </ul>
                 </div>
                 <div className="game__mechanics">
                     <h3 className="game__mechanics__title">
                         Mechanics
                     </h3>
-                    <div className="game__mechanics__list">
-                        {mechanicNames.map(m => <div>{m}</div>)}
-                    </div>
+                    <ul className="game__mechanics__list">
+                        {mechanicNames.map(m => <li key={m}>{m}</li>)}
+                    </ul>
                 </div>
             </Grid>
         </div>

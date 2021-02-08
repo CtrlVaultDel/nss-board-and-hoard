@@ -9,7 +9,6 @@ import Grid from '@material-ui/core/Grid';
 
 // Context
 import { GameContext } from "../applicationProviders/GameProvider.js";
-import { GameStateContext } from "../applicationProviders/GameStateProvider.js";
 
 // Import Card Components and Functions
 import { CardModal } from "../cardComponents/CardModal.js";
@@ -19,7 +18,6 @@ import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 import "./Hoard.css";
 
 export const HoardCard = ({ hoardGame }) => {
-    const { gameStates } = useContext(GameStateContext);
     const { deleteUserGame, userGames } = useContext(GameContext);
     
     // store the current user's ID in a local variable
@@ -28,15 +26,10 @@ export const HoardCard = ({ hoardGame }) => {
     // Find the userGame Object (Local API) that relates to the current hoardGame (from Board Game Atlas API)
     const userGameObject = userGames.find(relation => relation.gameId === hoardGame.id && relation.userId === currentUser);
 
-    // Find GameState name (e.g. "Owned and Played, Owned and Not Played, etc.")
-    const findState = () => {
-        return gameStates.find(gs => gs.id === userGameObject.gameStateId).state;
-    };
-
     // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
         // Return a button which will send the related userGame Table ID to the deleteUserGame function
-        return <Button variant="contained" color="primary" onClick = {() => deleteUserGame(userGameObject.id)}>Remove Game</Button>
+        return <Button variant="contained" color="primary" onClick = {() => deleteUserGame(userGameObject.id, hoardGame.id)}>Remove Game</Button>
     };
 
     return (
@@ -65,13 +58,12 @@ export const HoardCard = ({ hoardGame }) => {
                     {getRules(hoardGame.rules_url)}
                 </div>
                 <div className="game__status">
-                    {findState()}
+                    {userGameObject.gameState.state}
                 </div>
             </CardContent>
             <Grid container justify="center">
                 <CardActions>
                     <CardModal game={hoardGame}/>
-
                     {/* Renders a button that allows the user to delete the game from their hoard page */}
                     {deleteButton()}
                 </CardActions>

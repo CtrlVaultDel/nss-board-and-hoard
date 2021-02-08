@@ -4,26 +4,25 @@
       "id": 1,
       "username": "Ryan DeVault",
       "email": "boardgamegeek@games.net"
+    },
+    {
+      "email": "bobbyross@paint.net",
+      "username": "Bob Ross",
+      "id": 2
     }
   ],
   "userGames": [
     {
-      "gameId": "PoCLi4eJGH",
+      "gameId": "lA8EtWwisI",
       "userId": 1,
       "gameStateId": 1,
-      "id": 11
+      "id": 4
     },
     {
-      "gameId": "7o1BvaDKoO",
+      "gameId": "pPZnlKC4G3",
       "userId": 1,
       "gameStateId": 1,
-      "id": 12
-    },
-    {
-      "gameId": "46AdARACqm",
-      "userId": 1,
-      "gameStateId": 1,
-      "id": 13
+      "id": 5
     }
   ],
   "gameStates": [

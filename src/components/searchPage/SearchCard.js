@@ -19,15 +19,15 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 // Styling
 import "./Search.css";
 
-export const SearchCard = ({searchGame}) => {
+export const SearchCard = ({searchGame, userGames}) => {
     // Gets state context for userGames from GameProvider.js
-    const { userGames, saveUserGame} = useContext(GameContext);
-
+    const {saveUserGame} = useContext(GameContext);
 
     // Renders a save button which allows the user to save the selected game in
     // the userGames Table. If the has already been saved, the button will be disabled
     const saveButton = () => {
         if(userGames.some(userGame => userGame.gameId === searchGame.id)){
+            //console.log("showing current searchGame", searchGame, "showing current userGame", userGames)
             return <Button disabled>Already in Hoard</Button>
         } else {
             return <Button variant="contained" color="primary" onClick={() => saveUserGame(searchGame)}>Hoard!</Button>
