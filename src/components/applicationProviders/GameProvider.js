@@ -6,10 +6,10 @@ import BGAkey from "../../key.js";
 
 export const GameContext = createContext();
 
-// store the current user's ID in a local variable
-const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
-
 export const GameProvider = (props) => {
+    // store the current user's ID in a local variable
+    const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
+
     // Holds an array of objects that reflects the current user's saved games in the userGame table
     const [userGames, setUserGames] = useState([]);
 
@@ -27,13 +27,18 @@ export const GameProvider = (props) => {
         fetch (`http://localhost:8088/userGames?_expand=gameState`)
         .then(response => response.json())
         .then(userGameData => {
-            setUserGames(userGameData)
-            const idsToFetch = userGameData.map(ug => ug.gameId).join(",")
-            fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
-            .then(hoardGameResponse => hoardGameResponse.json())
-            .then (hoardGameData => {
-                setHoardGames(hoardGameData.games)
+            const newUserGames = userGameData.filter(ugd => ugd.userId === currentUser)
+
+            setUserGames(newUserGames)
+            // If userGames for this user exist, make a fetch call to BGA
+            if(newUserGames.length){
+                const idsToFetch = newUserGames.map(ug => ug.gameId).join(",")
+                fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
+                .then(hoardGameResponse => hoardGameResponse.json())
+                .then (hoardGameData => {
+                    setHoardGames(hoardGameData.games)
             })
+            }
         })
     }
 
@@ -82,7 +87,10 @@ export const GameProvider = (props) => {
             setHoardGames([...hoardGames, gameObject])
             return fetch (`http://localhost:8088/userGames?_expand=gameState`)
             .then(response => response.json())
-            .then(userGameData => setUserGames(userGameData))
+            .then(userGameData => {
+                const newUserGames = userGameData.filter(ugd => ugd.userId === currentUser)
+                setUserGames(newUserGames)
+            })
         })
     };
 
