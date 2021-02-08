@@ -9,6 +9,7 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 // Styling
 import "./Hoard.css";
 
+// To export filteredHoardGames to HoardList
 export const FilteredGameContext = createContext()
 
 // Responsible for displaying the form and taking input(s) from the user
@@ -26,14 +27,14 @@ export const HoardFilters = (props) => {
 
     // Initialize relevant data
     //eslint-disable-next-line
-    useEffect(initializeHoardPage,[])
+    //useEffect(initializeHoardPage,[])
 
     // Determine available categories and mechanics based off available hoardGames 
     // (This will reduce uneeded clutter of the category and mechanic drop downs)
     useEffect(()=> {
+        initializeHoardPage()
         if(hoardGames.length){
             // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
-            console.log("Got hoardgames, setting filteredHoardGames to it")
             setFilteredHoardGames([...hoardGames])
             // Get a single array of all categories from the available hoard games
             // Remove duplicate IDs
@@ -51,7 +52,6 @@ export const HoardFilters = (props) => {
         } else {
             setAvailableCategories(categories);
             setAvailableMechanics(mechanics);
-            console.log("Did not get HoardGames, leaving filteredHoardGames empty")
         };
         //eslint-disable-next-line
     } ,[hoardGames]);
@@ -91,23 +91,19 @@ export const HoardFilters = (props) => {
             // If the user entered a name, check if the game's name includes the filter
             if(filter.name !== ""){
                 keep = keep && game.name.toLowerCase().includes(filter.name.toLowerCase());
-                console.log("There is a filter name and does it match?",keep)
             };
             // If the user entered a category, check if the game's categories includes the filter
             if(filter.categories !== ""){
                 keep = keep && game.categories.some(c => 
                     c.id === filter.categories);
-                console.log("There is a filter category and does it match?",keep)
             };
             // If the user entered a mechanic, check if the game's mechanics includes the filter
             if(filter.mechanics !== ""){
                 keep = keep && game.mechanics.some(c => 
                     c.id === filter.mechanics);
-                console.log("There is a filter mechanic and does it match?",keep)
             };
             // Since there is always a player input, check that the filter is below the game's max players and above the game's min players
             keep = keep && game.min_players <= parseInt(filter.players) && game.max_players >= parseInt(filter.players);
-            console.log("Absolute Match?", game.name, keep)
             return keep;
         });
         console.log("newFilteredGames",newFilteredGames)
@@ -143,7 +139,7 @@ export const HoardFilters = (props) => {
                             {/* Only list categories relevant to the current hoardGames */}
                             {
                                 availableCategories.map(({id, name}) => 
-                                <option key={id} value={id}>
+                                <option key={`${id}-category`} value={id}>
                                     {name}
                                 </option>)
                             }
@@ -159,7 +155,7 @@ export const HoardFilters = (props) => {
                             {/* Only list mechanics relevant to the current hoardGames */}
                             {
                                 availableMechanics.map(({id, name}) => 
-                                <option key={id} value={id}>
+                                <option key={`${id}-mechanic`} value={id}>
                                     {name}
                                 </option>)
                             }

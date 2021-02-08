@@ -9,12 +9,7 @@ export const GameContext = createContext();
 // store the current user's ID in a local variable
 const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
 
-// Component responsible for all functions and variables related to the BGA API
 export const GameProvider = (props) => {
-    // =============================================================================
-    // ========================LOCAL STATE VARIABLES (START)========================
-    // =============================================================================
-
     // Holds an array of objects that reflects the current user's saved games in the userGame table
     const [userGames, setUserGames] = useState([]);
 
@@ -26,13 +21,12 @@ export const GameProvider = (props) => {
 
     // Runs once when the application is opened or refreshed
     const initializeHoardPage = () => {
-        if(userGames.length || hoardGames.length){
+        if(userGames.length > 0 || hoardGames.length > 0){
             return false
         }
         fetch (`http://localhost:8088/userGames?_expand=gameState`)
         .then(response => response.json())
         .then(userGameData => {
-            console.log("Initialize Hoard Page function ran")
             setUserGames(userGameData)
             const idsToFetch = userGameData.map(ug => ug.gameId).join(",")
             fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
@@ -85,9 +79,10 @@ export const GameProvider = (props) => {
         })
         // Instead of calling BoardGameAtlas to update hoardGames, append the new game to hoardGames
         .finally(() => {
-            setUserGames([...userGames, userGameToSave])
             setHoardGames([...hoardGames, gameObject])
-            console.log("Made it to saving the game")
+            return fetch (`http://localhost:8088/userGames?_expand=gameState`)
+            .then(response => response.json())
+            .then(userGameData => setUserGames(userGameData))
         })
     };
 
@@ -103,7 +98,6 @@ export const GameProvider = (props) => {
         .finally(() => {
             setUserGames(userGames.filter(ug => ug.id !== userGameId))
             setHoardGames(hoardGames.filter(hg => hg.id !== hoardGameId))
-            console.log("Made it to deleting the game")
         })
     };
 

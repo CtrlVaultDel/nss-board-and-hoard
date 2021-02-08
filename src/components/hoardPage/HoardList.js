@@ -17,7 +17,7 @@ export const HoardList = () => {
     const { userGames } = useContext(GameContext)
     const { filteredHoardGames } = useContext(FilteredGameContext)
 
-    return filteredHoardGames.length === userGames.length && userGames.length > 0
+    return filteredHoardGames.length
         ? ( <div className="hoardList_games">
                 {
                     filteredHoardGames.map(game => <HoardCard 
@@ -27,5 +27,5 @@ export const HoardList = () => {
                     />)
                 }
             </div>)
-        : (<div className="hoardList__games">No Games Yet</div>)
+        : (<h1 className="hoardList_games">No Games Yet</h1>)
 }
