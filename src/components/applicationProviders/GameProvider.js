@@ -29,6 +29,20 @@ export const GameProvider = (props) => {
         hoardGamesLoading: false
     });
 
+    // Upon initialization, get and set these states
+    useEffect(() => {
+        console.log("**** using useEffect inside of GameProvider.js to get userGames & hoardGames****")
+        getUserGames()
+        .then(() => {
+            console.log("foobar",userGames)
+            // Ensures that userGames state is available for getHoardGames function to use
+            setTimeout(() => {
+                getHoardGames()
+            },3000)
+        })
+    //eslint-disable-next-line
+    },[])
+
     // =============================================================================
     // ==================BOARD GAME ATLAS API FETCH CALLS (START)===================
     // =============================================================================
@@ -62,9 +76,11 @@ export const GameProvider = (props) => {
     // Takes gameIds as an argument which then makes a fetch call to Board
     // Game Atlas for games with those specific ids
     const getHoardGames = () => {
-        // If there are userGames but no hoardGames, then make the call
+        // If there are userGames make the call
+        console.log("Inside getHoardGames", userGames)
         if(userGames.length)
         {
+            console.log("Got games length, preparing to dispatch call")
             const idsToFetch = userGames.map(ug => ug.gameId).join(",")
             if(idsToFetch.length > 0){
                 setLoadingStates([{
@@ -72,10 +88,9 @@ export const GameProvider = (props) => {
                     hoardGamesLoading:true
                 }])
                 console.log("Getting Information from Board Game Atlas")
+                console.log("userGames being used to make BGA fetch call", userGames)
                 return fetch (`https://api.boardgameatlas.com/api/search?ids=${idsToFetch}&client_id=${BGAkey}`)
-                    .then(response => {
-                        return response.json()
-                    })
+                    .then(response => response.json())
                     .then(gamesData => gamesData.games)
                     .then(setHoardGames)
                     .finally(() => setLoadingStates({
@@ -101,9 +116,9 @@ export const GameProvider = (props) => {
         }])
         return fetch (`http://localhost:8088/userGames?_expand=gameState`)
         .then(response => response.json())
-        .then((data) => data)
-        .then((uGames) => {
-            const newUserGames = uGames.filter(ug => ug.userId === currentUser)
+        .then((data) => {
+            const newUserGames = data.filter(ug => ug.userId === currentUser)
+            console.log("Preparing to set new userGames to:", newUserGames)
             setUserGames(newUserGames)
             // Set loading state for userGames to true (loading)
             setLoadingStates([{
@@ -175,14 +190,6 @@ export const GameProvider = (props) => {
             hoardGamesLoading:false
         }))
     };
-
-    // Upon initialization, get and set these states
-    useEffect(() => {
-        console.log("**** using useEffect inside of GameProvider.js to get userGames & hoardGames****")
-        getUserGames()
-        .then(getHoardGames)
-         //eslint-disable-next-line
-    },[])
 
     return (
         <GameContext.Provider value={{loadingStates, getSearchGames, searchGames, getHoardGames, hoardGames, getUserGames, userGames, saveUserGame, deleteUserGame}}>

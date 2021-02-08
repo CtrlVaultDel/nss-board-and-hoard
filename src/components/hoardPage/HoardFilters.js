@@ -84,14 +84,19 @@ export const HoardFilters = () => {
             return keep;
         });
         console.log("newFilteredGames",newFilteredGames)
-        setFilteredHoardGames(newFilteredGames);
+        setFilteredHoardGames(newFilteredGames)
     };
 
     // Determine available categories and mechanics based off available hoardGames 
     // (This will reduce uneeded clutter of the category and mechanic drop downs)
     useEffect(()=> {
         // If there are hoard games, start the process of determining the relevant categories and mechanics to include in the filters
+        console.log("Listing hoardGames in HoardFilters",hoardGames)
         if(hoardGames.length){
+            setTimeout(() => {
+                setFilteredHoardGames([...hoardGames])
+                console.log("Setting default filteredHoardGames", [...hoardGames])
+            }, 500);
 
             // Get a single array of all categories from the available hoard games
             // Remove duplicate IDs
@@ -110,15 +115,9 @@ export const HoardFilters = () => {
             setAvailableCategories(categories);
             setAvailableMechanics(mechanics);
         };
-    }
-    //eslint-disable-next-line
-    ,[hoardGames]);
-
-    useEffect(()=>{
-        setFilteredHoardGames([...hoardGames])
-        console.log("Setting default filteredHoardGames", filteredHoardGames)
-    },[])
-
+        //eslint-disable-next-line
+    } ,[hoardGames]);
+    
     // Hoard Filter Form
     return (
         <>

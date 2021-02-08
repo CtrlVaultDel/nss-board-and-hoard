@@ -30,7 +30,7 @@ export const HoardList = ({ filteredHoardGames }) => {
     const { loadingStates, userGames } = useContext( GameContext );
 
     const classes = useStyles();
-
+    console.log("Console logging filteredHoardGames on HoardList",filteredHoardGames)
     // If either states are still loading, render a loading animation
     if (loadingStates.userGamesLoading || loadingStates.hoardGamesLoading) {
         return (
