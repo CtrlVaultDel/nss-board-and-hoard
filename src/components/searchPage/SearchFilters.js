@@ -1,6 +1,12 @@
 // React
 import React, { useContext, useState } from "react";
 
+// Material UI
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
+
 // Context
 import { CategoryContext } from "../applicationProviders/CategoryProvider.js"; 
 import { MechanicContext } from "../applicationProviders/MechanicProvider.js"; 
@@ -9,9 +15,49 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 // Styling
 import "./Search.css";
 
+// Material UI Style Functions
+
+// Text Input
+const useTextStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+        width: '25ch',
+      },
+    },
+}));
+
+// Slider -- used to style the slider
+const useSliderStyles = makeStyles({
+    root: {
+        width: 300,
+    },
+});
+
+// Slider -- used to place a value in the bubble above the current selection
+const valueText = value => `${value}`;
+
+// Slider -- used to make custom marks under the slider
+const marks = [
+    {
+        value: 1,
+        label: "1"
+    },
+    {
+        value: 8,
+        label: "8"
+    }
+]
+
 // Responsible for displaying the form and taking input(s) from the user
 // in order to send a fetch call with the desired filters.
 export const SearchFilters = () => {
+
+    // MUI Text Input
+    const textClasses = useTextStyles();
+
+    // MUI Slider Input
+    const sliderClasses = useSliderStyles();
 
     // Pull context from these providers
     const { categories } = useContext(CategoryContext);
@@ -30,38 +76,53 @@ export const SearchFilters = () => {
     });
 
     // Updates the current search object when a new input is made
-    const handleChange = (event) => {
+    const handleChange = (event, newValue) => {
+
         // Create a copy of the state object
-        const newSearch = { ...search};
+        const newSearch = { ...search };
 
-        // Set the related property and its value to newSearch object
-        newSearch[event.target.name] = event.target.value;
+        if(newValue){
+            newSearch["gt_min_players"] = newValue;
+            setSearch(newSearch);
+        } else {
+            // Set the related property and its value to newSearch object
+            newSearch[event.target.name] = event.target.value;
 
-        // Update state of search
-        setSearch(newSearch);
-        // Updates the number beside the range slider
-        if(event.target.name === 'gt_min_players'){
-            setRangeValue(event.target.value);
-        };
+            // Update state of search
+            setSearch(newSearch);
+        }   
     };
 
     // Search Filter Form
     return (
-        <form className="SearchFilters" id="SearchFilters">
+        <form className={textClasses.root} className="SearchFilters" id="SearchFilters">
             <h2 className="employeeForm__title">Search Filters</h2>
             {/* Displays a text input field for the user to fill out for the name of the boardgame(s) they are looking for */}
             <fieldset >
                 <div className="nameContainer">
-                    <label htmlFor="boardgameName">Boardgame Name: </label>
-                    <input type="text" id="boardgameName" className="boardgameName" name="name" autoComplete="off" onChange={handleChange} autoFocus defaultValue=""></input>
+                    <TextField id="boardGameName" className="boardgameName" variant="outlined" label="Boardgame Name" name="name" autoComplete="off" onChange={handleChange} autoFocus defaultValue=""></TextField>
                 </div>
             </fieldset>
             {/* Displays a range slider that the user can use to indicate the mininum players */}
             <fieldset>
-                <div className="range-slider">
-                    <label htmlFor="minPlayers">Min Players: </label>
+                <div className={sliderClasses.root}>
+                    <Typography id="discrete-slider" gutterBottom>
+                        Minimum Players
+                    </Typography>
+                    <Slider
+                        defaultValue={1}
+                        getAriaValueText={valueText}
+                        aria-labelledby="gt_min-players"
+                        valueLabelDisplay="auto"
+                        step={1}
+                        marks={marks}
+                        min={1}
+                        max={8}
+                        onChangeCommitted={handleChange}
+                    />
+                    {/* <label htmlFor="minPlayers">Min Players: </label>
                     <input type="range" id="range-slider__range" name="gt_min_players" onChange={handleChange} className="minPlayerSlider" min="1" max="8" defaultValue="1"></input>
-                    <span className="range-slider__value">{rangeValue}</span>
+                    <span className="range-slider__value">{rangeValue}</span> */}
                 </div>
             </fieldset>
             {/* Displays a dropdown of categories that the user can select to include in the filter */}
@@ -94,9 +155,10 @@ export const SearchFilters = () => {
                     </select>
                 </div>
             </fieldset>
-            <button className="btn btn-primary" onClick={event => {
+            <button className="btn btn-search" onClick={event => {
                 event.preventDefault();
                 getSearchGames(search);
+                console.log("Searching for", search)
             }}>Search!
             </button>
         </form>
