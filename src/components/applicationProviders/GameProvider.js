@@ -96,8 +96,8 @@ export const GameProvider = (props) => {
         })
         // Instead of calling BoardGameAtlas to update hoardGames, set hoardGames to itself less the removed game
         .finally(() => {
-            setUserGames(userGames.filter(ug => ug.id !== userGameId))
             setHoardGames(hoardGames.filter(hg => hg.id !== hoardGameId))
+            setUserGames(userGames.filter(ug => ug.id !== userGameId))
         })
     };
 

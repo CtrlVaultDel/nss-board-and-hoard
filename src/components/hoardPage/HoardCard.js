@@ -17,21 +17,15 @@ import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 
 import "./Hoard.css";
 
-export const HoardCard = ({ hoardGame }) => {
-    const { deleteUserGame, userGames } = useContext(GameContext);
-    
-    // store the current user's ID in a local variable
-    const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
-
-    // Find the userGame Object (Local API) that relates to the current hoardGame (from Board Game Atlas API)
-    const userGameObject = userGames.find(relation => relation.gameId === hoardGame.id && relation.userId === currentUser);
+export const HoardCard = ({ hoardGame, userGame }) => {
+    const { deleteUserGame } = useContext(GameContext);
 
     // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
         // Return a button which will send the related userGame Table ID to the deleteUserGame function
-        return <Button variant="contained" color="primary" onClick = {() => deleteUserGame(userGameObject.id, hoardGame.id)}>Remove Game</Button>
+        return <Button variant="contained" color="primary" onClick = {() => deleteUserGame(userGame.id, hoardGame.id)}>Remove Game</Button>
     };
-
+    
     return (
         <Card className="game">
             <CardContent>
@@ -58,7 +52,7 @@ export const HoardCard = ({ hoardGame }) => {
                     {getRules(hoardGame.rules_url)}
                 </div>
                 <div className="game__status">
-                    {userGameObject.gameState.state}
+                    {userGame.gameState.state}
                 </div>
             </CardContent>
             <Grid container justify="center">
