@@ -85,7 +85,6 @@ export const HoardFilters = (props) => {
 
     // Filters the hoard games currently saved to the user's profile with the selected filters
     const filterHoardGames = () => {
-        console.log("Search for these:", filter)
         const newFilteredGames = hoardGames.filter(game => {
             let keep = true;
             // If the user entered a name, check if the game's name includes the filter
@@ -106,7 +105,6 @@ export const HoardFilters = (props) => {
             keep = keep && game.min_players <= parseInt(filter.players) && game.max_players >= parseInt(filter.players);
             return keep;
         });
-        console.log("newFilteredGames",newFilteredGames)
         setFilteredHoardGames(newFilteredGames)
     };
     
