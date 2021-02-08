@@ -17,13 +17,19 @@ export const HoardList = () => {
     const { userGames } = useContext(GameContext)
     const { filteredHoardGames } = useContext(FilteredGameContext)
 
-    return filteredHoardGames.length
+    // store the current user's ID in a local variable
+    const currentUser = parseInt(localStorage.getItem('board_and_hoard_user'));
+
+    console.log("HoardList-userGames",userGames)
+    console.log("HoardList-fHoardGames", filteredHoardGames)
+
+    return filteredHoardGames.length 
         ? ( <div className="hoardList_games">
                 {
                     filteredHoardGames.map(game => <HoardCard 
                         key={game.id} 
                         hoardGame={game} 
-                        userGames={userGames}
+                        userGame={userGames.find(ug => ug.gameId === game.id && ug.userId === currentUser)}
                     />)
                 }
             </div>)
