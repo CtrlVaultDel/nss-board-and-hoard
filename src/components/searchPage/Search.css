@@ -1,5 +1,5 @@
 /* Filters at the top of the Search Page */
-.SearchFilters {
+#SearchFilters {
     display: flex;
     flex-direction: column;
     justify-content: center;

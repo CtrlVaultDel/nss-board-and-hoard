@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
 import { useHistory } from "react-router-dom"
-import "./Login.css"
+import "./Auth.css"
 
 export const Register = (props) => {
     const firstName = useRef()

@@ -149,7 +149,7 @@ export const SearchFilters = () => {
 
     // Search Filter Form
     return (
-        <form className={textClasses.root} className="SearchFilters" id="SearchFilters">
+        <form className={textClasses.root} id="SearchFilters">
             <h2 className="employeeForm__title">Search Filters</h2>
             {/* Displays a text input field for the user to fill out for the name of the boardgame(s) they are looking for */}
             <fieldset >
