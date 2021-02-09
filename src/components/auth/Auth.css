@@ -12,7 +12,6 @@ fieldset {
 .form--login {
     display: inline-block;
     margin: 0 auto;
-    text-align: left;
 }
 
 .form--login > fieldset > input[type="email"],
@@ -45,15 +44,15 @@ fieldset {
 .container--login {
     text-align: center;
     background-image: url("../images/Dice-Background.jpg");
+    height: 100vh;
 }
 
 .form--page {
-    height: 42.4rem;
-    display: flex;
+    height: 100%;
 }
 
 .registration--page {
-    height: 42.4rem;
+    height: 100%;
     display: flex;
 }
 
@@ -61,8 +60,6 @@ fieldset {
     margin: auto;
     background-position-x: right;
     z-index: 1;
-    height: 300px;
-    min-width: 47rem;
     background-blend-mode: overlay;
     background-repeat: no-repeat;
     
@@ -77,4 +74,3 @@ fieldset {
     min-width: 15rem;
     min-height: 5rem;
 }
-

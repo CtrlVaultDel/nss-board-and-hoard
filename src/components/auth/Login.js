@@ -1,22 +1,24 @@
-import React, { useRef } from "react"
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom"
-import "./Login.css"
+import { useHistory } from "react-router-dom";
+
+// Styles
+import "./Auth.css";
 
 
 export const Login = props => {
-    const email = useRef()
-    const existDialog = useRef()
-    const history = useHistory()
+    const email = useRef();
+    const existDialog = useRef();
+    const history = useHistory();
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/users?email=${email.current.value}`)
             .then(res => res.json())
-            .then(user => user.length ? user[0] : false)
-    }
+            .then(user => user.length ? user[0] : false);
+    };
 
     const handleLogin = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         existingUserCheck()
             .then(exists => {
@@ -25,9 +27,9 @@ export const Login = props => {
                     history.push("/hoardPage")
                 } else {
                     existDialog.current.showModal()
-                }
-            })
-    }
+                };
+            });
+    };
 
     return (
         <main className="container--login">
@@ -54,11 +56,10 @@ export const Login = props => {
                         </button>
                     </fieldset>
                 </form>
-            </section>
-            <section className="link--register">
-                <Link to="/register">Not a member yet?</Link>
+                <div className="link--register">
+                    <Link to="/register">Not a member yet?</Link>
+                </div>
             </section>
         </main>
-    )
-}
-
+    );
+};

@@ -1,14 +1,22 @@
+/* Take padding off of fieldsets */
+#SearchFilters fieldset{
+    padding: 0px;
+}
+
 /* Filters at the top of the Search Page */
-.SearchFilters {
+#SearchFilters {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: solid black 1px;
-    padding: 60px 10px 10px 10px;
-    background-color: #8BC6EC;
-    background: rgb(219, 182, 114);
+    padding: 60px 0 0 50px;
+    background: rgb(165 181 36 / 30%);
     min-width: 290px;
+}
+
+.searchFilter--title{
+    text-align: center;
 }
 
 /* List of games that appear towards the bottom of the Search Page */

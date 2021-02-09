@@ -48,7 +48,7 @@ export const GameProvider = (props) => {
     // to receive and store the relevant games.
     const getSearchGames = (searchObject) => {
         let queryOptions = ["name", "mechanics", "categories", "gt_min_players"]
-        let baseUrl = `https://api.boardgameatlas.com/api/search?&limit=50&order_by="popularity"&fuzzy_search="true"&client_id=${BGAkey}&`
+        let baseUrl = `https://api.boardgameatlas.com/api/search?&limit=50&order_by=popularity&ascending=false&fuzzy_search=true&client_id=${BGAkey}&`
         const fullUrl = baseUrl + queryOptions
             .map((optionName) => {
                 let value = "";
@@ -109,8 +109,34 @@ export const GameProvider = (props) => {
         })
     };
 
+    // Updates a user's gameState for a particular game
+    const updateGameState = (userGameId, gameId, userId, newGameStateId) => {
+        // Save new userGame object with updated gameStateId
+        const updatedUserGame = {
+            id: userGameId,
+            gameId,
+            userId,
+            gameStateId: newGameStateId
+        };
+        return fetch(`http://localhost:8088/userGames/${userGameId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(updatedUserGame)
+        })
+        .finally(() => {
+            return fetch (`http://localhost:8088/userGames?_expand=gameState`)
+            .then(response => response.json())
+            .then(userGameData => {
+                const newUserGames = userGameData.filter(ugd => ugd.userId === currentUser);
+                setUserGames(newUserGames);
+            });
+        });
+    };
+
     return (
-        <GameContext.Provider value={{initializeHoardPage, getSearchGames, searchGames, hoardGames, userGames, saveUserGame, deleteUserGame}}>
+        <GameContext.Provider value={{initializeHoardPage, getSearchGames, searchGames, hoardGames, userGames, saveUserGame, deleteUserGame, updateGameState}}>
             {props.children}
         </GameContext.Provider>
     );

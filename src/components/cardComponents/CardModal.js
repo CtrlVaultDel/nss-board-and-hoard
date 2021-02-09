@@ -121,7 +121,7 @@ const getModalStyle = () => {
   
     return (
         <div>
-            <Button variant="contained" color="secondary" onClick={handleOpen}>
+            <Button variant="contained" color="default" onClick={handleOpen}>
                 Details
             </Button>
             <Modal
