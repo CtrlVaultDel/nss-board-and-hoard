@@ -60,7 +60,6 @@ export const GameProvider = (props) => {
                 return `${optionName}=${value}`;
             })
             .join("&");
-        console.log("url Sent:",fullUrl)
         // Fetch call with specific filters
         return fetch(fullUrl)
         .then(response => response.json())

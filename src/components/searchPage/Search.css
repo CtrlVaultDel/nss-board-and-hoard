@@ -11,6 +11,10 @@
     min-width: 290px;
 }
 
+.searchFilter--title{
+    text-align: center;
+}
+
 /* List of games that appear towards the bottom of the Search Page */
 .searchList_games{
     display: flex;

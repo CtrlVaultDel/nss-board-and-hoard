@@ -28,7 +28,6 @@ const useTextStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
         margin: theme.spacing(1),
-        width: '25ch',
       },
     },
 }));
@@ -36,7 +35,7 @@ const useTextStyles = makeStyles((theme) => ({
 // Slider -- used to style the slider
 const useSliderStyles = makeStyles({
     root: {
-        width: 300,
+        width: 250,
     },
 });
 
@@ -113,17 +112,13 @@ export const SearchFilters = () => {
         if(newValue >= 1 && newValue <= 8){
             newSearch["gt_min_players"] = newValue;
             setSearch(newSearch);
-            console.log("Setting Range", newValue)
         } else if(event === "category") {
             newSearch["categories"] = newValue;
             setSearch(newSearch);
-            console.log("Setting Category", newValue)
         } else if(event === "mechanic") {
             newSearch["mechanics"] = newValue;
             setSearch(newSearch);
-            console.log("Setting Mechanic", newValue)
         } else {
-            console.log("Setting name")
             // Set the related property and its value to newSearch object
             newSearch[event.target.name] = event.target.value;
 
@@ -150,41 +145,36 @@ export const SearchFilters = () => {
     // Search Filter Form
     return (
         <form className={textClasses.root} id="SearchFilters">
-            <h2 className="employeeForm__title">Search Filters</h2>
+            <h2 className="searchFilter--title">Search Filters</h2>
             {/* Displays a text input field for the user to fill out for the name of the boardgame(s) they are looking for */}
-            <fieldset >
-                <div className="nameContainer">
-                    <TextField id="boardGameName" className="boardgameName" variant="outlined" label="Boardgame Name" name="name" autoComplete="off" onChange={handleChange} autoFocus defaultValue=""></TextField>
-                </div>
+            <fieldset className="nameContainer">
+                <TextField id="boardGameName" className="boardgameName" variant="outlined" label="Boardgame Name" name="name" autoComplete="off" onChange={handleChange} autoFocus defaultValue=""></TextField>
             </fieldset>
             {/* Displays a range slider that the user can use to indicate the mininum players */}
-            <fieldset>
-                <div className={sliderClasses.root}>
-                    <Typography id="discrete-slider" gutterBottom>
-                        Minimum Players
-                    </Typography>
-                    <Slider
-                        defaultValue={1}
-                        getAriaValueText={valueText}
-                        aria-labelledby="gt_min-players"
-                        valueLabelDisplay="auto"
-                        step={1}
-                        marks={marks}
-                        min={1}
-                        max={8}
-                        onChangeCommitted={handleChange}
-                    />
-                </div>
+            <fieldset className={sliderClasses.root}>
+                <Typography id="discrete-slider" gutterBottom>
+                    Minimum Players
+                </Typography>
+                <Slider
+                    defaultValue={1}
+                    getAriaValueText={valueText}
+                    aria-labelledby="gt_min-players"
+                    valueLabelDisplay="auto"
+                    step={1}
+                    marks={marks}
+                    min={1}
+                    max={8}
+                    onChangeCommitted={handleChange}
+                />
             </fieldset>
             {/* Displays a dropdown of categories that the user can select to include in the filter */}
-            <fieldset>
                 <Grid 
                     container
                     direction="row"
                     justify="center"
-                    alignItems="center"
+                    alignItems="baseline"
                 >
-                    <div className="categories">
+                    <fieldset className="categories">
                         <FormControl className={selectClasses.formControl}>
                             <InputLabel 
                                 id="categories"> Category: 
@@ -206,8 +196,8 @@ export const SearchFilters = () => {
                                 }
                             </Select>
                         </FormControl>
-                    </div>
-                    <div className="mechanics">
+                    </fieldset>
+                    <fieldset className="mechanics">
                         <FormControl className={selectClasses.formControl}>
                             <InputLabel 
                                 id="mechanics"> Mechanic: 
@@ -229,15 +219,13 @@ export const SearchFilters = () => {
                                 }
                             </Select>
                         </FormControl>
-                    </div>
+                    </fieldset>
                 </Grid>
-            </fieldset>
             {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
             <div className={buttonClasses.root}>
                 <Button className="btn btn-search" variant="contained" color="default" onClick={event => {
                     event.preventDefault();
                     getSearchGames(search);
-                    console.log("Searching for", search)
                 }}>Search!
                 </Button>
             </div>
