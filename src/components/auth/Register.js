@@ -1,22 +1,22 @@
-import React, { useRef } from "react"
-import { useHistory } from "react-router-dom"
-import "./Auth.css"
+import React, { useRef } from "react";
+import { useHistory } from "react-router-dom";
+import "./Auth.css";
 
 export const Register = (props) => {
-    const firstName = useRef()
-    const lastName = useRef()
-    const email = useRef()
-    const conflictDialog = useRef()
-    const history = useHistory()
+    const firstName = useRef();
+    const lastName = useRef();
+    const email = useRef();
+    const conflictDialog = useRef();
+    const history = useHistory();
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/users?email=${email.current.value}`)
             .then(res => res.json())
-            .then(user => !!user.length)
-    }
+            .then(user => !!user.length);
+    };
 
     const handleRegister = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
 
         existingUserCheck()
@@ -35,17 +35,16 @@ export const Register = (props) => {
                         .then(res => res.json())
                         .then(createdUser => {
                             if (createdUser.hasOwnProperty("id")) {
-                                localStorage.setItem("board_and_hoard_user", createdUser.id)
-                                history.push("/searchPage")
-                            }
+                                localStorage.setItem("board_and_hoard_user", createdUser.id);
+                                history.push("/searchPage");
+                            };
                         })
                 }
                 else {
-                    conflictDialog.current.showModal()
-                }
-            })
-        
-    }
+                    conflictDialog.current.showModal();
+                };
+            });
+    };
 
     return (
         <main className="container--login" style={{ textAlign: "center" }}>
@@ -75,6 +74,5 @@ export const Register = (props) => {
                 </form>
             </section>
         </main>
-    )
-}
-
+    );
+};
