@@ -1,11 +1,15 @@
 /* Filters at the top of the Hoard Page */
-.HoardFilters {
+#HoardFilters fieldset {
+    padding: 0;
+}
+
+#HoardFilters {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: solid black 1px;
-    padding: 60px 10px 10px 10px;
+    padding: 60px 0 0 50px;
     background: rgb(165 181 36 / 30%);
     min-width: 290px;
 }

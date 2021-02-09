@@ -124,22 +124,23 @@ export const SearchFilters = () => {
 
             // Update state of search
             setSearch(newSearch);
-        }   
+        };
     };
 
-    // Handles the category state
-    const [category, setCategory] = useState("")
+    // Handles the category state for the form
+    const [category, setCategory] = useState("");
 
     const handleCategoryChange = (event) => {
-        setCategory(event.target.value)
-        handleChange("category", event.target.value)
+        setCategory(event.target.value);
+        handleChange("category", event.target.value);
     };
 
+    // Handles the mechanic state for the form
     const [mechanic, setMechanic] = useState("");
 
     const handleMechanicChange = (event) => {
-        setMechanic(event.target.value)
-        handleChange("mechanic", event.target.value)
+        setMechanic(event.target.value);
+        handleChange("mechanic", event.target.value);
     };
 
     // Search Filter Form
@@ -167,13 +168,13 @@ export const SearchFilters = () => {
                     onChangeCommitted={handleChange}
                 />
             </fieldset>
-            {/* Displays a dropdown of categories that the user can select to include in the filter */}
                 <Grid 
                     container
                     direction="row"
                     justify="center"
                     alignItems="baseline"
                 >
+                    {/* Displays a dropdown of categories that the user can select to include in the filter */}
                     <fieldset className="categories">
                         <FormControl className={selectClasses.formControl}>
                             <InputLabel 
@@ -197,6 +198,8 @@ export const SearchFilters = () => {
                             </Select>
                         </FormControl>
                     </fieldset>
+
+                    {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
                     <fieldset className="mechanics">
                         <FormControl className={selectClasses.formControl}>
                             <InputLabel 
@@ -221,7 +224,6 @@ export const SearchFilters = () => {
                         </FormControl>
                     </fieldset>
                 </Grid>
-            {/* Displays a dropdown of mechanics that the user can select to include in the filter */}
             <div className={buttonClasses.root}>
                 <Button className="btn btn-search" variant="contained" color="default" onClick={event => {
                     event.preventDefault();
