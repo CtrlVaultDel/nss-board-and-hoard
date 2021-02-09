@@ -167,7 +167,7 @@ export const HoardFilters = (props) => {
     // Handles the slider state for the form
     const [sliderValue, setSliderValue] = useState(1);
 
-    const handleSliderChange = (event, newValue) => {
+    const handleSliderChange = (e, newValue) => {
         setSliderValue(newValue);
         handleChange("players", newValue);
     };
@@ -344,8 +344,8 @@ export const HoardFilters = (props) => {
                         event.preventDefault();
                         
                         // Set form values back to default
-                        setNameValue("")
-                        setSliderValue(1)
+                        setNameValue("");
+                        setSliderValue(1);
                         setCategoryValue("");
                         setMechanicValue("");
 

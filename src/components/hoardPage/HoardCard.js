@@ -1,31 +1,58 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 // Material UI Imports
+import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 // Context
 import { GameContext } from "../applicationProviders/GameProvider.js";
+import { GameStateContext } from "../applicationProviders/GameStateProvider.js";
 
 // Import Card Components and Functions
 import { CardModal } from "../cardComponents/CardModal.js";
 import { CardRating } from "../cardComponents/CardRating.js";
 import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 
+// Styles
 import "./Hoard.css";
 
+// Select -- used to style the select dropdowns
+const useSelectStyles = makeStyles((theme) => ({
+    formControl: {
+      minWidth: 150,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+}));
+
 export const HoardCard = ({ hoardGame, userGame }) => {
-    const { deleteUserGame } = useContext(GameContext);
+    // MUI Select Input
+    const selectClasses = useSelectStyles();
+
+    const { deleteUserGame, updateGameState } = useContext(GameContext);
+    const { gameStates } = useContext(GameStateContext)
+
+    // Handles the category state for the form
+    const [gameStateValue, setGameStateValue] = useState(() => userGame.gameStateId);
+
+    const handleGameStateChange = (event) => {
+        setGameStateValue(event.target.value);
+        updateGameState(userGame.id, userGame.gameId, userGame.userId, event.target.value);
+    };
 
     // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
         // Return a button which will send the related userGame Table ID to the deleteUserGame function
         return <Button variant="contained" color="secondary" onClick = {() => deleteUserGame(userGame.id, hoardGame.id)}>Remove Game</Button>
     };
-    
     return (
         <Card className="game">
             <CardContent>
@@ -51,9 +78,25 @@ export const HoardCard = ({ hoardGame, userGame }) => {
                 <div className="game__rules">
                     {getRules(hoardGame.rules_url)}
                 </div>
-                <div className="game__status">
-                    {userGame.gameState.state}
-                </div>
+                <form>
+                    <FormControl
+                        className={selectClasses.formControl}>
+                        <Select 
+                            name="current--gameStatus"
+                            className="game__status"
+                            value={gameStateValue}
+                            onChange={handleGameStateChange}>
+                            {
+                                gameStates.map(gs => 
+                                    <MenuItem 
+                                        key={gs.id} 
+                                        value={gs.id}>
+                                        {gs.state}
+                                    </MenuItem>)
+                            }
+                        </Select>
+                    </FormControl>
+                </form>
             </CardContent>
             <Grid container justify="center">
                 <CardActions>
@@ -64,3 +107,30 @@ export const HoardCard = ({ hoardGame, userGame }) => {
             </Grid>
         </Card>
 )};
+
+// <FormControl 
+//     className={selectClasses.formControl}>
+//     <InputLabel 
+//         id="categories"> Category: 
+//     </InputLabel>
+//     <Select 
+//         labelId="categoriesLabel"
+//         id="categories-select"
+//         name="categories" 
+//         value={categoryValue}
+//         onChange={handleCategoryChange}>
+//         <MenuItem 
+//             value=""> All Categories
+//         </MenuItem>
+//         {
+//             availableCategories.map(c => 
+//                 <MenuItem 
+//                     key={`${c.id}-hoard`} 
+//                     value={c.id}
+//                 >
+//                     {c.name}
+//                 </MenuItem>)
+//         }
+//     </Select>
+// </FormControl>
+// </fieldset>
