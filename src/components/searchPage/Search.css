@@ -1,3 +1,8 @@
+/* Take padding off of fieldsets */
+#SearchFilters fieldset{
+    padding: 0px;
+}
+
 /* Filters at the top of the Search Page */
 #SearchFilters {
     display: flex;
@@ -5,10 +10,10 @@
     justify-content: center;
     align-items: center;
     border: solid black 1px;
-    padding: 60px 10px 10px 10px;
-    background-color: #8BC6EC;
+    padding-top: 60px;
     background: rgb(165 181 36 / 30%);
     min-width: 290px;
+    padding-left: 50px;
 }
 
 .searchFilter--title{
