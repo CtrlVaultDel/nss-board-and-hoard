@@ -107,30 +107,3 @@ export const HoardCard = ({ hoardGame, userGame }) => {
             </Grid>
         </Card>
 )};
-
-// <FormControl 
-//     className={selectClasses.formControl}>
-//     <InputLabel 
-//         id="categories"> Category: 
-//     </InputLabel>
-//     <Select 
-//         labelId="categoriesLabel"
-//         id="categories-select"
-//         name="categories" 
-//         value={categoryValue}
-//         onChange={handleCategoryChange}>
-//         <MenuItem 
-//             value=""> All Categories
-//         </MenuItem>
-//         {
-//             availableCategories.map(c => 
-//                 <MenuItem 
-//                     key={`${c.id}-hoard`} 
-//                     value={c.id}
-//                 >
-//                     {c.name}
-//                 </MenuItem>)
-//         }
-//     </Select>
-// </FormControl>
-// </fieldset>
