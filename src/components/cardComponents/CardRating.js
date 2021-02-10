@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     '& > * + *': {
       marginTop: theme.spacing(1),
     },
@@ -18,7 +19,7 @@ export const CardRating = ({rating}) => {
 
     return (
         <div className={classes.root}>
-        <Rating name="half-rating-read" defaultValue={starRating} precision={0.5} readOnly />
+            <Rating name="half-rating-read" defaultValue={starRating} precision={0.5} readOnly />
         </div>
     );
 };

@@ -33,6 +33,7 @@ const useSelectStyles = makeStyles((theme) => ({
     },
 }));
 
+// Takes individual search game from HoardList and renders it to the DOM as a card with its relevant information 
 export const HoardCard = ({ hoardGame, userGame }) => {
     // MUI Select Input
     const selectClasses = useSelectStyles();
@@ -51,52 +52,55 @@ export const HoardCard = ({ hoardGame, userGame }) => {
     // Creates delete button for each Hoard Game Card
     const deleteButton = () => {
         // Return a button which will send the related userGame Table ID to the deleteUserGame function
-        return <Button variant="contained" color="secondary" onClick = {() => deleteUserGame(userGame.id, hoardGame.id)}>Remove Game</Button>
+        return <Button variant="contained" color="secondary" onClick = {() => deleteUserGame(userGame.id, hoardGame.id)}>Remove</Button>
     };
     return (
         <Card className="game">
             <CardContent>
+                <Grid container align="center" justify="center" direction="column">
                 {/* Displays the game name */}
                 <h3 className="game__name">
                     {hoardGame.name}
                 </h3>
                 {/* Displays the game image */}
-                <div className="game__img">
-                    <img src={hoardGame.images.small} alt={`Cover for ${hoardGame.name}`} />
-                </div>
-                {/* Displays the game's average user rating */}
-                <div className={`game__averageRating`}>
-                    Average User Rating: <CardRating rating={hoardGame.average_user_rating}/>
-                </div>
-                {/* Displays the game's minimum and maximum players */}
-                <div className="game__players">
-                    Players: {hoardGame.min_players} - {hoardGame.max_players}
-                </div>
-                <div className="game__msrp">
-                    {getMSRP(hoardGame.msrp_text)}
-                </div>
-                <div className="game__rules">
-                    {getRules(hoardGame.rules_url)}
-                </div>
-                <form>
-                    <FormControl
-                        className={selectClasses.formControl}>
-                        <Select 
-                            name="current--gameStatus"
-                            className="game__status"
-                            value={gameStateValue}
-                            onChange={handleGameStateChange}>
-                            {
-                                gameStates.map(gs => 
-                                    <MenuItem 
-                                        key={gs.id} 
-                                        value={gs.id}>
-                                        {gs.state}
-                                    </MenuItem>)
-                            }
-                        </Select>
-                    </FormControl>
-                </form>
+                
+                    <div className="game__img">
+                        <img src={hoardGame.images.small} alt={`Cover for ${hoardGame.name}`} />
+                    </div>
+                    {/* Displays the game's average user rating */}
+                    <div className={`game__averageRating`}>
+                        Average User Rating: <CardRating rating={hoardGame.average_user_rating}/>
+                    </div>
+                    {/* Displays the game's minimum and maximum players */}
+                    <div className="game__players">
+                        Players: {hoardGame.min_players} - {hoardGame.max_players}
+                    </div>
+                    <div className="game__msrp">
+                        {getMSRP(hoardGame.msrp_text)}
+                    </div>
+                    <div className="game__rules">
+                        {getRules(hoardGame.rules_url)}
+                    </div>
+                    <form>
+                        <FormControl
+                            className={selectClasses.formControl}>
+                            <Select 
+                                name="current--gameStatus"
+                                className="game__status"
+                                value={gameStateValue}
+                                onChange={handleGameStateChange}>
+                                {
+                                    gameStates.map(gs => 
+                                        <MenuItem 
+                                            key={gs.id} 
+                                            value={gs.id}>
+                                            {gs.state}
+                                        </MenuItem>)
+                                }
+                            </Select>
+                        </FormControl>
+                    </form>
+                </Grid>
             </CardContent>
             <Grid container justify="center">
                 <CardActions>
@@ -107,30 +111,3 @@ export const HoardCard = ({ hoardGame, userGame }) => {
             </Grid>
         </Card>
 )};
-
-// <FormControl 
-//     className={selectClasses.formControl}>
-//     <InputLabel 
-//         id="categories"> Category: 
-//     </InputLabel>
-//     <Select 
-//         labelId="categoriesLabel"
-//         id="categories-select"
-//         name="categories" 
-//         value={categoryValue}
-//         onChange={handleCategoryChange}>
-//         <MenuItem 
-//             value=""> All Categories
-//         </MenuItem>
-//         {
-//             availableCategories.map(c => 
-//                 <MenuItem 
-//                     key={`${c.id}-hoard`} 
-//                     value={c.id}
-//                 >
-//                     {c.name}
-//                 </MenuItem>)
-//         }
-//     </Select>
-// </FormControl>
-// </fieldset>
