@@ -10,7 +10,7 @@
     align-items: center;
     border: solid black 1px;
     padding: 60px 0 0 50px;
-    background: rgb(165 181 36 / 30%);
+    background: #E5F9E0;
     min-width: 290px;
 }
 
@@ -25,9 +25,25 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     border: solid black 1px;
-    background-image: url("../images/Wood-Background.jpg");
+    background-color: #283845;
+    /* background-image: url("../images/Wood-Background.jpg"); */
 }
 
 .hoardList_games::-webkit-scrollbar{
     display:none;
+}
+
+/* Individual game cards that appear on the Hoard Page */
+.game {
+    min-width: 220px;
+    border: solid black 1px;
+    margin: 15px;
+    padding: 5px;
+    transform: translateY(5px);
+    border-radius: 50px;
+    background: white;
+}
+
+.game:hover{
+    filter: drop-shadow(0 0 0.75rem rgb(197, 197, 197));
 }

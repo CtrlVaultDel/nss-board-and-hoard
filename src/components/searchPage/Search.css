@@ -11,7 +11,7 @@
     align-items: center;
     border: solid black 1px;
     padding: 60px 0 0 50px;
-    background: rgb(165 181 36 / 30%);
+    background: #D6EEFF;
     min-width: 290px;
 }
 
@@ -30,7 +30,7 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     border: solid black 1px;
-    background-image: url("../images/Wood-Background.jpg");
+    background-color: #283845;
 }
 
 .searchList_games::-webkit-scrollbar{
@@ -47,6 +47,10 @@
     box-shadow: 3px 10px 20px #000000;
     border-radius: 5px;
     background: white;
+}
+
+.game:hover{
+    filter: drop-shadow(0 0 0.75rem rgb(197, 197, 197));
 }
 
 .game__name{

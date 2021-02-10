@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
+
+// Styles
 import "./NavBar.css";
 
 export const NavBar = (props) => {
