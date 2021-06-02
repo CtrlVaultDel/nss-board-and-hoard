@@ -1,13 +1,14 @@
+// React
 import React, { useState, createContext, useEffect } from "react";
+
+/* ===================================================== */
 
 export const MechanicContext = createContext();
 
 export const MechanicProvider = (props) => {
 
-     // Initialize the mechanics state
-     useEffect(() => (getMechanics()),
-    //eslint-disable-next-line
-    []);
+    // Used to store and update state of mechanics
+    const [mechanics, setMechanics] = useState([]);
 
     // Loads response from external API for mechanics
     // Converts the response to a JS Object 
@@ -18,14 +19,15 @@ export const MechanicProvider = (props) => {
         .then(data => data.mechanics);
     };
 
-    // Used to store and update state of mechanics
-    const [mechanics, setMechanics] = useState([]);
-
     // Combines the loading and setting of mechanics
     const getMechanics = () => {
         loadMechanics()
         .then(setMechanics);
     };
+
+    // Initialize the mechanics state
+    //eslint-disable-next-line
+    useEffect(() => getMechanics(), []);
 
     return (
         <MechanicContext.Provider value={{mechanics}}>

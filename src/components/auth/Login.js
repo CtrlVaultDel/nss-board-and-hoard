@@ -1,3 +1,4 @@
+// React
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -5,8 +6,9 @@ import { useHistory } from "react-router-dom";
 // Styles
 import "./Auth.css";
 
+/* ===================================================== */
 
-export const Login = props => {
+export const Login = () => {
     const email = useRef();
     const existDialog = useRef();
     const history = useHistory();

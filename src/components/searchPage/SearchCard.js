@@ -8,7 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
-// Components and Function
+// Components
 import { CardModal } from "../cardComponents/CardModal.js";
 import { CardRating } from "../cardComponents/CardRating.js";
 import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
@@ -18,6 +18,8 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 
 // Styling
 import "./Search.css";
+
+/* ===================================================== */
 
 // Takes individual search game from SearchList and renders it to the DOM as a card with its relevant information 
 export const SearchCard = ({searchGame, userGames}) => {

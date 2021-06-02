@@ -11,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import {CategoryContext} from "../applicationProviders/CategoryProvider.js";
 import {MechanicContext} from "../applicationProviders/MechanicProvider.js";
 
+/* ===================================================== */
+
 const getModalStyle = () => {
     const top = 50;
     const left = 50;
@@ -43,33 +45,32 @@ const getModalStyle = () => {
     let categoryNames = [];
     let mechanicNames = [];
 
-    // If the game lists categories, get them and convert them from IDs to names
-    if(game.categories.length > 0){
-        for (let i = 0; i < game.categories.length; i++) {
-            for(let j = 0; j < categories.length; j++) {
-                if(game.categories[i].id === categories[j].id){
-                    categoryNames.push(categories[j].name)
+    // Categories & Mechanics Retriever
+    const retriever = (arr, type) => {
+        if(type === "categories"){
+            arr.forEach(category => {
+                for(let j = 0; j < categories.length; j++) {
+                    if(category.id === categories[j].id) categoryNames.push(categories[j].name);
                 };
-            };
+            });
+        }
+        else {
+            arr.forEach(mechanic => {
+                for(let j = 0; j < mechanics.length; j++) {
+                    if(mechanic.id === mechanics[j].id) mechanicNames.push(mechanics[j].name);
+                };
+            });
         };
-    } else {
-        categoryNames = ["No categories available"];
     };
+
+    // If the game lists categories, get them and convert them from IDs to names
+    game.categories.length > 0 ? retriever(game.categories,"categories") : categoryNames = ["No categories available"]
 
     // If the game lists mechanics, get them and convert them from IDs to names
-    if(game.mechanics.length > 0){
-        for (let i = 0; i < game.mechanics.length; i++) {
-            for(let j = 0; j < mechanics.length; j++) {
-                if(game.mechanics[i].id === mechanics[j].id){
-                    mechanicNames.push(mechanics[j].name)
-                };
-            };
-        };
-    } else {
-        mechanicNames = ["No mechanics available"];
-    };
+    game.mechanics.length > 0 ? retriever(game.mechanics, "mechanics") : mechanicNames = ["No mechanics available"]
 
     const classes = useStyles();
+
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
@@ -125,12 +126,11 @@ const getModalStyle = () => {
                 Details
             </Button>
             <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-            >
-            {body}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description">
+                {body}
             </Modal>
         </div>
     );

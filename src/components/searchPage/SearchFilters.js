@@ -21,7 +21,7 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 // Styling
 import "./Search.css";
 
-// Material UI Style Functions
+/* ===================================================== */
 
 // Name input -- used to style name input
 const useTextStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ const marks = [
 ]
 
 // Select -- used to style the select dropdowns
-const useSelectStyles = makeStyles((theme) => ({
+const useSelectStyles = makeStyles(theme => ({
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
@@ -66,7 +66,7 @@ const useSelectStyles = makeStyles((theme) => ({
 }));
 
 // Submit -- used to style filter button
-const useButtonStyles = makeStyles((theme) => ({
+const useButtonStyles = makeStyles(theme => ({
     root: {
       '& > *': {
         margin: theme.spacing(1),

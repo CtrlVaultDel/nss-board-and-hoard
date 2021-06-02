@@ -1,8 +1,10 @@
+// React
 import React, { useState, createContext } from "react";
 
-// API key for Board Game Atlas (BGA) fetch calls 
-// Note: (key.js file is also inside .gitignore)
+// API Key
 import BGAkey from "../../key.js";
+
+/* ===================================================== */
 
 export const GameContext = createContext();
 

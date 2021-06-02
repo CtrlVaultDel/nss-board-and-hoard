@@ -1,8 +1,13 @@
+// React
 import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
+
+// Styles
 import "./Auth.css";
 
-export const Register = (props) => {
+/* ===================================================== */
+
+export const Register = () => {
     const firstName = useRef();
     const lastName = useRef();
     const email = useRef();

@@ -1,9 +1,14 @@
+// React
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+
+// Components
 import { ApplicationViews } from "./ApplicationViews.js";
 import { NavBar } from "./nav/NavBar.js";
 import { Login } from "./auth/Login.js";
 import { Register } from "./auth/Register.js";
+
+/* ===================================================== */
 
 export const BoardAndHoard = () => (
   <>
