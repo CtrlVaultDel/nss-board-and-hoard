@@ -25,34 +25,10 @@
       "gameStateId": 1
     },
     {
-      "gameId": "OIXt3DmJU0",
-      "userId": 1,
-      "gameStateId": 1,
-      "id": 6
-    },
-    {
-      "gameId": "E5TYKwLTf0",
-      "userId": 1,
-      "gameStateId": 1,
-      "id": 7
-    },
-    {
-      "gameId": "RLlDWHh7hR",
-      "userId": 1,
-      "gameStateId": 1,
-      "id": 8
-    },
-    {
       "gameId": "19C9ka2hEx",
       "userId": 1,
       "gameStateId": 1,
       "id": 9
-    },
-    {
-      "gameId": "GP7Y2xOUzj",
-      "userId": 1,
-      "gameStateId": 1,
-      "id": 10
     },
     {
       "gameId": "4rn2FX1Eon",
@@ -70,7 +46,7 @@
       "id": 14,
       "gameId": "tLdfq6V3zT",
       "userId": 1,
-      "gameStateId": 4
+      "gameStateId": 1
     },
     {
       "gameId": "H3yXWu5No0",
@@ -157,10 +133,34 @@
       "id": 29
     },
     {
+      "id": 32,
       "gameId": "8unEvDpJlY",
       "userId": 1,
+      "gameStateId": 4
+    },
+    {
+      "gameId": "OIXt3DmJU0",
+      "userId": 1,
       "gameStateId": 1,
-      "id": 32
+      "id": 33
+    },
+    {
+      "gameId": "1cMyyO8wbc",
+      "userId": 1,
+      "gameStateId": 1,
+      "id": 34
+    },
+    {
+      "gameId": "RLlDWHh7hR",
+      "userId": 1,
+      "gameStateId": 1,
+      "id": 35
+    },
+    {
+      "id": 36,
+      "gameId": "i5Oqu5VZgP",
+      "userId": 2,
+      "gameStateId": 3
     }
   ],
   "gameStates": [

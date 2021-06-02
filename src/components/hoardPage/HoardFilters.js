@@ -21,7 +21,7 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 // Styling
 import "./Hoard.css";
 
-// Material UI Style Functions
+/* ===================================================== */
 
 // Name input -- used to style name input
 const useTextStyles = makeStyles((theme) => ({

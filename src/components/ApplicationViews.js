@@ -1,17 +1,16 @@
+// React
 import React from "react";
 import { Route } from "react-router-dom";
 
-// Games, Mechanics & Categories imports
+// Provider Components
 import { GameProvider } from "./applicationProviders/GameProvider.js";
 import { MechanicProvider } from "./applicationProviders/MechanicProvider.js";
 import { CategoryProvider } from "./applicationProviders/CategoryProvider.js";
 import { GameStateProvider } from "./applicationProviders/GameStateProvider.js";
 
-// Hoard Page imports
+// Components
 import { HoardFilters } from "./hoardPage/HoardFilters.js";
 import { HoardList } from "./hoardPage/HoardList.js";
-
-// Search Page imports
 import { SearchPage } from "./searchPage/SearchPage.js";
 
 export const ApplicationViews = () => {

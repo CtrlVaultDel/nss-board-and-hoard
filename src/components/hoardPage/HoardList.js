@@ -11,6 +11,8 @@ import { FilteredGameContext } from "./HoardFilters.js";
 // Styling
 import "./Hoard.css";
 
+/* ===================================================== */
+
 // Takes the array of hoardGames passed in and sends each individual game to HoardCard
 // so each is rendered as its own card on the DOM in the Hoard List below the Hoard Filters
 export const HoardList = () => {

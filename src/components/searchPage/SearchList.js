@@ -1,7 +1,7 @@
 // React
 import React, {useContext} from "react";
 
-// Component
+// Components
 import { SearchCard } from "./SearchCard.js";
 
 // Context
@@ -10,10 +10,12 @@ import { GameContext } from "../applicationProviders/GameProvider.js";
 //Styling
 import "./Search.css";
 
+/* ===================================================== */
+
 // Takes the array of searchGames passed in and sends each individual game to SearchCard
 // so each is rendered as its own card on the DOM in the Search List below the Search Filters
 export const SearchList = () => {
-    const {searchGames, userGames} = useContext(GameContext)
+    const {searchGames, userGames} = useContext(GameContext);
 
     // Only use search results that have images
     const gamesWithImages = searchGames.filter(sg => 

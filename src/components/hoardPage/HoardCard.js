@@ -1,6 +1,7 @@
+// React
 import React, { useContext, useState } from "react";
 
-// Material UI Imports
+// Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
@@ -15,13 +16,15 @@ import Select from '@material-ui/core/Select';
 import { GameContext } from "../applicationProviders/GameProvider.js";
 import { GameStateContext } from "../applicationProviders/GameStateProvider.js";
 
-// Import Card Components and Functions
+// Components
 import { CardModal } from "../cardComponents/CardModal.js";
 import { CardRating } from "../cardComponents/CardRating.js";
 import { getMSRP, getRules } from "../cardComponents/CardFunctions.js";
 
 // Styles
 import "./Hoard.css";
+
+/* ===================================================== */
 
 // Select -- used to style the select dropdowns
 const useSelectStyles = makeStyles((theme) => ({

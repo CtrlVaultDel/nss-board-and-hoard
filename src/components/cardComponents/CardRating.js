@@ -1,8 +1,13 @@
+// React
 import React from 'react';
-import Rating from '@material-ui/lab/Rating';
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+// Material UI
+import { makeStyles } from '@material-ui/core/styles';
+import Rating from '@material-ui/lab/Rating';
+
+/* ===================================================== */
+
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -19,7 +24,12 @@ export const CardRating = ({rating}) => {
 
     return (
         <div className={classes.root}>
-            <Rating name="half-rating-read" defaultValue={starRating} precision={0.5} readOnly />
+            <Rating 
+                name="half-rating-read" 
+                defaultValue={starRating} 
+                precision={0.5} 
+                readOnly 
+            />
         </div>
     );
 };
